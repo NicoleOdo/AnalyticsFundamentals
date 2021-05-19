@@ -8,7 +8,7 @@ categories:
 tags: []
 ---
 ## Histogram
-```{r}
+```{r message=FALSE, echo=FALSE}
 library(openintro)
 library(tidyverse)
 glimpse(loans_full_schema)

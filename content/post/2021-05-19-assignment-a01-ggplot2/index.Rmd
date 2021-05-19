@@ -1,0 +1,28 @@
+---
+title: 'Assignment A01: GGPLOT2'
+author: Nicole Odo
+date: '2021-05-19'
+slug: assignment-a01-ggplot2
+categories:
+  - ggplot2
+tags: []
+---
+
+## Categorical Data Visualization:
+
+```{r}
+library(datasets)
+library(tidyverse)
+ggplot(ChickWeight, aes(x = Diet)) +
+  geom_bar()
+```
+
+
+## Numerical Data Visualization:
+
+```{r}
+library(datasets)
+library(tidyverse)
+ggplot(ChickWeight, aes(x = weight, y=Diet)) +
+  geom_boxplot()
+```
