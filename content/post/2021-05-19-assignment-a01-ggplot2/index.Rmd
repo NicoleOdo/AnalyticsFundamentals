@@ -16,7 +16,8 @@ library(tidyverse)
 ggplot(ChickWeight, aes(x = Diet)) +
   geom_bar()
 ```
-
+* Diet 1 has the most data collected
+* Diet 2, 3 and 4 all have similar amounts of data collected
 
 ## Numerical Data Visualization:
 
@@ -26,3 +27,11 @@ library(tidyverse)
 ggplot(ChickWeight, aes(x = weight, y=Diet)) +
   geom_boxplot()
 ```
+* Diet 3 seems to result in the heaviest weights overall
+* Diet 1 seems to result in the highest weights over
+* Diet 1 and 2 have a number of outliers in their data
+
+## Discussion
+This data set provides interesting insight into chick weight based on the diet they are fed. While the data set does not provide information on what differs in the 4 diets introduced, the results provide valuable insight into the results of the overall weight, and allows the user to make decisions based on the desired end weight they're wanting to achieve.
+
+There weren't many issues encountered with making this blog, but I did struggle to "hide" the code at first. I was using echo=FALSE, but I had forgotten a comma between the "r" and the "code". After realizing the error, I was able to showcase the plots without displaying the data successfully.
