@@ -10,7 +10,7 @@ tags: []
 
 ## Categorical Data Visualization:
 
-```{r}
+```{r, echo=FALSE}
 library(datasets)
 library(tidyverse)
 ggplot(ChickWeight, aes(x = Diet)) +
@@ -20,7 +20,7 @@ ggplot(ChickWeight, aes(x = Diet)) +
 
 ## Numerical Data Visualization:
 
-```{r}
+```{r, echo=FALSE}
 library(datasets)
 library(tidyverse)
 ggplot(ChickWeight, aes(x = weight, y=Diet)) +
