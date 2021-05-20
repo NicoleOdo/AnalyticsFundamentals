@@ -13,9 +13,11 @@
       <pubDate>Wed, 19 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/2021/05/19/assignment-a01-ggplot2/</guid>
-      <description>Categorical Data Visualization: * Diet 1 has the most data collected * Diet 2, 3 and 4 all have similar amounts of data collected
- Numerical Data Visualization: * Diet 3 seems to result in the heaviest weights overall * Diet 1 seems to result in the highest weights over * Diet 1 and 2 have a number of outliers in their data
- Discussion This data set provides interesting insight into chick weight based on the diet they are fed.</description>
+      <description>Categorical Data Visualization: * Diet 1 has the most data collected
+ Diet 2, 3 and 4 all have similar amounts of data collected   Numerical Data Visualization: * Diet 3 seems to result in the heaviest weights overall
+ Diet 1 seems to result in the highest weights over
+ Diet 1 and 2 have a number of outliers in their data
+   Discussion This data set provides interesting insight into chick weight based on the diet they are fed.</description>
     </item>
     
     <item>
