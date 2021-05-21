@@ -21,13 +21,25 @@ ggplot(ChickWeight, aes(x = Diet)) +
 
 * Diet 2, 3 and 4 all have similar amounts of data collected
 
+```{r message=FALSE, echo=FALSE}
+library(datasets)
+library(tidyverse)
+
+ggplot(ChickWeight, aes(x = weight,
+                  fill = Diet)) +
+  geom_bar() + labs(title="Weight Data Collection Frequency by Diet Type")
+
+```
+  
 ## Numerical Data Visualization:
 
 ```{r message=FALSE, echo=FALSE}
+
 library(datasets)
 library(tidyverse)
 ggplot(ChickWeight, aes(x = weight, y=Diet)) +
   geom_boxplot()+labs(title="Chick Weight Based on Diet")
+  
 ```
 
 * Diet 3 seems to result in the heaviest weights overall
@@ -36,7 +48,21 @@ ggplot(ChickWeight, aes(x = weight, y=Diet)) +
 
 * Diet 1 and 2 have a number of outliers in their data
 
+```{r message=FALSE, echo=FALSE}
+
+library(datasets)
+library(tidyverse)
+
+ggplot(ChickWeight, aes(x = weight, y=Chick, color=Diet)) +
+  geom_boxplot()+labs(x="Weight", y="Chick ID Number",title="Weight by Chick Based on Diet")
+
+```
+
 ## Discussion
 This data set provides interesting insight into chick weight based on the diet they are fed. While the data set does not provide information on what differs in the 4 diets introduced, the results provide valuable insight into the results of the overall weight, and allows the user to make decisions based on the desired end weight they're wanting to achieve.
 
-There weren't many issues encountered with making this blog, but I did struggle to "hide" the code at first. I was using echo=FALSE, but I had forgotten a comma between the "r" and the "code". After realizing the error, I was able to showcase the plots without displaying the data successfully.
+It was noted that the diet that had the most data collected was Diet 1. The other diets have smaller data sets to base any findings off of.
+
+Overall, it appears that Diet 3 results in the heaviest weights, and Diet 1 results in the lightest weight. That being said, it can be noted that there are high levels of variability within the data set for all diets. It also appears to heavily rely on the chick being observed as to what their resulting weight will be. 
+
+There weren't many issues encountered when making this blog, but I did struggle to "hide" the code at first. I was using echo=FALSE, but I had forgotten a comma between the "r" and the "code". After realizing the error, I was able to showcase the plots without displaying the data successfully.
