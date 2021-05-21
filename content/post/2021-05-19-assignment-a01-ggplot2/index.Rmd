@@ -14,7 +14,7 @@ tags: []
 library(datasets)
 library(tidyverse)
 ggplot(ChickWeight, aes(x = Diet)) +
-  geom_bar()
+  geom_bar() + labs(title = "Diet Types Tested on Chicks")
 ```
 
 * Diet 1 has the most data collected
@@ -27,7 +27,7 @@ ggplot(ChickWeight, aes(x = Diet)) +
 library(datasets)
 library(tidyverse)
 ggplot(ChickWeight, aes(x = weight, y=Diet)) +
-  geom_boxplot()
+  geom_boxplot()+labs(title="Chick Weight Based on Diet")
 ```
 
 * Diet 3 seems to result in the heaviest weights overall
