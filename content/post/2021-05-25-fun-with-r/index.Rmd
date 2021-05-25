@@ -1,0 +1,9 @@
+---
+title: Fun with R
+author: Nicole Odo
+date: '2021-05-25'
+slug: fun-with-r
+categories:
+  - Basics
+tags: []
+---
