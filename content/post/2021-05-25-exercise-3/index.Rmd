@@ -1,0 +1,8 @@
+---
+title: Exercise 3
+author: Nicole Odo
+date: '2021-05-25'
+slug: exercise-3
+categories: []
+tags: []
+---
