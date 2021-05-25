@@ -9,6 +9,7 @@ tags: []
  
 ## Case study: Approval rating of Donald Trump
 ```{r}
+library(tidyverse)
 trump <- read_csv("trump.csv")
 
 trump_longer <- trump %>%

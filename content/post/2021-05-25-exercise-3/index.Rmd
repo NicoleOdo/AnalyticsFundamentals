@@ -7,6 +7,7 @@ categories: []
 tags: []
 ---
 ```{r warning=FALSE}
+library(tidyverse)
 professions <- read_csv("professions.csv")
 head(professions)
 
@@ -24,6 +25,7 @@ nrow(works)
 
 ## Joining Data Frames
 ```{r}
+library(tidyverse)
 professions %>%
   left_join(dates)
 
@@ -50,6 +52,7 @@ professions %>%
 
 ## Case Study: Student Records
 ```{r}
+library(tidyverse)
 enrolment <- read_csv("enrolment.csv")
 survey <- read_csv("survey.csv")
 enrolment %>% 
@@ -59,6 +62,7 @@ enrolment %>%
 
 ## Case Study: Grocery Sales
 ```{r}
+library(tidyverse)
 purchases <- read_csv("purchases.csv")
 prices <- read_csv("prices.csv")
 
