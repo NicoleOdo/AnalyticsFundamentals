@@ -6,3 +6,74 @@ slug: exercise-3
 categories: []
 tags: []
 ---
+```{r warning=FALSE}
+professions <- read_csv("professions.csv")
+head(professions)
+
+dates <- read_csv("dates.csv")
+
+works <- read_csv("works.csv")
+
+names(professions)
+nrow(professions)
+names(dates)
+nrow(dates)
+names(works)
+nrow(works)
+```
+
+## Joining Data Frames
+```{r}
+professions %>%
+  left_join(dates)
+
+professions %>%
+  right_join(dates)
+
+dates %>%
+  full_join(works)
+
+dates %>%
+  inner_join(works)
+
+dates %>%
+  semi_join(works)
+
+dates %>%
+  anti_join(works)
+
+professions %>%
+  left_join(dates) %>%
+  left_join(works)
+
+```
+
+## Case Study: Student Records
+```{r}
+enrolment <- read_csv("enrolment.csv")
+survey <- read_csv("survey.csv")
+enrolment %>% 
+  left_join(survey, by = "id")
+
+```
+
+## Case Study: Grocery Sales
+```{r}
+purchases <- read_csv("purchases.csv")
+prices <- read_csv("prices.csv")
+
+purchases %>% 
+  left_join(prices)
+
+purchases %>% 
+  left_join(prices) %>%
+  summarise(total_revenue = sum(price))
+
+purchases %>% 
+  left_join(prices) %>%
+  group_by(customer_id) %>%
+  summarise(total_revenue = sum(price))
+```
+
+
+

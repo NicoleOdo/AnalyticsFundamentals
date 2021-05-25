@@ -6,7 +6,43 @@
     <description>Recent content on NicoleOdo - Fundamentals of Analytics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data Wrangling using Tidyverse</title>
+      <link>/2021/05/25/data-wrangling-using-tidyverse/</link>
+      <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/05/25/data-wrangling-using-tidyverse/</guid>
+      <description>Import the Hotels.csv file # getwd() in the console will show your current working directory #can either put the CSV file directly into the post folder you&amp;#39;re working in OR Environment - Import Data Set - From Text(readr) library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.1.2 ✓ dplyr 1.0.6 ## ✓ tidyr 1.1.3 ✓ stringr 1.4.0 ## ✓ readr 1.</description>
+    </item>
+    
+    <item>
+      <title>Exercise 3</title>
+      <link>/2021/05/25/exercise-3/</link>
+      <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/05/25/exercise-3/</guid>
+      <description>  </description>
+    </item>
+    
+    <item>
+      <title>Exercise 4</title>
+      <link>/2021/05/25/exercise-4/</link>
+      <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/05/25/exercise-4/</guid>
+      <description>  </description>
+    </item>
+    
+    <item>
+      <title>Fun with R</title>
+      <link>/2021/05/25/fun-with-r/</link>
+      <pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/05/25/fun-with-r/</guid>
+      <description>  </description>
+    </item>
+    
     <item>
       <title>Assignment A01: GGPLOT2</title>
       <link>/2021/05/19/assignment-a01-ggplot2/</link>
