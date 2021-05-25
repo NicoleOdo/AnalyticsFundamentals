@@ -44,7 +44,7 @@ ggplot(ChickWeight, aes(x = weight, y=Diet)) +
 
 * Diet 3 seems to result in the heaviest weights overall
 
-* Diet 1 seems to result in the highest weights over
+* Diet 1 seems to result in the lightest weights overall
 
 * Diet 1 and 2 have a number of outliers in their data
 
