@@ -22,6 +22,11 @@
 
 
 
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
 <link rel="stylesheet" href="/css/fonts.css" media="all">
 <link rel="stylesheet" href="/css/main.css" media="all">
 
@@ -57,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">0 min read</span>
+    <span class="article-duration">2 min read</span>
     
 
     <h1 class="article-title">Exercise 4</h1>
@@ -71,6 +76,63 @@
 <script src="/2021/05/25/exercise-4/index_files/header-attrs/header-attrs.js"></script>
 
 
+<div id="case-study-approval-rating-of-donald-trump" class="section level2">
+<h2>Case study: Approval rating of Donald Trump</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>trump &lt;- read_csv(&quot;trump.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   subgroup = col_character(),
+##   date = col_date(format = &quot;&quot;),
+##   approval = col_double(),
+##   disapproval = col_double()
+## )</code></pre>
+<pre class="r"><code>trump_longer &lt;- trump %&gt;%
+  pivot_longer(
+    cols = c(approval, disapproval),
+    names_to = &quot;rating_type&quot;,
+    values_to = &quot;rating_value&quot;
+  )
+trump_longer</code></pre>
+<pre><code>## # A tibble: 5,404 x 4
+##    subgroup date       rating_type rating_value
+##    &lt;chr&gt;    &lt;date&gt;     &lt;chr&gt;              &lt;dbl&gt;
+##  1 Voters   2020-10-04 approval            44.7
+##  2 Voters   2020-10-04 disapproval         52.2
+##  3 Adults   2020-10-04 approval            43.2
+##  4 Adults   2020-10-04 disapproval         52.6
+##  5 Adults   2020-10-03 approval            43.2
+##  6 Adults   2020-10-03 disapproval         52.6
+##  7 Voters   2020-10-03 approval            45.0
+##  8 Voters   2020-10-03 disapproval         51.7
+##  9 Adults   2020-10-02 approval            43.3
+## 10 Adults   2020-10-02 disapproval         52.4
+## # … with 5,394 more rows</code></pre>
+<pre class="r"><code>ggplot(trump_longer, 
+       aes(x = date, y = rating_value, color = rating_type, group = rating_type)) +
+  geom_line() +
+  facet_wrap(~ subgroup) +
+scale_color_manual(values = c(&quot;darkgreen&quot;, &quot;orange&quot;)) +
+  labs(
+    x = &quot;Date&quot;, y = &quot;Rating&quot;,
+    color = NULL,
+    title = &quot;How (un)popular is Donald Trump?&quot;,
+    subtitle = &quot;Estimates based on polls of all adults and polls of likely/registered voters&quot;,
+    caption = &quot;Source: FiveThirtyEight modeling estimates&quot;
+  ) +
+  theme_minimal() +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="/2021/05/25/exercise-4/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
 
     </div>
   </article>
@@ -93,6 +155,18 @@
 
     </div>
     
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
     
 
