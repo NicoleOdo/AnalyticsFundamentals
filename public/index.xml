@@ -6,7 +6,19 @@
     <description>Recent content on NicoleOdo - Fundamentals of Analytics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 26 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A01 Version 2</title>
+      <link>/2021/05/26/a01-version-2/</link>
+      <pubDate>Wed, 26 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/05/26/a01-version-2/</guid>
+      <description>Data has been collected about chick weights based on the diets they are fed. In this assignment, we examine what results each diet type renders, which will assist in the decision making process when choosing a diet for the chicks.
+Categorical Data Visualization:  Diet 1 has the most data collected
+ Diet 2, 3 and 4 all have similar amounts of data collected
+   Numerical Data Visualization: library(datasets) library(tidyverse) ggplot(ChickWeight, aes(x = weight, y=Diet)) + geom_boxplot()+labs(title=&amp;quot;Chick Weight Based on Diet&amp;quot;)  Diet 3 seems to result in the heaviest weights overall</description>
+    </item>
+    
     <item>
       <title>Data Wrangling using Tidyverse</title>
       <link>/2021/05/25/data-wrangling-using-tidyverse/</link>

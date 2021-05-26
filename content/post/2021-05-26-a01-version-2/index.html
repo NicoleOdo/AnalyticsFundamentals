@@ -1,0 +1,48 @@
+---
+title: A01 Version 2
+author: R package build
+date: '2021-05-26'
+slug: a01-version-2
+categories: []
+tags: []
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Data has been collected about chick weights based on the diets they are fed. In this assignment, we examine what results each diet type renders, which will assist in the decision making process when choosing a diet for the chicks.</p>
+<div id="categorical-data-visualization" class="section level2">
+<h2>Categorical Data Visualization:</h2>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<ul>
+<li><p>Diet 1 has the most data collected</p></li>
+<li><p>Diet 2, 3 and 4 all have similar amounts of data collected</p></li>
+</ul>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="numerical-data-visualization" class="section level2">
+<h2>Numerical Data Visualization:</h2>
+<pre class="r"><code>library(datasets)
+library(tidyverse)
+ggplot(ChickWeight, aes(x = weight, y=Diet)) +
+  geom_boxplot()+labs(title=&quot;Chick Weight Based on Diet&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<ul>
+<li><p>Diet 3 seems to result in the heaviest weights overall</p></li>
+<li><p>Diet 1 seems to result in the lightest weights overall</p></li>
+<li><p>Diet 1 and 2 have a number of outliers in their data</p></li>
+</ul>
+<pre class="r"><code>library(datasets)
+library(tidyverse)
+
+ggplot(ChickWeight, aes(x = weight, y=Chick, color=Diet)) +
+  geom_boxplot()+labs(x=&quot;Weight&quot;, y=&quot;Chick ID Number&quot;,title=&quot;Weight by Chick Based on Diet&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>This data set provides interesting insight into chick weight based on the diet they are fed. While the data set does not provide information on what differs in the 4 diets introduced, the results provide valuable insight into the results of the overall weight, and allows the user to make decisions based on the desired end weight they’re wanting to achieve.</p>
+<p>It was noted that the diet that had the most data collected was Diet 1. The other diets have smaller data sets to base any findings off of.</p>
+<p>Overall, it appears that Diet 3 results in the heaviest weights, and Diet 1 results in the lightest weight. That being said, it can be noted that there are high levels of variability within the data set for all diets. It also appears to heavily rely on the chick being observed as to what their resulting weight will be.</p>
+<p>There weren’t many issues encountered when making this blog, but I did struggle to “hide” the code at first. I was using echo=FALSE, but I had forgotten a comma between the “r” and the “code”. After realizing the error, I was able to showcase the plots without displaying the data successfully.</p>
+</div>
