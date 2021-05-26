@@ -1,0 +1,136 @@
+---
+title: Fun with R
+author: R package build
+date: '2021-05-26'
+slug: fun-with-r
+categories:
+  - Basics
+tags: []
+---
+
+
+## Variables and Numbers
+
+```{r}
+library(tidyverse)
+x <- 1
+y = 2
+3 -> z
+x + y
+y*z
+y/x
+```
+
+## Vectors
+```{r}
+library(tidyverse)
+a <- 1:10
+print(a)
+b <- 10:-4
+print(b)
+class(a)
+str(a)
+
+# Accessing Vector Elements
+a[5]
+a[5:8]
+a[5:3]
+a[c(5,6,7,8)]
+
+# Tail and Head
+tail(a) #auto does 6 values
+tail(a,n=3) 
+tail(a,3)
+head(a) #auto does 6 values
+head(a,4) #picking up first 4 values
+tail(b,5) #picking up last 5 values
+```
+
+## Combine Operator for creating vectors
+When we create a vector with multiple data types, R coerces the vector to the most compatible data type
+```{r}
+library(tidyverse)
+c <- c('red','green','yellow')
+print (c)
+d <- c(1:5,10.5,"red")
+print(d)
+class(d)
+str(d)
+e<-c(1.5,10.5)
+class(e)
+str(e)
+```
+## Sequence Operator Application
+```{r}
+library(tidyverse)
+f<-seq(10)
+g<-seq(3,20)
+h<-seq(3,20,3)
+i<-seq(from=4.5,to=2.5,by=-0.2)
+j<-seq(0,1,length.out=11)
+
+print(f)
+print(g)
+print(h)
+print(i)
+print(j)
+
+k<- seq(0,8*pi,length.out=200)
+l<-sin(k)
+plot(k,l)
+
+```
+
+## Dropping NA Values and Summarizing Values
+```{r}
+library(tidyverse)
+m<-c(3,-2,4,NA,-1,8,-4,9,NA, 11,3,8,NA);
+print(m)
+m[!is.na(m)] 
+#checks each value to see if it's true or false. Will identify index of true values. Will use this information to extract
+# ! inverses the results - swaps true and false. If it's NA, it will now display as true
+# drops the NA values
+n <- c(2,3,-1,3,5,2,-3,1)
+print(paste0("The sum of positive integers in a = ", sum(n[n>0])))
+cat("The sum of positive integers in a = ", sum(n[n>0]))
+```
+
+## Creating Matrix
+```{r}
+library(tidyverse)
+# Usage: matrix(data=NA,nrow=1,ncol=1,byrow=FALSE,dimnames=NULL)
+M1 <- matrix(1:12,ncol=4,byrow=TRUE) #organizes into 4 columns
+M1
+M1[2,] #extracts the 2nd row, all values
+M1[,3] #extracts the 3rd row all values
+M2 <- matrix(1:12,nrow=4) #organizes into 4 rows
+M2
+
+M3 <- matrix (1:20, ncol=4)
+M3
+M3[c(3,5),c(2,4)] #extract 3rd row and 5th row, and column 2 and 4
+```
+
+## Creating Data Frames
+```{r}
+library(tidyverse)
+DF <- data.frame(
+gender = c("Male", "Male","Female"),
+height = c(152, 171.5, 165),
+weight = c(81,93, 78),
+age =c(42,38,26),
+row.names=c('Ally','Belinda','Alfred')
+)
+
+DF
+
+# accessing elements
+DF$age
+# use $ symbol and it will suggest the element categories and allows you to extract all of the data in that category
+
+# filter data frame
+DF[DF$gender == "Male",]
+```
+
+
+
