@@ -1,0 +1,99 @@
+---
+title: 'A02: TIDYVERSE'
+author: Nicole Odo
+date: '2021-05-27'
+slug: a02-tidyverse
+categories: []
+tags: []
+---
+ 
+## World Happiness
+```{r}
+library(tidyverse)
+library(dplyr)
+
+world_happiness_2021 <- read_csv("world-happiness-report-2021.csv")
+world_happiness <- read_csv("world-happiness-report.csv")
+
+ggplot(world_happiness_2021,aes(x=`Ladder score`,y=`Healthy life expectancy`, size=`Logged GDP per capita`, color=`Regional indicator`)) +
+  geom_point(alpha=0.5) +
+  labs(x='Happiness Score')
+```
+
+## One Table Verb + Vector function 1 (desc)
+Used filter and arrange to extract the lowest performing region in terms of happiness scores, and arranged the data by descending order based on level of social support
+```{r}
+SocialSupport <- world_happiness_2021 %>%
+  filter(`Regional indicator` == 'Sub-Saharan Africa') %>%
+  arrange(desc(`Social support`))
+
+SocialSupport
+```
+
+## Two Table Verb
+Combining two sets of data here by entering World Happiness 2021 data into the World Happiness data, which contains the happiness scores by year but did not yet have the 2021 results. The "happiness score" was called "Life Ladder" in World Happiness report, and "Ladder score" in World Happiness 2021 report. By renaming the "Ladder score" data to align with the variable name in the World Happiness report, this allows us to look at the score overtime and include the 2021 data into the dataset.
+```{r}
+CanadaCombinedData <- rename(world_happiness_2021, `Life Ladder` = `Ladder score`) %>%
+  bind_rows(world_happiness_2021, world_happiness) %>%
+  filter(`Country name` == 'Canada')
+
+ggplot(CanadaCombinedData, aes(x=`Country name`, y=`Life Ladder`)) +
+  geom_boxplot() +
+  labs(title = "Canada's Happiness Scores 2005-2021", x="Canada", y="Happiness Scores")
+```
+
+## Two Table Verb 2
+Needs work
+```{r}
+JoinedData <- world_happiness %>% 
+  full_join(world_happiness_2021)
+```
+
+## Grouping by Region
+Happiness scores based on world region
+```{r}
+RegionGroups <- world_happiness_2021 %>%
+  group_by(`Regional indicator`) %>%
+  summarize(meanLadderscore = mean(`Ladder score`))
+
+ggplot(RegionGroups, aes(x=meanLadderscore, y=`Regional indicator`)) +
+  geom_col() +
+  labs(title="Average Happiness Score by World Region", x="Happiness Score", y="Region")
+  
+```
+
+## Grouping 2
+```{r}
+
+  
+```
+
+## Vector 2
+```{r}
+
+```
+
+## Pivoting to longer
+Can view the variation in happiness scores based on region
+```{r}
+world_happiness_2021_longer <- world_happiness_2021 %>%
+  pivot_longer(
+    cols = c(upperwhisker, lowerwhisker),
+    names_to = "stat_type",
+    values_to = "deviation_value"
+  )
+world_happiness_2021_longer
+
+ggplot(world_happiness_2021_longer, 
+       aes(x = `Ladder score`, y = deviation_value, color = stat_type, group = stat_type)) +
+  geom_line() +
+  facet_wrap(~ `Regional indicator`)
+```
+## Pivoting 2
+
+## Drop NA (missing values 1)
+```{r}
+world_happiness %>%
+  drop_na()
+```
+

@@ -1,0 +1,107 @@
+---
+title: 'A02: TIDYVERSE'
+author: Nicole Odo
+date: '2021-05-27'
+slug: a02-tidyverse
+categories: []
+tags: []
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="world-happiness" class="section level2">
+<h2>World Happiness</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(dplyr)
+
+world_happiness_2021 &lt;- read_csv(&quot;world-happiness-report-2021.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   .default = col_double(),
+##   `Country name` = col_character(),
+##   `Regional indicator` = col_character()
+## )
+## ℹ Use `spec()` for the full column specifications.</code></pre>
+<pre class="r"><code>world_happiness &lt;- read_csv(&quot;world-happiness-report.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   `Country name` = col_character(),
+##   year = col_double(),
+##   `Life Ladder` = col_double(),
+##   `Log GDP per capita` = col_double(),
+##   `Social support` = col_double(),
+##   `Healthy life expectancy at birth` = col_double(),
+##   `Freedom to make life choices` = col_double(),
+##   Generosity = col_double(),
+##   `Perceptions of corruption` = col_double(),
+##   `Positive affect` = col_double(),
+##   `Negative affect` = col_double()
+## )</code></pre>
+<pre class="r"><code>ggplot(world_happiness_2021,aes(x=`Ladder score`,y=`Healthy life expectancy`, size=`Logged GDP per capita`, color=`Regional indicator`)) +
+  geom_point(alpha=0.5) +
+  labs(x=&#39;Happiness Score&#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="one-table-verb" class="section level2">
+<h2>One Table Verb</h2>
+<p>Used filter and arrange to extract the lowest performing region in terms of happiness scores, and arranged the data by ascending order based on level of social support</p>
+<pre class="r"><code>SocialSupport &lt;- world_happiness_2021 %&gt;%
+  filter(`Regional indicator` == &#39;Sub-Saharan Africa&#39;) %&gt;%
+  arrange(desc(`Social support`))
+
+SocialSupport</code></pre>
+<pre><code>## # A tibble: 36 x 20
+##    `Country name` `Regional indica… `Ladder score` `Standard error… upperwhisker
+##    &lt;chr&gt;          &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Mauritius      Sub-Saharan Afri…           6.05            0.059         6.16
+##  2 South Africa   Sub-Saharan Afri…           4.96            0.06          5.07
+##  3 Namibia        Sub-Saharan Afri…           4.57            0.064         4.7 
+##  4 Mauritania     Sub-Saharan Afri…           4.23            0.07          4.36
+##  5 Lesotho        Sub-Saharan Afri…           3.51            0.12          3.75
+##  6 Botswana       Sub-Saharan Afri…           3.47            0.074         3.61
+##  7 Uganda         Sub-Saharan Afri…           4.64            0.073         4.78
+##  8 Gabon          Sub-Saharan Afri…           4.85            0.075         5.00
+##  9 Swaziland      Sub-Saharan Afri…           4.31            0.071         4.45
+## 10 Ethiopia       Sub-Saharan Afri…           4.28            0.051         4.37
+## # … with 26 more rows, and 15 more variables: lowerwhisker &lt;dbl&gt;,
+## #   Logged GDP per capita &lt;dbl&gt;, Social support &lt;dbl&gt;,
+## #   Healthy life expectancy &lt;dbl&gt;, Freedom to make life choices &lt;dbl&gt;,
+## #   Generosity &lt;dbl&gt;, Perceptions of corruption &lt;dbl&gt;,
+## #   Ladder score in Dystopia &lt;dbl&gt;, Explained by: Log GDP per capita &lt;dbl&gt;,
+## #   Explained by: Social support &lt;dbl&gt;,
+## #   Explained by: Healthy life expectancy &lt;dbl&gt;,
+## #   Explained by: Freedom to make life choices &lt;dbl&gt;,
+## #   Explained by: Generosity &lt;dbl&gt;,
+## #   Explained by: Perceptions of corruption &lt;dbl&gt;, Dystopia + residual &lt;dbl&gt;</code></pre>
+</div>
+<div id="two-table-verb" class="section level2">
+<h2>Two Table Verb</h2>
+<p>Combining two sets of data here by entering World Happiness 2021 data into the World Happiness data, which contains the happiness scores by year but did not yet have the 2021 results. The “happiness score” was called “Life Ladder” in World Happiness report, and “Ladder score” in World Happiness 2021 report. By renaming the “Ladder score” data to align with the variable name in the World Happiness report, this allows us to look at the score overtime and include the 2021 data into the dataset.</p>
+<pre class="r"><code>CanadaCombinedData &lt;- rename(world_happiness_2021, `Life Ladder` = `Ladder score`) %&gt;%
+  bind_rows(world_happiness_2021, world_happiness) %&gt;%
+  filter(`Country name` == &#39;Canada&#39;)
+
+ggplot(CanadaCombinedData, aes(x=`Country name`, y=`Life Ladder`)) +
+  geom_boxplot() +
+  labs(title = &quot;Canada&#39;s Happiness Scores 2005-2021&quot;, x=&quot;Canada&quot;, y=&quot;Happiness Scores&quot;)</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="two-table-verb-2" class="section level2">
+<h2>Two Table Verb 2</h2>
+<p>Needs work</p>
+<pre class="r"><code>JoinedData &lt;- world_happiness %&gt;% 
+  full_join(world_happiness_2021)</code></pre>
+<pre><code>## Joining, by = c(&quot;Country name&quot;, &quot;Social support&quot;, &quot;Freedom to make life choices&quot;, &quot;Generosity&quot;, &quot;Perceptions of corruption&quot;)</code></pre>
+</div>
