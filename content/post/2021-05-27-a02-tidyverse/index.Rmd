@@ -6,52 +6,98 @@ slug: a02-tidyverse
 categories: []
 tags: []
 ---
- 
-## World Happiness
-```{r}
+
+```{r message=FALSE, echo=FALSE}
 library(tidyverse)
 library(dplyr)
 
 world_happiness_2021 <- read_csv("world-happiness-report-2021.csv")
 world_happiness <- read_csv("world-happiness-report.csv")
+``` 
 
+## Introduction
+The data sets being explored in this assignment are derived from the World Happiness Report. The data is collected from a survey that determines the state of global happiness based on an overall score for each country. The report has been used by governments, organizations and civil societies, as they utilize this information to inform their policy making decisions.
+
+This assignment has leveraged two data sets specifically:
+
+* World Happiness Report (2021)
+* World Happiness Report (2005 - 2020)
+
+Here is a glimpse of the two data sets to assist in the understanding of the data that is captured within these reports. Please note that "Ladder Score" and "Life Ladder" refer to the overall happiness scores of the countries
+
+### World Happiness Report 2021
+```{r message=FALSE, echo=FALSE}
+glimpse(world_happiness_2021)
+```
+
+### World Happiness Report (2005 - 2020)
+```{r message=FALSE, echo=FALSE}
+glimpse(world_happiness)
+```
+
+## Methodology
+This assignment allowed for the exploration into different types of functions that can be leveraged to visualize a data set. A summary of the functions used within this assignment are as follows:
+
+One Table Verb
+
+* arrange()
+* filter()
+* rename()
+* summarize()
+
+Two Table Verb
+
+* bind_rows()
+* %>%
+* glimpse
+
+Grouping
+
+* group_by()
+* rowwise()
+
+Vector
+
+* desc()
+* first()
+
+Pivoting
+
+* pivot_longer()
+* pivot_wider()
+
+Missing values
+
+* drop_na()
+
+The use of each function will be further described as they are presented below and utilize to create visuals for this data set, but this overview is intended to provide a brief summary of the functions used as required by the assignment.
+
+## Data Analysis and Visualization
+
+### Happiness Score vs Life Expectancy in 2021
+The first figure presented is intended merely to provide insight into the data set and to begin to understand correlations within the data. This figure does not contain any required functions for the assignment, but was created to provide initial commentary and a departure point for further analysis. 
+
+The following graph describes the correlation between Happiness Score and Healthy Life Expectancy. The points have been colored to represent the region of the world the country can be found in, and they have been sized to represent the logged GDP per capita.
+
+We can see a clear correlation here between Happiness and Healthy Life Expectancy, and it has also been noted that countries within the same region tend to have similar happiness scores to one another. Additionally, the higher the logged GDP per capita, the higher the happiness score tends to be.
+
+```{r message=FALSE, echo=FALSE}
 ggplot(world_happiness_2021,aes(x=`Ladder score`,y=`Healthy life expectancy`, size=`Logged GDP per capita`, color=`Regional indicator`)) +
   geom_point(alpha=0.5) +
   labs(x='Happiness Score')
 ```
 
-## One Table Verb + Vector function 1 (desc)
-Used filter and arrange to extract the lowest performing region in terms of happiness scores, and arranged the data by descending order based on level of social support
-```{r}
-SocialSupport <- world_happiness_2021 %>%
-  filter(`Regional indicator` == 'Sub-Saharan Africa') %>%
-  arrange(desc(`Social support`))
+### Average Happiness Score by Region in 2021
+While it's expected that countries within the same regions will have similar happiness scores, this analysis was taken a step further by grouping the data of the countries by region, and determining the mean happiness score. 
 
-SocialSupport
-```
+The functions used here include:
 
-## Two Table Verb
-Combining two sets of data here by entering World Happiness 2021 data into the World Happiness data, which contains the happiness scores by year but did not yet have the 2021 results. The "happiness score" was called "Life Ladder" in World Happiness report, and "Ladder score" in World Happiness 2021 report. By renaming the "Ladder score" data to align with the variable name in the World Happiness report, this allows us to look at the score overtime and include the 2021 data into the dataset.
-```{r}
-CanadaCombinedData <- rename(world_happiness_2021, `Life Ladder` = `Ladder score`) %>%
-  bind_rows(world_happiness_2021, world_happiness) %>%
-  filter(`Country name` == 'Canada')
+* group_by()
+* summarize
 
-ggplot(CanadaCombinedData, aes(x=`Country name`, y=`Life Ladder`)) +
-  geom_boxplot() +
-  labs(title = "Canada's Happiness Scores 2005-2021", x="Canada", y="Happiness Scores")
-```
+The plot shows that the "Happiest" region in the world is North America and ANZ, while the least "Happiest" region is South Asia.
 
-## Two Table Verb 2
-Needs work
-```{r}
-JoinedData <- world_happiness %>% 
-  full_join(world_happiness_2021)
-```
-
-## Grouping by Region
-Happiness scores based on world region
-```{r}
+```{r message=FALSE, echo=FALSE}
 RegionGroups <- world_happiness_2021 %>%
   group_by(`Regional indicator`) %>%
   summarize(meanLadderscore = mean(`Ladder score`))
@@ -61,39 +107,148 @@ ggplot(RegionGroups, aes(x=meanLadderscore, y=`Regional indicator`)) +
   labs(title="Average Happiness Score by World Region", x="Happiness Score", y="Region")
   
 ```
+### Happiness Score Variability by Region 2021
+While the above plot shows us the mean happiness score for each of the regions, we know there is a certian level of variability within each of the scores. The data set contains a Happiness Score, and also contains information on the "upper whisker" and "lower whisker" of the data, which allows us to understand the level of variability within each happiness score.
 
-## Grouping 2
-```{r}
+The following function was used:
 
-  
-```
+* pivot_longer()
 
-## Vector 2
-```{r}
+To put the upper and lower whisker values into a single column, and use another column to identify whether the value is upper or lower whisker, rather than having these values in separate columns. 
 
-```
+This was then plotted by region so we can see what kind of variability there is within the region, but also the upper and lower limits of these determined scores.
 
-## Pivoting to longer
-Can view the variation in happiness scores based on region
-```{r}
+```{r message=FALSE, echo=FALSE}
 world_happiness_2021_longer <- world_happiness_2021 %>%
   pivot_longer(
     cols = c(upperwhisker, lowerwhisker),
-    names_to = "stat_type",
+    names_to = "Statistic Type",
     values_to = "deviation_value"
   )
-world_happiness_2021_longer
 
 ggplot(world_happiness_2021_longer, 
-       aes(x = `Ladder score`, y = deviation_value, color = stat_type, group = stat_type)) +
-  geom_line() +
-  facet_wrap(~ `Regional indicator`)
+       aes(x = `Ladder score`, y = deviation_value, color = `Statistic Type`, group = `Statistic Type`)) +
+  geom_line() + 
+  facet_wrap(~ `Regional indicator`) +  labs(x = "Happiness Score", y = "Deviation")
 ```
-## Pivoting 2
+### Least Happy Region Ranking in 2021
+The lowest scoring region has been identified as South Asia. With the following table, we look into the countries that make up the South Asia region, and order the data in descending order to gain additional insight. The functions used here include:
 
-## Drop NA (missing values 1)
-```{r}
-world_happiness %>%
-  drop_na()
+* filter()
+* arrange()
+* desc()
+
+```{r message=FALSE, echo=FALSE}
+SocialSupport <- world_happiness_2021 %>%
+  filter(`Regional indicator` == 'South Asia') %>%
+  arrange(desc(`Social support`))
+
+SocialSupport
 ```
+
+### Happiest and Least Happiest Countries in 2021
+Taking the analysis of happiest and least happiest regions a step further, the top 5 and bottom 5 countries were extracted based on their overall happiness score. The data was already arranged from highest to lowest happiness score, to the following functions were used to extract the relevant data:
+
+* first() - to extract the first column of country names
+* head() - to extract the first 5 values
+* tail() - to extract the bottom 5 values
+
+```{r message=FALSE, echo=FALSE}
+TopFive <- first(world_happiness_2021)
+
+head(TopFive,5)
+tail(TopFive,5)
+```
+
+Here we see that the happiest country is Finland, and the least happiest country is Afghanistan.
+
+### Finland vs Afghanistan (2005-2021)
+Here we merge the historic Happiness Report with the 2021 Happiness report. The following functions are used:
+
+* rename()
+* bind_rows()
+* filter()
+
+Since the Happiness Score is referred to as the "Ladder Score" in 2021, but has been previously referred to as "Life Ladder" in the historic data report, the 2021 report column was renamed to reflect the historic data label. This then allowed the hapiness scores to merge and create a comprehensive set of information to reflect up to date date.
+
+The following figures look at the data from 2005 to 2021 for the highest and lowest scoring countries, Finland and Afghanistan, using a boxplot. This allows us to observe what kind of variability has been experienced in the happiness scores over the last several years for each country.
+
+```{r message=FALSE, echo=FALSE, warning=FALSE}
+FinlandCombinedData <- rename(world_happiness_2021, `Life Ladder` = `Ladder score`) %>%
+  bind_rows(world_happiness_2021, world_happiness) %>%
+  filter(`Country name` == 'Finland')
+
+AfghanistanCombinedData <- rename(world_happiness_2021, `Life Ladder` = `Ladder score`) %>%
+  bind_rows(world_happiness_2021, world_happiness) %>%
+  filter(`Country name` == 'Afghanistan')
+
+ggplot() +
+  geom_boxplot(data = FinlandCombinedData, aes(x=`Country name`, y=`Life Ladder`)) + 
+  geom_boxplot(data = AfghanistanCombinedData, aes(x=`Country name`, y=`Life Ladder`)) +
+  labs(title = "Finland versus Afghanistan Happiness Scores 2005-2021", y="Happiness Scores")
+```
+We can see that there is a significant gap between the happiness scores of these two countries. We can also observe a higher level of variability of the past several years in the scores obtained from Afghanistan, and very little variability in the scores from Finland.
+
+### Correlation Between Indicators and Happiness Score in 2021
+There are four key indicators that are measured in the survey. They are:
+
+* Social support
+* Freedom to make life choices
+* Generosity
+* Perceptions of corruption
+
+Out of curiosity, the sum of the scores within these four indicators for each country were tabulated and plotted against the Happiness Scores to observe whether there was any clear correlation between the total sum and the overall score.
+
+The functions used here include:
+
+* rowwise()
+* mutate()
+* sum()
+
+```{r message=FALSE, echo=FALSE}
+SumOfIndicators <- world_happiness_2021 %>%
+  rowwise() %>%
+  mutate(sumIndicators=sum(c(`Social support`,`Freedom to make life choices`,`Generosity`,`Perceptions of corruption`)))
+
+ggplot(SumOfIndicators, aes(x=`Ladder score`, y=sumIndicators, color=`Regional indicator`, size=`Logged GDP per capita`)) +
+  geom_point(alpha=0.5) +
+  labs(title = "Sum of Indicators versus Happiness Scores", x="Happiness Scores", y="Sum of Indicator Scores")
+```
+We can see here that there is no real correlation when simply adding the scores together. This implies that weighted factors are used to determine the happiness score, and other measured areas such as GDP, are also high contributing factors to the calculation of the happiness score.
+
+### Data Formatting
+There are a few data frame manipulation functions that are helpful when it comes to structuring data in a way that makes sense for the analysis. The function pivot_longer() was utilized earlier to re-structure how the upper and lower limits of the happiness score were presented in the data set.
+
+A second attempt at re-structuring the data is shown below, using:
+
+* pivot_wider()
+* replace_na()
+
+This allowed for the ladder scores to be presented underneath a column labeled by the regional indicator for that country. It's not recommended that the data be formatted this way, but the capabilities of pivoting the data are nonetheless very valuable.
+
+Since this data structure resulted in a significant portion of "NA" fields, this was replaced with the comment "Not in Region" to make it easier to review.
+
+```{r}
+world_happiness_2021_wider <- world_happiness_2021 %>%
+  pivot_wider(names_from = `Regional indicator`, values_from = `Ladder score`) %>%
+  mutate(across(everything(), ~replace_na(.x, "Not in Region")))
+
+world_happiness_2021_wider
+
+```
+It was noted that there were countries that contained no scores in some of the evaluation areas. These were remvoed using the function:
+
+* drop_na()
+
+```{r message=FALSE, echo=FALSE}
+world_happiness %>%
+  drop_na() 
+```
+
+## Discussion
+This dataset was very interesting and insightful. The initial investigative analysis showcases that there are clear correlations between various indicators and the overall happiness score of a given country. It is also clear that there are entire regions in the world that are not performing well when it comes to the happiness of their citizens. 
+
+This data is extremely useful when evaluating initiatives that should be undertaken to improve the quality of life within a country. It's clear that the higher the happiness score, the longer the healthy life expectancy, so it's important that governments and organizations are committed to providing a positive environment and quality of life for their citizens if they want them to lead long and happy lives.
+
+Throughout the data analysis of this assignment, the first issue encountered was the loss of my Terminal tab. This was rectified with advice from Dr. Verma. The second issue during this assignment was finding functions that could be used with the data set I chose. I found it difficult to incorporate the pivoting functions, just due to the nature and lay out of the data set that I had. Overall, this assignment was a great opportunity to practice utilizing the functions available in tidyverse and dplyr. 
 

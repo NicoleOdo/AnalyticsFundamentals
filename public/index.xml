@@ -13,7 +13,8 @@
       <pubDate>Thu, 27 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/2021/05/27/a02-tidyverse/</guid>
-      <description>World Happiness library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.1.2 ✓ dplyr 1.0.6 ## ✓ tidyr 1.1.3 ✓ stringr 1.4.0 ## ✓ readr 1.4.0 ✓ forcats 0.5.1 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() library(dplyr) world_happiness_2021 &amp;lt;- read_csv(&amp;quot;world-happiness-report-2021.csv&amp;quot;) ## ## ── Column specification ──────────────────────────────────────────────────────── ## cols( ## .</description>
+      <description>Introduction The data sets being explored in this assignment are derived from the World Happiness Report. The data is collected from a survey that determines the state of global happiness based on an overall score for each country. The report has been used by governments, organizations and civil societies, as they utilize this information to inform their policy making decisions.
+This assignment has leveraged two data sets specifically:</description>
     </item>
     
     <item>

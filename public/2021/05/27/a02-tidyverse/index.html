@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">3 min read</span>
+    <span class="article-duration">9 min read</span>
     
 
     <h1 class="article-title">A02: TIDYVERSE</h1>
@@ -76,100 +76,215 @@
 <script src="/2021/05/27/a02-tidyverse/index_files/header-attrs/header-attrs.js"></script>
 
 
-<div id="world-happiness" class="section level2">
-<h2>World Happiness</h2>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(dplyr)
-
-world_happiness_2021 &lt;- read_csv(&quot;world-happiness-report-2021.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   .default = col_double(),
-##   `Country name` = col_character(),
-##   `Regional indicator` = col_character()
-## )
-## ℹ Use `spec()` for the full column specifications.</code></pre>
-<pre class="r"><code>world_happiness &lt;- read_csv(&quot;world-happiness-report.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   `Country name` = col_character(),
-##   year = col_double(),
-##   `Life Ladder` = col_double(),
-##   `Log GDP per capita` = col_double(),
-##   `Social support` = col_double(),
-##   `Healthy life expectancy at birth` = col_double(),
-##   `Freedom to make life choices` = col_double(),
-##   Generosity = col_double(),
-##   `Perceptions of corruption` = col_double(),
-##   `Positive affect` = col_double(),
-##   `Negative affect` = col_double()
-## )</code></pre>
-<pre class="r"><code>ggplot(world_happiness_2021,aes(x=`Ladder score`,y=`Healthy life expectancy`, size=`Logged GDP per capita`, color=`Regional indicator`)) +
-  geom_point(alpha=0.5) +
-  labs(x=&#39;Happiness Score&#39;)</code></pre>
-<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The data sets being explored in this assignment are derived from the World Happiness Report. The data is collected from a survey that determines the state of global happiness based on an overall score for each country. The report has been used by governments, organizations and civil societies, as they utilize this information to inform their policy making decisions.</p>
+<p>This assignment has leveraged two data sets specifically:</p>
+<ul>
+<li>World Happiness Report 2021</li>
+<li>World Happiness Report (2005 - 2020)</li>
+</ul>
+<p>Here is a glimpse of the two data sets to assist in the understanding of the data that is captured within these reports. Please note that “Ladder Score” and “Life Ladder” refer to the overall happiness scores of the countries</p>
+<div id="world-happiness-report-2021" class="section level3">
+<h3>World Happiness Report 2021</h3>
+<pre><code>## Rows: 149
+## Columns: 20
+## $ `Country name`                               &lt;chr&gt; &quot;Finland&quot;, &quot;Denmark&quot;, &quot;Sw…
+## $ `Regional indicator`                         &lt;chr&gt; &quot;Western Europe&quot;, &quot;Wester…
+## $ `Ladder score`                               &lt;dbl&gt; 7.842, 7.620, 7.571, 7.55…
+## $ `Standard error of ladder score`             &lt;dbl&gt; 0.032, 0.035, 0.036, 0.05…
+## $ upperwhisker                                 &lt;dbl&gt; 7.904, 7.687, 7.643, 7.67…
+## $ lowerwhisker                                 &lt;dbl&gt; 7.780, 7.552, 7.500, 7.43…
+## $ `Logged GDP per capita`                      &lt;dbl&gt; 10.775, 10.933, 11.117, 1…
+## $ `Social support`                             &lt;dbl&gt; 0.954, 0.954, 0.942, 0.98…
+## $ `Healthy life expectancy`                    &lt;dbl&gt; 72.000, 72.700, 74.400, 7…
+## $ `Freedom to make life choices`               &lt;dbl&gt; 0.949, 0.946, 0.919, 0.95…
+## $ Generosity                                   &lt;dbl&gt; -0.098, 0.030, 0.025, 0.1…
+## $ `Perceptions of corruption`                  &lt;dbl&gt; 0.186, 0.179, 0.292, 0.67…
+## $ `Ladder score in Dystopia`                   &lt;dbl&gt; 2.43, 2.43, 2.43, 2.43, 2…
+## $ `Explained by: Log GDP per capita`           &lt;dbl&gt; 1.446, 1.502, 1.566, 1.48…
+## $ `Explained by: Social support`               &lt;dbl&gt; 1.106, 1.108, 1.079, 1.17…
+## $ `Explained by: Healthy life expectancy`      &lt;dbl&gt; 0.741, 0.763, 0.816, 0.77…
+## $ `Explained by: Freedom to make life choices` &lt;dbl&gt; 0.691, 0.686, 0.653, 0.69…
+## $ `Explained by: Generosity`                   &lt;dbl&gt; 0.124, 0.208, 0.204, 0.29…
+## $ `Explained by: Perceptions of corruption`    &lt;dbl&gt; 0.481, 0.485, 0.413, 0.17…
+## $ `Dystopia + residual`                        &lt;dbl&gt; 3.253, 2.868, 2.839, 2.96…</code></pre>
 </div>
-<div id="one-table-verb" class="section level2">
-<h2>One Table Verb</h2>
-<p>Used filter and arrange to extract the lowest performing region in terms of happiness scores, and arranged the data by ascending order based on level of social support</p>
-<pre class="r"><code>SocialSupport &lt;- world_happiness_2021 %&gt;%
-  filter(`Regional indicator` == &#39;Sub-Saharan Africa&#39;) %&gt;%
-  arrange(desc(`Social support`))
-
-SocialSupport</code></pre>
-<pre><code>## # A tibble: 36 x 20
-##    `Country name` `Regional indica… `Ladder score` `Standard error… upperwhisker
-##    &lt;chr&gt;          &lt;chr&gt;                      &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-##  1 Mauritius      Sub-Saharan Afri…           6.05            0.059         6.16
-##  2 South Africa   Sub-Saharan Afri…           4.96            0.06          5.07
-##  3 Namibia        Sub-Saharan Afri…           4.57            0.064         4.7 
-##  4 Mauritania     Sub-Saharan Afri…           4.23            0.07          4.36
-##  5 Lesotho        Sub-Saharan Afri…           3.51            0.12          3.75
-##  6 Botswana       Sub-Saharan Afri…           3.47            0.074         3.61
-##  7 Uganda         Sub-Saharan Afri…           4.64            0.073         4.78
-##  8 Gabon          Sub-Saharan Afri…           4.85            0.075         5.00
-##  9 Swaziland      Sub-Saharan Afri…           4.31            0.071         4.45
-## 10 Ethiopia       Sub-Saharan Afri…           4.28            0.051         4.37
-## # … with 26 more rows, and 15 more variables: lowerwhisker &lt;dbl&gt;,
-## #   Logged GDP per capita &lt;dbl&gt;, Social support &lt;dbl&gt;,
-## #   Healthy life expectancy &lt;dbl&gt;, Freedom to make life choices &lt;dbl&gt;,
-## #   Generosity &lt;dbl&gt;, Perceptions of corruption &lt;dbl&gt;,
-## #   Ladder score in Dystopia &lt;dbl&gt;, Explained by: Log GDP per capita &lt;dbl&gt;,
-## #   Explained by: Social support &lt;dbl&gt;,
+<div id="world-happiness-report-2005---2020" class="section level3">
+<h3>World Happiness Report (2005 - 2020)</h3>
+<pre><code>## Rows: 1,949
+## Columns: 11
+## $ `Country name`                     &lt;chr&gt; &quot;Afghanistan&quot;, &quot;Afghanistan&quot;, &quot;Afgh…
+## $ year                               &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013,…
+## $ `Life Ladder`                      &lt;dbl&gt; 3.724, 4.402, 4.758, 3.832, 3.783, …
+## $ `Log GDP per capita`               &lt;dbl&gt; 7.370, 7.540, 7.647, 7.620, 7.705, …
+## $ `Social support`                   &lt;dbl&gt; 0.451, 0.552, 0.539, 0.521, 0.521, …
+## $ `Healthy life expectancy at birth` &lt;dbl&gt; 50.80, 51.20, 51.60, 51.92, 52.24, …
+## $ `Freedom to make life choices`     &lt;dbl&gt; 0.718, 0.679, 0.600, 0.496, 0.531, …
+## $ Generosity                         &lt;dbl&gt; 0.168, 0.190, 0.121, 0.162, 0.236, …
+## $ `Perceptions of corruption`        &lt;dbl&gt; 0.882, 0.850, 0.707, 0.731, 0.776, …
+## $ `Positive affect`                  &lt;dbl&gt; 0.518, 0.584, 0.618, 0.611, 0.710, …
+## $ `Negative affect`                  &lt;dbl&gt; 0.258, 0.237, 0.275, 0.267, 0.268, …</code></pre>
+</div>
+</div>
+<div id="methodology" class="section level2">
+<h2>Methodology</h2>
+<p>This assignment allowed for the exploration into different types of functions that can be leveraged to visualize a data set. A summary of the functions used within this assignment are as follows:</p>
+<p>One Table Verb</p>
+<ul>
+<li>arrange()</li>
+<li>filter()</li>
+<li>rename()</li>
+<li>summarize()</li>
+</ul>
+<p>Two Table Verb</p>
+<ul>
+<li>bind_rows()</li>
+<li>%&gt;%</li>
+<li>glimpse</li>
+</ul>
+<p>Grouping</p>
+<ul>
+<li>group_by()</li>
+<li>rowwise()</li>
+</ul>
+<p>Vector</p>
+<ul>
+<li>desc()</li>
+<li>first()</li>
+</ul>
+<p>Pivoting</p>
+<ul>
+<li>pivot_longer()</li>
+</ul>
+<p>Missing values</p>
+<ul>
+<li>drop_na()</li>
+</ul>
+<p>The use of each function will be further described as they are presented below and utilize to create visuals for this data set, but this overview is intended to provide a brief summary of the functions used as required by the assignment.</p>
+</div>
+<div id="data-analysis-and-visualization" class="section level2">
+<h2>Data Analysis and Visualization</h2>
+<div id="happiness-score-vs-life-expectancy-in-2021" class="section level3">
+<h3>Happiness Score vs Life Expectancy in 2021</h3>
+<p>The first figure presented is intended merely to provide insight into the data set and to begin to understand correlations within the data. This figure does not contain any required functions for the assignment, but was created to provide initial commentary and a departure point for further analysis.</p>
+<p>The following graph describes the correlation between Happiness Score and Healthy Life Expectancy. The points have been colored to represent the region of the world the country can be found in, and they have been sized to represent the logged GDP per capita.</p>
+<p>We can see a clear correlation here between Happiness and Healthy Life Expectancy, and it has also been noted that countries within the same region tend to have similar happiness scores to one another. Additionally, the higher the logged GDP per capita, the higher the happiness score tends to be.</p>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="average-happiness-score-by-region-in-2021" class="section level3">
+<h3>Average Happiness Score by Region in 2021</h3>
+<p>While it’s expected that countries within the same regions will have similar happiness scores, this analysis was taken a step further by grouping the data of the countries by region, and determining the mean happiness score.</p>
+<p>The functions used here include:</p>
+<ul>
+<li>group_by()</li>
+<li>summarize</li>
+</ul>
+<p>The plot shows that the “Happiest” region in the world is North America and ANZ, while the least “Happiest” region is South Asia.</p>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+### Happiness Score Variability by Region 2021
+While the above plot shows us the mean happiness score for each of the regions, we know there is a certian level of variability within each of the scores. The data set contains a Happiness Score, and also contains information on the “upper whisker” and “lower whisker” of the data, which allows us to understand the level of variability within each happiness score.</p>
+<p>The following function was used:</p>
+<ul>
+<li>pivot_longer()</li>
+</ul>
+<p>To put the upper and lower whisker values into a single column, and use another column to identify whether the value is upper or lower whisker, rather than having these values in separate columns.</p>
+<p>This was then plotted by region so we can see what kind of variability there is within the region, but also the upper and lower limits of these determined scores.</p>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+### Least Happy Region Ranking in 2021
+The lowest scoring region has been identified as South Asia. With the following table, we look into the countries that make up the South Asia region, and order the data in descending order to gain additional insight. The functions used here include:</p>
+<ul>
+<li>filter()</li>
+<li>arrange()</li>
+<li>desc()</li>
+</ul>
+<pre><code>## # A tibble: 7 x 20
+##   `Country name` `Regional indica… `Ladder score` `Standard error … upperwhisker
+##   &lt;chr&gt;          &lt;chr&gt;                      &lt;dbl&gt;             &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Maldives       South Asia                  5.20             0.072         5.34
+## 2 Sri Lanka      South Asia                  4.32             0.066         4.45
+## 3 Nepal          South Asia                  5.27             0.07          5.41
+## 4 Bangladesh     South Asia                  5.03             0.046         5.12
+## 5 Pakistan       South Asia                  4.93             0.068         5.07
+## 6 India          South Asia                  3.82             0.026         3.87
+## 7 Afghanistan    South Asia                  2.52             0.038         2.60
+## # … with 15 more variables: lowerwhisker &lt;dbl&gt;, Logged GDP per capita &lt;dbl&gt;,
+## #   Social support &lt;dbl&gt;, Healthy life expectancy &lt;dbl&gt;,
+## #   Freedom to make life choices &lt;dbl&gt;, Generosity &lt;dbl&gt;,
+## #   Perceptions of corruption &lt;dbl&gt;, Ladder score in Dystopia &lt;dbl&gt;,
+## #   Explained by: Log GDP per capita &lt;dbl&gt;, Explained by: Social support &lt;dbl&gt;,
 ## #   Explained by: Healthy life expectancy &lt;dbl&gt;,
 ## #   Explained by: Freedom to make life choices &lt;dbl&gt;,
 ## #   Explained by: Generosity &lt;dbl&gt;,
 ## #   Explained by: Perceptions of corruption &lt;dbl&gt;, Dystopia + residual &lt;dbl&gt;</code></pre>
 </div>
-<div id="two-table-verb" class="section level2">
-<h2>Two Table Verb</h2>
-<p>Combining two sets of data here by entering World Happiness 2021 data into the World Happiness data, which contains the happiness scores by year but did not yet have the 2021 results. The “happiness score” was called “Life Ladder” in World Happiness report, and “Ladder score” in World Happiness 2021 report. By renaming the “Ladder score” data to align with the variable name in the World Happiness report, this allows us to look at the score overtime and include the 2021 data into the dataset.</p>
-<pre class="r"><code>CanadaCombinedData &lt;- rename(world_happiness_2021, `Life Ladder` = `Ladder score`) %&gt;%
-  bind_rows(world_happiness_2021, world_happiness) %&gt;%
-  filter(`Country name` == &#39;Canada&#39;)
-
-ggplot(CanadaCombinedData, aes(x=`Country name`, y=`Life Ladder`)) +
-  geom_boxplot() +
-  labs(title = &quot;Canada&#39;s Happiness Scores 2005-2021&quot;, x=&quot;Canada&quot;, y=&quot;Happiness Scores&quot;)</code></pre>
-<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
-<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="happiest-and-least-happiest-countries-in-2021" class="section level3">
+<h3>Happiest and Least Happiest Countries in 2021</h3>
+<p>Taking the analysis of happiest and least happiest regions a step further, the top 5 and bottom 5 countries were extracted based on their overall happiness score. The data was already arranged from highest to lowest happiness score, to the following functions were used to extract the relevant data:</p>
+<ul>
+<li>first() - to extract the first column of country names</li>
+<li>head() - to extract the first 5 values</li>
+<li>tail() - to extract the bottom 5 values</li>
+</ul>
+<pre><code>## [1] &quot;Finland&quot;     &quot;Denmark&quot;     &quot;Switzerland&quot; &quot;Iceland&quot;     &quot;Netherlands&quot;</code></pre>
+<pre><code>## [1] &quot;Lesotho&quot;     &quot;Botswana&quot;    &quot;Rwanda&quot;      &quot;Zimbabwe&quot;    &quot;Afghanistan&quot;</code></pre>
+<p>Here we see that the happiest country is Finland, and the least happiest country is Afghanistan.</p>
 </div>
-<div id="two-table-verb-2" class="section level2">
-<h2>Two Table Verb 2</h2>
-<p>Needs work</p>
-<pre class="r"><code>JoinedData &lt;- world_happiness %&gt;% 
-  full_join(world_happiness_2021)</code></pre>
-<pre><code>## Joining, by = c(&quot;Country name&quot;, &quot;Social support&quot;, &quot;Freedom to make life choices&quot;, &quot;Generosity&quot;, &quot;Perceptions of corruption&quot;)</code></pre>
+<div id="finland-vs-afghanistan-2005-2021" class="section level3">
+<h3>Finland vs Afghanistan (2005-2021)</h3>
+<p>Here we merge the historic Happiness Report with the 2021 Happiness report. The following functions are used:</p>
+<ul>
+<li>rename()</li>
+<li>bind_rows()</li>
+<li>filter()</li>
+</ul>
+<p>Since the Happiness Score is referred to as the “Ladder Score” in 2021, but has been previously referred to as “Life Ladder” in the historic data report, the 2021 report column was renamed to reflect the historic data label. This then allowed the hapiness scores to merge and create a comprehensive set of information to reflect up to date date.</p>
+<p>The following figures look at the data from 2005 to 2021 for the highest and lowest scoring countries, Finland and Afghanistan, using a boxplot. This allows us to observe what kind of variability has been experienced in the happiness scores over the last several years for each country.</p>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+We can see that there is a significant gap between the happiness scores of these two countries. We can also observe a higher level of variability of the past several years in the scores obtained from Afghanistan, and very little variability in the scores from Finland.</p>
+</div>
+<div id="correlation-between-indicators-and-happiness-score-in-2021" class="section level3">
+<h3>Correlation Between Indicators and Happiness Score in 2021</h3>
+<p>There are four key indicators that are measured in the survey. They are:</p>
+<ul>
+<li>Social support</li>
+<li>Freedom to make life choices</li>
+<li>Generosity</li>
+<li>Perceptions of corruption</li>
+</ul>
+<p>Out of curiosity, the sum of the scores within these four indicators for each country were tabulated and plotted against the Happiness Scores to observe whether there was any clear correlation between the total sum and the overall score.</p>
+<p>The functions used here include:</p>
+<ul>
+<li>rowwise()</li>
+<li>mutate()</li>
+<li>sum()</li>
+</ul>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+We can see here that there is no real correlation when simply adding the scores together. This implies that weighted factors are used to determine the happiness score, and other measured areas such as GDP, are also high contributing factors to the calculation of the happiness score.</p>
+</div>
+</div>
+<div id="pivoting-2" class="section level2">
+<h2>Pivoting 2</h2>
+</div>
+<div id="drop-na-missing-values-1" class="section level2">
+<h2>Drop NA (missing values 1)</h2>
+<pre><code>## # A tibble: 1,708 x 11
+##    `Country name`  year `Life Ladder` `Log GDP per capita` `Social support`
+##    &lt;chr&gt;          &lt;dbl&gt;         &lt;dbl&gt;                &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Afghanistan     2008          3.72                 7.37            0.451
+##  2 Afghanistan     2009          4.40                 7.54            0.552
+##  3 Afghanistan     2010          4.76                 7.65            0.539
+##  4 Afghanistan     2011          3.83                 7.62            0.521
+##  5 Afghanistan     2012          3.78                 7.70            0.521
+##  6 Afghanistan     2013          3.57                 7.72            0.484
+##  7 Afghanistan     2014          3.13                 7.72            0.526
+##  8 Afghanistan     2015          3.98                 7.70            0.529
+##  9 Afghanistan     2016          4.22                 7.70            0.559
+## 10 Afghanistan     2017          2.66                 7.70            0.491
+## # … with 1,698 more rows, and 6 more variables:
+## #   Healthy life expectancy at birth &lt;dbl&gt;, Freedom to make life choices &lt;dbl&gt;,
+## #   Generosity &lt;dbl&gt;, Perceptions of corruption &lt;dbl&gt;, Positive affect &lt;dbl&gt;,
+## #   Negative affect &lt;dbl&gt;</code></pre>
 </div>
 
     </div>
@@ -207,6 +322,9 @@ ggplot(CanadaCombinedData, aes(x=`Country name`, y=`Life Ladder`)) +
 
 
     
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 
     
   </body>
