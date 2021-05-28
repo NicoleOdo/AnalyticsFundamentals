@@ -69,6 +69,7 @@ Pivoting
 Missing values
 
 * drop_na()
+* replace_na()
 
 The use of each function will be further described as they are presented below and utilize to create visuals for this data set, but this overview is intended to provide a brief summary of the functions used as required by the assignment.
 

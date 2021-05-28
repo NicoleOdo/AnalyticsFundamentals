@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">9 min read</span>
+    <span class="article-duration">11 min read</span>
     
 
     <h1 class="article-title">A02: TIDYVERSE</h1>
@@ -81,7 +81,7 @@
 <p>The data sets being explored in this assignment are derived from the World Happiness Report. The data is collected from a survey that determines the state of global happiness based on an overall score for each country. The report has been used by governments, organizations and civil societies, as they utilize this information to inform their policy making decisions.</p>
 <p>This assignment has leveraged two data sets specifically:</p>
 <ul>
-<li>World Happiness Report 2021</li>
+<li>World Happiness Report (2021)</li>
 <li>World Happiness Report (2005 - 2020)</li>
 </ul>
 <p>Here is a glimpse of the two data sets to assist in the understanding of the data that is captured within these reports. Please note that “Ladder Score” and “Life Ladder” refer to the overall happiness scores of the countries</p>
@@ -156,6 +156,7 @@
 <p>Pivoting</p>
 <ul>
 <li>pivot_longer()</li>
+<li>pivot_wider()</li>
 </ul>
 <p>Missing values</p>
 <ul>
@@ -262,12 +263,52 @@ We can see that there is a significant gap between the happiness scores of these
 <p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 We can see here that there is no real correlation when simply adding the scores together. This implies that weighted factors are used to determine the happiness score, and other measured areas such as GDP, are also high contributing factors to the calculation of the happiness score.</p>
 </div>
-</div>
-<div id="pivoting-2" class="section level2">
-<h2>Pivoting 2</h2>
-</div>
-<div id="drop-na-missing-values-1" class="section level2">
-<h2>Drop NA (missing values 1)</h2>
+<div id="data-formatting" class="section level3">
+<h3>Data Formatting</h3>
+<p>There are a few data frame manipulation functions that are helpful when it comes to structuring data in a way that makes sense for the analysis. The function pivot_longer() was utilized earlier to re-structure how the upper and lower limits of the happiness score were presented in the data set.</p>
+<p>A second attempt at re-structuring the data is shown below, using:</p>
+<ul>
+<li>pivot_wider()</li>
+<li>replace_na()</li>
+</ul>
+<p>This allowed for the ladder scores to be presented underneath a column labeled by the regional indicator for that country. It’s not recommended that the data be formatted this way, but the capabilities of pivoting the data are nonetheless very valuable.</p>
+<p>Since this data structure resulted in a significant portion of “NA” fields, this was replaced with the comment “Not in Region” to make it easier to review.</p>
+<pre class="r"><code>world_happiness_2021_wider &lt;- world_happiness_2021 %&gt;%
+  pivot_wider(names_from = `Regional indicator`, values_from = `Ladder score`) %&gt;%
+  mutate(across(everything(), ~replace_na(.x, &quot;Not in Region&quot;)))
+
+world_happiness_2021_wider</code></pre>
+<pre><code>## # A tibble: 149 x 28
+##    `Country name` `Standard error of… upperwhisker lowerwhisker `Logged GDP per…
+##    &lt;chr&gt;          &lt;chr&gt;               &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;           
+##  1 Finland        0.032               7.904        7.78         10.775          
+##  2 Denmark        0.035               7.687        7.552        10.933          
+##  3 Switzerland    0.036               7.643        7.5          11.117          
+##  4 Iceland        0.059               7.67         7.438        10.878          
+##  5 Netherlands    0.027               7.518        7.41         10.932          
+##  6 Norway         0.035               7.462        7.323        11.053          
+##  7 Sweden         0.036               7.433        7.293        10.867          
+##  8 Luxembourg     0.037               7.396        7.252        11.647          
+##  9 New Zealand    0.04                7.355        7.198        10.643          
+## 10 Austria        0.036               7.337        7.198        10.906          
+## # … with 139 more rows, and 23 more variables: Social support &lt;chr&gt;,
+## #   Healthy life expectancy &lt;chr&gt;, Freedom to make life choices &lt;chr&gt;,
+## #   Generosity &lt;chr&gt;, Perceptions of corruption &lt;chr&gt;,
+## #   Ladder score in Dystopia &lt;chr&gt;, Explained by: Log GDP per capita &lt;chr&gt;,
+## #   Explained by: Social support &lt;chr&gt;,
+## #   Explained by: Healthy life expectancy &lt;chr&gt;,
+## #   Explained by: Freedom to make life choices &lt;chr&gt;,
+## #   Explained by: Generosity &lt;chr&gt;,
+## #   Explained by: Perceptions of corruption &lt;chr&gt;, Dystopia + residual &lt;chr&gt;,
+## #   Western Europe &lt;chr&gt;, North America and ANZ &lt;chr&gt;,
+## #   Middle East and North Africa &lt;chr&gt;, Latin America and Caribbean &lt;chr&gt;,
+## #   Central and Eastern Europe &lt;chr&gt;, East Asia &lt;chr&gt;, Southeast Asia &lt;chr&gt;,
+## #   Commonwealth of Independent States &lt;chr&gt;, Sub-Saharan Africa &lt;chr&gt;,
+## #   South Asia &lt;chr&gt;</code></pre>
+<p>It was noted that there were countries that contained no scores in some of the evaluation areas. These were remvoed using the function:</p>
+<ul>
+<li>drop_na()</li>
+</ul>
 <pre><code>## # A tibble: 1,708 x 11
 ##    `Country name`  year `Life Ladder` `Log GDP per capita` `Social support`
 ##    &lt;chr&gt;          &lt;dbl&gt;         &lt;dbl&gt;                &lt;dbl&gt;            &lt;dbl&gt;
@@ -285,6 +326,13 @@ We can see here that there is no real correlation when simply adding the scores 
 ## #   Healthy life expectancy at birth &lt;dbl&gt;, Freedom to make life choices &lt;dbl&gt;,
 ## #   Generosity &lt;dbl&gt;, Perceptions of corruption &lt;dbl&gt;, Positive affect &lt;dbl&gt;,
 ## #   Negative affect &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>This dataset was very interesting and insightful. The initial investigative analysis showcases that there are clear correlations between various indicators and the overall happiness score of a given country. It is also clear that there are entire regions in the world that are not performing well when it comes to the happiness of their citizens.</p>
+<p>This data is extremely useful when evaluating initiatives that should be undertaken to improve the quality of life within a country. It’s clear that the higher the happiness score, the longer the healthy life expectancy, so it’s important that governments and organizations are committed to providing a positive environment and quality of life for their citizens if they want them to lead long and happy lives.</p>
+<p>Throughout the data analysis of this assignment, the first issue encountered was the loss of my Terminal tab. This was rectified with advice from Dr. Verma. The second issue during this assignment was finding functions that could be used with the data set I chose. I found it difficult to incorporate the pivoting functions, just due to the nature and lay out of the data set that I had. Overall, this assignment was a great opportunity to practice utilizing the functions available in tidyverse and dplyr.</p>
 </div>
 
     </div>
