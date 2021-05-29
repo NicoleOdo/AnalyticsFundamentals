@@ -25,6 +25,10 @@ This assignment has leveraged two data sets specifically:
 
 Here is a glimpse of the two data sets to assist in the understanding of the data that is captured within these reports. Please note that "Ladder Score" and "Life Ladder" refer to the overall happiness scores of the countries
 
+Functions used:
+
+* glimpse()
+
 ### World Happiness Report 2021
 ```{r message=FALSE, echo=FALSE}
 glimpse(world_happiness_2021)
@@ -108,6 +112,7 @@ ggplot(RegionGroups, aes(x=meanLadderscore, y=`Regional indicator`)) +
   labs(title="Average Happiness Score by World Region", x="Happiness Score", y="Region")
   
 ```
+
 ### Happiness Score Variability by Region 2021
 While the above plot shows us the mean happiness score for each of the regions, we know there is a certian level of variability within each of the scores. The data set contains a Happiness Score, and also contains information on the "upper whisker" and "lower whisker" of the data, which allows us to understand the level of variability within each happiness score.
 
@@ -132,6 +137,7 @@ ggplot(world_happiness_2021_longer,
   geom_line() + 
   facet_wrap(~ `Regional indicator`) +  labs(x = "Happiness Score", y = "Deviation")
 ```
+
 ### Least Happy Region Ranking in 2021
 The lowest scoring region has been identified as South Asia. With the following table, we look into the countries that make up the South Asia region, and order the data in descending order to gain additional insight. The functions used here include:
 

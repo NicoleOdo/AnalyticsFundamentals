@@ -85,6 +85,8 @@
 <li>World Happiness Report (2005 - 2020)</li>
 </ul>
 <p>Here is a glimpse of the two data sets to assist in the understanding of the data that is captured within these reports. Please note that “Ladder Score” and “Life Ladder” refer to the overall happiness scores of the countries</p>
+<p>Functions used:
+* glimpse()</p>
 <div id="world-happiness-report-2021" class="section level3">
 <h3>World Happiness Report 2021</h3>
 <pre><code>## Rows: 149
@@ -183,18 +185,22 @@
 <li>summarize</li>
 </ul>
 <p>The plot shows that the “Happiest” region in the world is North America and ANZ, while the least “Happiest” region is South Asia.</p>
-<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-### Happiness Score Variability by Region 2021
-While the above plot shows us the mean happiness score for each of the regions, we know there is a certian level of variability within each of the scores. The data set contains a Happiness Score, and also contains information on the “upper whisker” and “lower whisker” of the data, which allows us to understand the level of variability within each happiness score.</p>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="happiness-score-variability-by-region-2021" class="section level3">
+<h3>Happiness Score Variability by Region 2021</h3>
+<p>While the above plot shows us the mean happiness score for each of the regions, we know there is a certian level of variability within each of the scores. The data set contains a Happiness Score, and also contains information on the “upper whisker” and “lower whisker” of the data, which allows us to understand the level of variability within each happiness score.</p>
 <p>The following function was used:</p>
 <ul>
 <li>pivot_longer()</li>
 </ul>
 <p>To put the upper and lower whisker values into a single column, and use another column to identify whether the value is upper or lower whisker, rather than having these values in separate columns.</p>
 <p>This was then plotted by region so we can see what kind of variability there is within the region, but also the upper and lower limits of these determined scores.</p>
-<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
-### Least Happy Region Ranking in 2021
-The lowest scoring region has been identified as South Asia. With the following table, we look into the countries that make up the South Asia region, and order the data in descending order to gain additional insight. The functions used here include:</p>
+<p><img src="/2021/05/27/a02-tidyverse/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="least-happy-region-ranking-in-2021" class="section level3">
+<h3>Least Happy Region Ranking in 2021</h3>
+<p>The lowest scoring region has been identified as South Asia. With the following table, we look into the countries that make up the South Asia region, and order the data in descending order to gain additional insight. The functions used here include:</p>
 <ul>
 <li>filter()</li>
 <li>arrange()</li>
@@ -274,11 +280,6 @@ We can see here that there is no real correlation when simply adding the scores 
 </ul>
 <p>This allowed for the ladder scores to be presented underneath a column labeled by the regional indicator for that country. It’s not recommended that the data be formatted this way, but the capabilities of pivoting the data are nonetheless very valuable.</p>
 <p>Since this data structure resulted in a significant portion of “NA” fields, this was replaced with the comment “Not in Region” to make it easier to review.</p>
-<pre class="r"><code>world_happiness_2021_wider &lt;- world_happiness_2021 %&gt;%
-  pivot_wider(names_from = `Regional indicator`, values_from = `Ladder score`) %&gt;%
-  mutate(across(everything(), ~replace_na(.x, &quot;Not in Region&quot;)))
-
-world_happiness_2021_wider</code></pre>
 <pre><code>## # A tibble: 149 x 28
 ##    `Country name` `Standard error of… upperwhisker lowerwhisker `Logged GDP per…
 ##    &lt;chr&gt;          &lt;chr&gt;               &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;           
