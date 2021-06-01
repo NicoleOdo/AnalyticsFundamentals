@@ -1,0 +1,129 @@
+---
+title: Exercise 1
+author: R package build
+date: '2021-06-01'
+slug: exercise-1
+categories: []
+tags: []
+---
+
+```{r}
+cat_lovers <- read_csv("cat-lovers.csv")
+
+glimpse(cat_lovers)
+
+cat_lovers %>%
+  mutate(number_of_cats = case_when(
+    name == "Ginger Clark" ~ 2,
+    name == "Doug Bass"    ~ 3,
+    TRUE                   ~ as.numeric(number_of_cats)
+    )) %>%
+  summarise(mean_cats = mean(number_of_cats))
+
+cat_lovers %>%
+  mutate(
+    number_of_cats = case_when(
+      name == "Ginger Clark" ~ "2",
+      name == "Doug Bass"    ~ "3",
+      TRUE                   ~ number_of_cats
+      ),
+    number_of_cats = as.numeric(number_of_cats)
+    ) %>%
+  summarise(mean_cats = mean(number_of_cats))
+
+cat_lovers <- cat_lovers %>%
+  mutate(
+    number_of_cats = case_when(
+      name == "Ginger Clark" ~ "2",
+      name == "Doug Bass"    ~ "3",
+      TRUE                   ~ number_of_cats
+      ),
+    number_of_cats = as.numeric(number_of_cats)
+    )
+```
+
+## Data Types
+```{r}
+typeof(TRUE)
+
+typeof("hello")
+
+typeof(1.335)
+
+typeof(7L)
+
+typeof(7)
+
+typeof(1:3)
+```
+
+## Vectors
+```{r}
+c(1, 2, 3)
+
+c("Hello", "World!")
+
+c(c("hi", "hello"), c("bye", "jello"))
+
+x <- 1:3
+x
+
+typeof(x)
+
+y <- as.character(x)
+y
+
+typeof(y)
+
+z <- c(TRUE, FALSE)
+z
+
+typeof(z)
+
+a <- as.numeric(x)
+a
+
+typeof(a)
+
+c(1, "Hello")
+
+c(FALSE, 3L)
+
+c(1.2, 3L)
+
+c(2L, "two")
+```
+
+## Special Values
+```{r}
+pi / 0
+
+1/0 - 1/0
+
+0 / 0
+
+1/0 + 1/0
+
+x <- c(1, 2, 3, 4, NA)
+mean(x)
+
+mean(x, na.rm = TRUE)
+summary(x)
+
+typeof(NA)
+
+# TRUE or NA
+TRUE | NA
+
+# FALSE or NA
+FALSE | NA
+
+TRUE | TRUE  # if NA was TRUE
+
+TRUE | FALSE # if NA was FALSE
+
+FALSE | TRUE  # if NA was TRUE
+
+FALSE | FALSE # if NA was FALSE
+```
+

@@ -1,0 +1,120 @@
+---
+title: Exercise 1 June 1
+author: R package build
+date: '2021-06-01'
+slug: exercise-1-june-1
+categories: []
+tags: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+## Import Nobel.csv File
+```{r}
+library(tidyverse)
+nobel <- read_csv(file = "nobel.csv")
+head(nobel)
+
+```
+
+## Write a csv file
+```{r}
+df <- tribble(
+  ~x, ~y,
+  1,  "a",
+  2,  "b",
+  3,  "c"
+)
+
+write_csv(df, "df.csv")
+View(df)
+```
+
+## Dealing with bad variable names
+```{r}
+edibnb_badnames <- read_csv("edibnb-badnames.csv")
+names(edibnb_badnames)
+
+# When variables names are multiple words, need to use ` ` around the words. Easy function to rename them to create variable names that work
+
+edibnb_col_names <- read_csv("edibnb-badnames.csv",
+                             col_names = c("id", "price", 
+                             "neighbourhood", "accommodates",
+                              "bathroom", "bedroom", 
+                              "bed", "review_scores_rating", 
+                              "n_reviews", "url"))
+names(edibnb_col_names)
+```
+
+## Importing data with snake case variables
+```{r}
+edibnb_clean_names <- read_csv("edibnb-badnames.csv") %>%
+  janitor::clean_names()
+names(edibnb_clean_names)
+```
+
+## Read df-na.csv
+```{r}
+read_csv("df-na.csv",
+         na = c("", "NA", ".", "9999", "Not applicable"))
+```
+
+## Reading an XLSX file
+```{r}
+fav_food <- readxl::read_excel("favourite-food.xlsx") %>%
+  janitor::clean_names()
+fav_food
+```
+
+## Dealing with NA's and making age numeric
+```{r}
+fav_food <- readxl::read_excel("favourite-food.xlsx",
+                       na = c("N/A", "99999")) %>%
+  janitor::clean_names()
+
+fav_food <- fav_food %>%
+  mutate(
+    age = if_else(age == "five", "5", age),
+    age = as.numeric(age)
+    )
+fav_food
+glimpse(fav_food)
+```
+
+## ETL of SES variable
+```{r}
+fav_food %>%
+  count(ses)
+
+fav_food <- fav_food %>%
+  mutate(ses = fct_relevel(ses, "Low", "Middle", "High"))
+fav_food %>%
+  count(ses)
+fav_food
+# factor relevel converts to a factor/number - low has value of 1, etc
+
+fav_food <- readxl::read_excel("favourite-food.xlsx", na = c("N/A", "99999")) %>%
+  janitor::clean_names() %>%
+  mutate(
+    age = if_else(age == "five", "5", age), 
+    age = as.numeric(age),
+    ses = fct_relevel(ses, "Low", "Middle", "High")
+  )
+fav_food
+```
+
+## Out and back in
+```{r}
+write_csv(fav_food, file = "fav-food-clean.csv")
+fav_food_clean <- read_csv("fav-food-clean.csv")
+
+write_rds(fav_food, file = "fav-food-clean.rds")
+fav_food_clean <- read_rds("fav-food-clean.rds")
+fav_food_clean %>%
+  count(ses)
+```
+
+
+
