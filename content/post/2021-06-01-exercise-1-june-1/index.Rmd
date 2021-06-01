@@ -1,6 +1,6 @@
 ---
-title: Exercise 1 June 1
-author: R package build
+title: 'Exercise 1: Data Types'
+author: "R package build"
 date: '2021-06-01'
 slug: exercise-1-june-1
 categories: []

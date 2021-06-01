@@ -1,6 +1,6 @@
 ---
-title: Exercise 1
-author: R package build
+title: 'Exercise 3: Data Import'
+author: "R package build"
 date: '2021-06-01'
 slug: exercise-1
 categories: []
@@ -8,6 +8,7 @@ tags: []
 ---
 
 ```{r}
+library(tidyverse)
 cat_lovers <- read_csv("cat-lovers.csv")
 
 glimpse(cat_lovers)

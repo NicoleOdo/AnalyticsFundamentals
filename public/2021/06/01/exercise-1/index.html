@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.83.1" />
+
+
+<title>Exercise 3: Data Import - NicoleOdo - Fundamentals of Analytics</title>
+<meta property="og:title" content="Exercise 3: Data Import - NicoleOdo - Fundamentals of Analytics">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/Photo.jpeg"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/nicoleodo">GitHub</a></li>
+    
+    <li><a href="https://www.linkedin.com/in/nicole-odo-a86a07123/?originalSubdomain=ca">LinkedIn</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">Exercise 3: Data Import</h1>
+
+    
+    <span class="article-date">2021-06-01</span>
+    
+
+    <div class="article-content">
+      
+<script src="/2021/06/01/exercise-1/index_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>cat_lovers &lt;- read_csv(&quot;cat-lovers.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   name = col_character(),
+##   number_of_cats = col_character(),
+##   handedness = col_character()
+## )</code></pre>
+<pre class="r"><code>glimpse(cat_lovers)</code></pre>
+<pre><code>## Rows: 60
+## Columns: 3
+## $ name           &lt;chr&gt; &quot;Bernice Warren&quot;, &quot;Woodrow Stone&quot;, &quot;Willie Bass&quot;, &quot;Tyro…
+## $ number_of_cats &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;1&quot;, &quot;3&quot;, &quot;3&quot;, &quot;2&quot;, &quot;1&quot;, &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, …
+## $ handedness     &lt;chr&gt; &quot;left&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;, &quot;left&quot;,…</code></pre>
+<pre class="r"><code>cat_lovers %&gt;%
+  mutate(number_of_cats = case_when(
+    name == &quot;Ginger Clark&quot; ~ 2,
+    name == &quot;Doug Bass&quot;    ~ 3,
+    TRUE                   ~ as.numeric(number_of_cats)
+    )) %&gt;%
+  summarise(mean_cats = mean(number_of_cats))</code></pre>
+<pre><code>## Warning in eval_tidy(pair$rhs, env = default_env): NAs introduced by coercion</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_cats
+##       &lt;dbl&gt;
+## 1     0.833</code></pre>
+<pre class="r"><code>cat_lovers %&gt;%
+  mutate(
+    number_of_cats = case_when(
+      name == &quot;Ginger Clark&quot; ~ &quot;2&quot;,
+      name == &quot;Doug Bass&quot;    ~ &quot;3&quot;,
+      TRUE                   ~ number_of_cats
+      ),
+    number_of_cats = as.numeric(number_of_cats)
+    ) %&gt;%
+  summarise(mean_cats = mean(number_of_cats))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_cats
+##       &lt;dbl&gt;
+## 1     0.833</code></pre>
+<pre class="r"><code>cat_lovers &lt;- cat_lovers %&gt;%
+  mutate(
+    number_of_cats = case_when(
+      name == &quot;Ginger Clark&quot; ~ &quot;2&quot;,
+      name == &quot;Doug Bass&quot;    ~ &quot;3&quot;,
+      TRUE                   ~ number_of_cats
+      ),
+    number_of_cats = as.numeric(number_of_cats)
+    )</code></pre>
+<div id="data-types" class="section level2">
+<h2>Data Types</h2>
+<pre class="r"><code>typeof(TRUE)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code>typeof(&quot;hello&quot;)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>typeof(1.335)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="r"><code>typeof(7L)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>typeof(7)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="r"><code>typeof(1:3)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+</div>
+<div id="vectors" class="section level2">
+<h2>Vectors</h2>
+<pre class="r"><code>c(1, 2, 3)</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>c(&quot;Hello&quot;, &quot;World!&quot;)</code></pre>
+<pre><code>## [1] &quot;Hello&quot;  &quot;World!&quot;</code></pre>
+<pre class="r"><code>c(c(&quot;hi&quot;, &quot;hello&quot;), c(&quot;bye&quot;, &quot;jello&quot;))</code></pre>
+<pre><code>## [1] &quot;hi&quot;    &quot;hello&quot; &quot;bye&quot;   &quot;jello&quot;</code></pre>
+<pre class="r"><code>x &lt;- 1:3
+x</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>typeof(x)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>y &lt;- as.character(x)
+y</code></pre>
+<pre><code>## [1] &quot;1&quot; &quot;2&quot; &quot;3&quot;</code></pre>
+<pre class="r"><code>typeof(y)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>z &lt;- c(TRUE, FALSE)
+z</code></pre>
+<pre><code>## [1]  TRUE FALSE</code></pre>
+<pre class="r"><code>typeof(z)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code>a &lt;- as.numeric(x)
+a</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>typeof(a)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="r"><code>c(1, &quot;Hello&quot;)</code></pre>
+<pre><code>## [1] &quot;1&quot;     &quot;Hello&quot;</code></pre>
+<pre class="r"><code>c(FALSE, 3L)</code></pre>
+<pre><code>## [1] 0 3</code></pre>
+<pre class="r"><code>c(1.2, 3L)</code></pre>
+<pre><code>## [1] 1.2 3.0</code></pre>
+<pre class="r"><code>c(2L, &quot;two&quot;)</code></pre>
+<pre><code>## [1] &quot;2&quot;   &quot;two&quot;</code></pre>
+</div>
+<div id="special-values" class="section level2">
+<h2>Special Values</h2>
+<pre class="r"><code>pi / 0</code></pre>
+<pre><code>## [1] Inf</code></pre>
+<pre class="r"><code>1/0 - 1/0</code></pre>
+<pre><code>## [1] NaN</code></pre>
+<pre class="r"><code>0 / 0</code></pre>
+<pre><code>## [1] NaN</code></pre>
+<pre class="r"><code>1/0 + 1/0</code></pre>
+<pre><code>## [1] Inf</code></pre>
+<pre class="r"><code>x &lt;- c(1, 2, 3, 4, NA)
+mean(x)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(x, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 2.5</code></pre>
+<pre class="r"><code>summary(x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    1.00    1.75    2.50    2.50    3.25    4.00       1</code></pre>
+<pre class="r"><code>typeof(NA)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<pre class="r"><code># TRUE or NA
+TRUE | NA</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># FALSE or NA
+FALSE | NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>TRUE | TRUE  # if NA was TRUE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>TRUE | FALSE # if NA was FALSE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>FALSE | TRUE  # if NA was TRUE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>FALSE | FALSE # if NA was FALSE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

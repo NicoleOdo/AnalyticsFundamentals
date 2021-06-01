@@ -1,6 +1,6 @@
 ---
 title: 'Exercise 4: Data Recoding'
-author: R package build
+author: "R package build"
 date: '2021-06-01'
 slug: exercise-4-data-recoding
 categories: []
@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo=TRUE)
 
 ## Import and transform Religion data
 ```{r}
+library(tidyverse)
 library(readxl)
 rel_inc <- read_excel("relig-income.xlsx")
 

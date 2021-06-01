@@ -1,6 +1,6 @@
 ---
-title: Exercise 2 June 1
-author: R package build
+title: 'Exercise 2: Data Classes'
+author: "R package build"
 date: '2021-06-01'
 slug: exercise-2-june-1
 categories: []
@@ -8,6 +8,10 @@ tags: []
 ---
 
 ```{r}
+library(tidyverse)
+cat_lovers <- read_csv("cat-lovers.csv")
+hotels <- read_csv("hotels.csv")
+
 x <- factor(c("BS", "MS", "PhD", "MS"))
 x
 
