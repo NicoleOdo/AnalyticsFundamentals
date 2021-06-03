@@ -1,0 +1,67 @@
+---
+title: A03
+author: R package build
+date: '2021-06-03'
+slug: a03
+categories: []
+tags: []
+---
+
+```{r}
+library(tidyverse)
+lego_sales <- read_csv("lego_sales.csv")
+```
+
+## 1. What are the three most common first names of customers?
+```{r}
+lego_sales %>%
+  count(first_name, sort = TRUE)
+```
+The three most common first names are Jackson, Jacob and Joseph.
+
+## 2. What are the three most common themes of lego sets purchased?
+```{r}
+lego_sales %>%
+  count(theme, sort = TRUE)
+```
+The three most common themes of lego sets purchased are Star Wars, Nexo Knights, and a tie for Gear and Mixels.
+
+## 3. Among the most common theme of lego sets purchased, what is the most common subtheme?
+```{r}
+lego_sales %>%
+  count(theme, subtheme, sort=TRUE)
+```
+
+## 4. Create a new variable called "age_group" and group the ages into categories
+```{r}
+AgeGroup <- lego_sales %>%
+  mutate(age_group = case_when(
+    age < 19 ~ "18 and under",
+    between(age, 19, 25) ~ "19 - 25",
+    between(age, 26, 35) ~ "26 - 35",
+    between(age, 36, 50) ~ "36 - 50",
+    age > 50 ~ "51 and over"
+  ))
+
+AgeGroup
+```
+## 5. What is the probability a randomly selected customer?
+
+### a. Is in the 19 - 25 age group?
+```{r}
+
+```
+
+### b. Is in the 19 - 25 age group and purchased a Duplo theme set?
+```{r}
+
+```
+
+### c. Is in the 19 - 25 age group given they purchased a Duplo theme set?
+
+```{r}
+
+```
+
+
+
