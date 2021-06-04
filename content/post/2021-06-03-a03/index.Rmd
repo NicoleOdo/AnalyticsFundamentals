@@ -100,8 +100,51 @@ MostLego
 The age group that purchased the largest number of lego sets is the 36 - 50 years, with a total of 313 sets bought.
 
 ## 7. Which age group has spent the most money on legos? How much did they spend?
+```{r}
+MostMoney <- age_group %>%
+  group_by(AgeGroup) %>%
+  summarise(us_price = sum(us_price))
 
-## 8. Custom question:
+MostMoney
+```
+
+The age group that has spent the most money on lego is also the age 36 - 50 group. They have spent a total of $6641.84
+
+## 8. Custom question: What is the average sale price by age group?
+
+```{r}
+AverageSale <- age_group %>%
+  group_by(AgeGroup) %>%
+  summarise(us_price = mean(us_price))
+
+AverageSale
+
+ggplot(AverageSale, aes(x=AgeGroup, y=us_price)) + geom_col() +labs(x = "Age Group", y = "Average Sale Price", title= "Average Sale Price by Age Group")
+
+```
+This visualization shows that not only did the 36 - 50 year olds spend the most money total on lego, they also had the highest average spend per transaction. It can also be noted that the 51 and over group had the second highest average spend per transaction, but was not the second highest spender overall.
 
 ## 9. Added element to the data visualization plot
+
+The elements that have been changed in this plot are:
+
+* The plot bars are color filled based on age group
+* The background color is now grey with white lines
+* The legend has been moved to the bottom
+
+```{r}
+AverageSale <- age_group %>%
+  group_by(AgeGroup) %>%
+  summarise(us_price = mean(us_price))
+
+AverageSale
+
+ggplot(AverageSale, aes(x=AgeGroup, y=us_price, fill=AgeGroup)) + 
+  geom_col() +
+  labs(x = "Age Group", y = "Average Sale Price", title= "Average Sale Price by Age Group") +
+  theme_grey() +
+  theme(legend.position = "bottom")
+ 
+
+```
 
