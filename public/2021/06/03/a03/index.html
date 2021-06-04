@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.83.1" />
+
+
+<title>A03 - NicoleOdo - Fundamentals of Analytics</title>
+<meta property="og:title" content="A03 - NicoleOdo - Fundamentals of Analytics">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/Photo.jpeg"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/nicoleodo">GitHub</a></li>
+    
+    <li><a href="https://www.linkedin.com/in/nicole-odo-a86a07123/?originalSubdomain=ca">LinkedIn</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">4 min read</span>
+    
+
+    <h1 class="article-title">A03</h1>
+
+    
+    <span class="article-date">2021-06-03</span>
+    
+
+    <div class="article-content">
+      
+<script src="/2021/06/03/a03/index_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>lego_sales &lt;- read_csv(&quot;lego_sales.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   first_name = col_character(),
+##   last_name = col_character(),
+##   age = col_double(),
+##   phone_number = col_character(),
+##   set_id = col_double(),
+##   number = col_character(),
+##   theme = col_character(),
+##   subtheme = col_character(),
+##   year = col_double(),
+##   name = col_character(),
+##   pieces = col_double(),
+##   us_price = col_double(),
+##   image_url = col_character(),
+##   quantity = col_double()
+## )</code></pre>
+<div id="what-are-the-three-most-common-first-names-of-customers" class="section level2">
+<h2>1. What are the three most common first names of customers?</h2>
+<pre class="r"><code>lego_sales %&gt;%
+  count(first_name, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 211 x 2
+##    first_name     n
+##    &lt;chr&gt;      &lt;int&gt;
+##  1 Jackson       13
+##  2 Jacob         11
+##  3 Joseph        11
+##  4 Michael       10
+##  5 Audrey         8
+##  6 Connor         8
+##  7 Kaitlyn        8
+##  8 Lucas          8
+##  9 Amanda         7
+## 10 Joshua         7
+## # … with 201 more rows</code></pre>
+<p>The three most common first names are Jackson, Jacob and Joseph.</p>
+</div>
+<div id="what-are-the-three-most-common-themes-of-lego-sets-purchased" class="section level2">
+<h2>2. What are the three most common themes of lego sets purchased?</h2>
+<pre class="r"><code>lego_sales %&gt;%
+  count(theme, sort = TRUE)</code></pre>
+<pre><code>## # A tibble: 25 x 2
+##    theme            n
+##    &lt;chr&gt;        &lt;int&gt;
+##  1 Star Wars       75
+##  2 Nexo Knights    64
+##  3 Gear            55
+##  4 Mixels          55
+##  5 City            45
+##  6 Friends         42
+##  7 Ninjago         38
+##  8 Duplo           35
+##  9 Bionicle        34
+## 10 Creator         25
+## # … with 15 more rows</code></pre>
+<p>The three most common themes of lego sets purchased are Star Wars, Nexo Knights, and a tie for Gear and Mixels.</p>
+</div>
+<div id="among-the-most-common-theme-of-lego-sets-purchased-what-is-the-most-common-subtheme" class="section level2">
+<h2>3. Among the most common theme of lego sets purchased, what is the most common subtheme?</h2>
+<pre class="r"><code>lego_sales %&gt;%
+  count(theme, subtheme, sort=TRUE)</code></pre>
+<pre><code>## # A tibble: 78 x 3
+##    theme        subtheme     n
+##    &lt;chr&gt;        &lt;chr&gt;    &lt;int&gt;
+##  1 Nexo Knights &lt;NA&gt;        42
+##  2 Duplo        &lt;NA&gt;        32
+##  3 Creator      &lt;NA&gt;        25
+##  4 Ninjago      Skybound    23
+##  5 City         Fire        22
+##  6 Elves        &lt;NA&gt;        22
+##  7 Nexo Knights Ultimate    22
+##  8 Mixels       Series 9    21
+##  9 Mixels       Series 7    18
+## 10 Mixels       Series 8    16
+## # … with 68 more rows</code></pre>
+</div>
+<div id="create-a-new-variable-called-age_group-and-group-the-ages-into-categories" class="section level2">
+<h2>4. Create a new variable called “age_group” and group the ages into categories</h2>
+<pre class="r"><code>AgeGroup &lt;- lego_sales %&gt;%
+  mutate(age_group = case_when(
+    age &lt; 19 ~ &quot;18 and under&quot;,
+    between(age, 19, 25) ~ &quot;19 - 25&quot;,
+    between(age, 26, 35) ~ &quot;26 - 35&quot;,
+    between(age, 36, 50) ~ &quot;36 - 50&quot;,
+    age &gt; 50 ~ &quot;51 and over&quot;
+  ))
+
+AgeGroup</code></pre>
+<pre><code>## # A tibble: 620 x 15
+##    first_name last_name    age phone_number set_id number theme  subtheme   year
+##    &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;
+##  1 Kimberly   Beckstead     24 216-555-2549  24701 76062  DC Co… Mighty M…  2018
+##  2 Neel       Garvin        35 819-555-3189  25626 70595  Ninja… Rise of …  2018
+##  3 Neel       Garvin        35 819-555-3189  24665 21031  Archi… &lt;NA&gt;       2018
+##  4 Chelsea    Bouchard      41 &lt;NA&gt;          24695 31048  Creat… &lt;NA&gt;       2018
+##  5 Chelsea    Bouchard      41 &lt;NA&gt;          25626 70595  Ninja… Rise of …  2018
+##  6 Chelsea    Bouchard      41 &lt;NA&gt;          24721 10831  Duplo  &lt;NA&gt;       2018
+##  7 Bryanna    Welsh         19 &lt;NA&gt;          24797 75138  Star … Episode V  2018
+##  8 Bryanna    Welsh         19 &lt;NA&gt;          24701 76062  DC Co… Mighty M…  2018
+##  9 Caleb      Garcia-Wi…    37 907-555-9236  24730 41115  Frien… &lt;NA&gt;       2018
+## 10 Caleb      Garcia-Wi…    37 907-555-9236  25611 21127  Minec… Minifig-…  2018
+## # … with 610 more rows, and 6 more variables: name &lt;chr&gt;, pieces &lt;dbl&gt;,
+## #   us_price &lt;dbl&gt;, image_url &lt;chr&gt;, quantity &lt;dbl&gt;, age_group &lt;chr&gt;</code></pre>
+</div>
+<div id="what-is-the-probability-a-randomly-selected-customer" class="section level2">
+<h2>5. What is the probability a randomly selected customer?</h2>
+<div id="a.-is-in-the-19---25-age-group" class="section level3">
+<h3>a. Is in the 19 - 25 age group?</h3>
+</div>
+<div id="b.-is-in-the-19---25-age-group-and-purchased-a-duplo-theme-set" class="section level3">
+<h3>b. Is in the 19 - 25 age group and purchased a Duplo theme set?</h3>
+</div>
+<div id="c.-is-in-the-19---25-age-group-given-they-purchased-a-duplo-theme-set" class="section level3">
+<h3>c. Is in the 19 - 25 age group given they purchased a Duplo theme set?</h3>
+</div>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+

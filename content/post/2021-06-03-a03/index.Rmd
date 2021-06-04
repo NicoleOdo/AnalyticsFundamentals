@@ -34,8 +34,8 @@ lego_sales %>%
 
 ## 4. Create a new variable called "age_group" and group the ages into categories
 ```{r}
-AgeGroup <- lego_sales %>%
-  mutate(age_group = case_when(
+age_group <- lego_sales %>%
+  mutate(AgeGroup = case_when(
     age < 19 ~ "18 and under",
     between(age, 19, 25) ~ "19 - 25",
     between(age, 26, 35) ~ "26 - 35",
@@ -43,25 +43,65 @@ AgeGroup <- lego_sales %>%
     age > 50 ~ "51 and over"
   ))
 
-AgeGroup
+age_group
+
 ```
 ## 5. What is the probability a randomly selected customer?
 
 ### a. Is in the 19 - 25 age group?
 ```{r}
+InAgeGroup <- age_group %>%
+  count(AgeGroup) %>%
+  mutate(prob = n/sum(n)) %>%
+  filter(AgeGroup == '19 - 25')
 
+InAgeGroup
 ```
+
+There is a 20.8% chance that a randomly selected customer will be in the 19 - 25 age group.
 
 ### b. Is in the 19 - 25 age group and purchased a Duplo theme set?
 ```{r}
+DuploTheme <- age_group %>%
+  filter(AgeGroup == '19 - 25') %>%
+  count(theme) %>%
+  mutate(prob = n/sum(n)) %>%
+  filter(theme == 'Duplo')
 
+DuploTheme
+
+df <- data.frame(InAgeGroup, DuploTheme)
+df
 ```
 
 ### c. Is in the 19 - 25 age group given they purchased a Duplo theme set?
 
 ```{r}
+DuploTheme2 <- age_group %>%
+  filter(theme == 'Duplo') %>%
+  count(AgeGroup) %>%
+  mutate(prob = n/sum(n)) %>%
+  filter(AgeGroup == '19 - 25')
 
+DuploTheme2
+```
+Given that the customer purchased a Duplo theme lego set, there is a 25.7% chance that they are in the 19 - 25 age range.
+
+## 6. Which age group has purchased the largest number of lego sets? How many did they purchase?
+
+```{r}
+MostLego <- age_group %>%
+  group_by(AgeGroup) %>%
+  summarise(quantity = sum(quantity))
+
+MostLego
 ```
 
+The age group that purchased the largest number of lego sets is the 36 - 50 years, with a total of 313 sets bought.
 
+## 7. Which age group has spent the most money on legos? How much did they spend?
+
+## 8. Custom question:
+
+## 9. Added element to the data visualization plot
 
