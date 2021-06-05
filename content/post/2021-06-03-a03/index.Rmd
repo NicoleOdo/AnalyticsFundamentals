@@ -1,6 +1,6 @@
 ---
-title: A03
-author: R package build
+title: "A03"
+author: "R package build"
 date: '2021-06-03'
 slug: a03
 categories: []
@@ -29,8 +29,11 @@ The three most common themes of lego sets purchased are Star Wars, Nexo Knights,
 ## 3. Among the most common theme of lego sets purchased, what is the most common subtheme?
 ```{r}
 lego_sales %>%
-  count(theme, subtheme, sort=TRUE)
+  drop_na() %>%
+  count(theme,subtheme, sort=TRUE) %>%
+  filter(theme == 'Star Wars')
 ```
+From the results of the question prior, we know that Star Wars was the most common theme of lego sets purchased. Of that theme, the most common subtheme is The Force Awakens.
 
 ## 4. Create a new variable called "age_group" and group the ages into categories
 ```{r}

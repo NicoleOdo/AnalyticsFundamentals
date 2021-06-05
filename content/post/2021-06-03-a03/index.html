@@ -1,6 +1,6 @@
 ---
-title: A03
-author: R package build
+title: "A03"
+author: "R package build"
 date: '2021-06-03'
 slug: a03
 categories: []
@@ -81,21 +81,24 @@ tags: []
 <div id="among-the-most-common-theme-of-lego-sets-purchased-what-is-the-most-common-subtheme" class="section level2">
 <h2>3. Among the most common theme of lego sets purchased, what is the most common subtheme?</h2>
 <pre class="r"><code>lego_sales %&gt;%
-  count(theme, subtheme, sort=TRUE)</code></pre>
-<pre><code>## # A tibble: 78 x 3
-##    theme        subtheme     n
-##    &lt;chr&gt;        &lt;chr&gt;    &lt;int&gt;
-##  1 Nexo Knights &lt;NA&gt;        42
-##  2 Duplo        &lt;NA&gt;        32
-##  3 Creator      &lt;NA&gt;        25
-##  4 Ninjago      Skybound    23
-##  5 City         Fire        22
-##  6 Elves        &lt;NA&gt;        22
-##  7 Nexo Knights Ultimate    22
-##  8 Mixels       Series 9    21
-##  9 Mixels       Series 7    18
-## 10 Mixels       Series 8    16
-## # … with 68 more rows</code></pre>
+  drop_na() %&gt;%
+  count(theme,subtheme, sort=TRUE) %&gt;%
+  filter(theme == &#39;Star Wars&#39;)</code></pre>
+<pre><code>## # A tibble: 11 x 3
+##    theme     subtheme                      n
+##    &lt;chr&gt;     &lt;chr&gt;                     &lt;int&gt;
+##  1 Star Wars The Force Awakens            13
+##  2 Star Wars Buildable Figures            10
+##  3 Star Wars MicroFighters                 9
+##  4 Star Wars Episode V                     8
+##  5 Star Wars Episode III                   6
+##  6 Star Wars Original Content              6
+##  7 Star Wars Battlefront                   5
+##  8 Star Wars Episode IV                    2
+##  9 Star Wars Rebels                        2
+## 10 Star Wars Seasonal                      1
+## 11 Star Wars Ultimate Collector Series     1</code></pre>
+<p>From the results of the question prior, we know that Star Wars was the most common theme of lego sets purchased. Of that theme, the most common subtheme is The Force Awakens.</p>
 </div>
 <div id="create-a-new-variable-called-age_group-and-group-the-ages-into-categories" class="section level2">
 <h2>4. Create a new variable called “age_group” and group the ages into categories</h2>
