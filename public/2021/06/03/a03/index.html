@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">7 min read</span>
+    <span class="article-duration">6 min read</span>
     
 
     <h1 class="article-title">A03</h1>
@@ -76,38 +76,9 @@
 <script src="/2021/06/03/a03/index_files/header-attrs/header-attrs.js"></script>
 
 
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>lego_sales &lt;- read_csv(&quot;lego_sales.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   first_name = col_character(),
-##   last_name = col_character(),
-##   age = col_double(),
-##   phone_number = col_character(),
-##   set_id = col_double(),
-##   number = col_character(),
-##   theme = col_character(),
-##   subtheme = col_character(),
-##   year = col_double(),
-##   name = col_character(),
-##   pieces = col_double(),
-##   us_price = col_double(),
-##   image_url = col_character(),
-##   quantity = col_double()
-## )</code></pre>
+<p>We are exploring a data set that summarizes lego sales. It provides an information on who the customer was, their age, what theme of lego they bought, price, and several other variables. This allows us to analyze the data for trends and to gain insight into commonly purchased lego sets.</p>
 <div id="what-are-the-three-most-common-first-names-of-customers" class="section level2">
 <h2>1. What are the three most common first names of customers?</h2>
-<pre class="r"><code>lego_sales %&gt;%
-  count(first_name, sort = TRUE)</code></pre>
 <pre><code>## # A tibble: 211 x 2
 ##    first_name     n
 ##    &lt;chr&gt;      &lt;int&gt;
@@ -126,8 +97,6 @@
 </div>
 <div id="what-are-the-three-most-common-themes-of-lego-sets-purchased" class="section level2">
 <h2>2. What are the three most common themes of lego sets purchased?</h2>
-<pre class="r"><code>lego_sales %&gt;%
-  count(theme, sort = TRUE)</code></pre>
 <pre><code>## # A tibble: 25 x 2
 ##    theme            n
 ##    &lt;chr&gt;        &lt;int&gt;
@@ -146,10 +115,6 @@
 </div>
 <div id="among-the-most-common-theme-of-lego-sets-purchased-what-is-the-most-common-subtheme" class="section level2">
 <h2>3. Among the most common theme of lego sets purchased, what is the most common subtheme?</h2>
-<pre class="r"><code>lego_sales %&gt;%
-  drop_na() %&gt;%
-  count(theme,subtheme, sort=TRUE) %&gt;%
-  filter(theme == &#39;Star Wars&#39;)</code></pre>
 <pre><code>## # A tibble: 11 x 3
 ##    theme     subtheme                      n
 ##    &lt;chr&gt;     &lt;chr&gt;                     &lt;int&gt;
@@ -168,16 +133,6 @@
 </div>
 <div id="create-a-new-variable-called-age_group-and-group-the-ages-into-categories" class="section level2">
 <h2>4. Create a new variable called “age_group” and group the ages into categories</h2>
-<pre class="r"><code>age_group &lt;- lego_sales %&gt;%
-  mutate(AgeGroup = case_when(
-    age &lt; 19 ~ &quot;18 and under&quot;,
-    between(age, 19, 25) ~ &quot;19 - 25&quot;,
-    between(age, 26, 35) ~ &quot;26 - 35&quot;,
-    between(age, 36, 50) ~ &quot;36 - 50&quot;,
-    age &gt; 50 ~ &quot;51 and over&quot;
-  ))
-
-age_group</code></pre>
 <pre><code>## # A tibble: 620 x 15
 ##    first_name last_name    age phone_number set_id number theme  subtheme   year
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;
@@ -198,12 +153,6 @@ age_group</code></pre>
 <h2>5. What is the probability a randomly selected customer?</h2>
 <div id="a.-is-in-the-19---25-age-group" class="section level3">
 <h3>a. Is in the 19 - 25 age group?</h3>
-<pre class="r"><code>InAgeGroup &lt;- age_group %&gt;%
-  count(AgeGroup) %&gt;%
-  mutate(prob = n/sum(n)) %&gt;%
-  filter(AgeGroup == &#39;19 - 25&#39;)
-
-InAgeGroup</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##   AgeGroup     n  prob
 ##   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
@@ -212,31 +161,13 @@ InAgeGroup</code></pre>
 </div>
 <div id="b.-is-in-the-19---25-age-group-and-purchased-a-duplo-theme-set" class="section level3">
 <h3>b. Is in the 19 - 25 age group and purchased a Duplo theme set?</h3>
-<pre class="r"><code>DuploTheme &lt;- age_group %&gt;%
-  filter(AgeGroup == &#39;19 - 25&#39;) %&gt;%
-  count(theme) %&gt;%
-  mutate(prob = n/sum(n)) %&gt;%
-  filter(theme == &#39;Duplo&#39;)
-
-DuploTheme</code></pre>
-<pre><code>## # A tibble: 1 x 3
-##   theme     n   prob
-##   &lt;chr&gt; &lt;int&gt;  &lt;dbl&gt;
-## 1 Duplo     9 0.0698</code></pre>
-<pre class="r"><code>df &lt;- data.frame(InAgeGroup, DuploTheme)
-df</code></pre>
-<pre><code>##   AgeGroup   n      prob theme n.1     prob.1
-## 1  19 - 25 129 0.2080645 Duplo   9 0.06976744</code></pre>
+<pre><code>##   AgeGroup   n      prob theme n       prob
+## 1  19 - 25 129 0.2080645 Duplo 9 0.06976744</code></pre>
+<pre><code>## [1] 0.01451613</code></pre>
+<p>The probability of a customer being in the 19 - 25 years age range AND purchased a Duplo themed set is 1.45%.</p>
 </div>
 <div id="c.-is-in-the-19---25-age-group-given-they-purchased-a-duplo-theme-set" class="section level3">
 <h3>c. Is in the 19 - 25 age group given they purchased a Duplo theme set?</h3>
-<pre class="r"><code>DuploTheme2 &lt;- age_group %&gt;%
-  filter(theme == &#39;Duplo&#39;) %&gt;%
-  count(AgeGroup) %&gt;%
-  mutate(prob = n/sum(n)) %&gt;%
-  filter(AgeGroup == &#39;19 - 25&#39;)
-
-DuploTheme2</code></pre>
 <pre><code>## # A tibble: 1 x 3
 ##   AgeGroup     n  prob
 ##   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
@@ -246,11 +177,6 @@ DuploTheme2</code></pre>
 </div>
 <div id="which-age-group-has-purchased-the-largest-number-of-lego-sets-how-many-did-they-purchase" class="section level2">
 <h2>6. Which age group has purchased the largest number of lego sets? How many did they purchase?</h2>
-<pre class="r"><code>MostLego &lt;- age_group %&gt;%
-  group_by(AgeGroup) %&gt;%
-  summarise(quantity = sum(quantity))
-
-MostLego</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   AgeGroup     quantity
 ##   &lt;chr&gt;           &lt;dbl&gt;
@@ -263,11 +189,6 @@ MostLego</code></pre>
 </div>
 <div id="which-age-group-has-spent-the-most-money-on-legos-how-much-did-they-spend" class="section level2">
 <h2>7. Which age group has spent the most money on legos? How much did they spend?</h2>
-<pre class="r"><code>MostMoney &lt;- age_group %&gt;%
-  group_by(AgeGroup) %&gt;%
-  summarise(us_price = sum(us_price))
-
-MostMoney</code></pre>
 <pre><code>## # A tibble: 5 x 2
 ##   AgeGroup     us_price
 ##   &lt;chr&gt;           &lt;dbl&gt;
@@ -280,20 +201,6 @@ MostMoney</code></pre>
 </div>
 <div id="custom-question-what-is-the-average-sale-price-by-age-group" class="section level2">
 <h2>8. Custom question: What is the average sale price by age group?</h2>
-<pre class="r"><code>AverageSale &lt;- age_group %&gt;%
-  group_by(AgeGroup) %&gt;%
-  summarise(us_price = mean(us_price))
-
-AverageSale</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   AgeGroup     us_price
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 18 and under     21.4
-## 2 19 - 25          28.1
-## 3 26 - 35          28.7
-## 4 36 - 50          30.7
-## 5 51 and over      29.6</code></pre>
-<pre class="r"><code>ggplot(AverageSale, aes(x=AgeGroup, y=us_price)) + geom_col() +labs(x = &quot;Age Group&quot;, y = &quot;Average Sale Price&quot;, title= &quot;Average Sale Price by Age Group&quot;)</code></pre>
 <p><img src="/2021/06/03/a03/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 This visualization shows that not only did the 36 - 50 year olds spend the most money total on lego, they also had the highest average spend per transaction. It can also be noted that the 51 and over group had the second highest average spend per transaction, but was not the second highest spender overall.</p>
 </div>
@@ -305,25 +212,10 @@ This visualization shows that not only did the 36 - 50 year olds spend the most 
 <li>The background color is now grey with white lines</li>
 <li>The legend has been moved to the bottom</li>
 </ul>
-<pre class="r"><code>AverageSale &lt;- age_group %&gt;%
-  group_by(AgeGroup) %&gt;%
-  summarise(us_price = mean(us_price))
-
-AverageSale</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   AgeGroup     us_price
-##   &lt;chr&gt;           &lt;dbl&gt;
-## 1 18 and under     21.4
-## 2 19 - 25          28.1
-## 3 26 - 35          28.7
-## 4 36 - 50          30.7
-## 5 51 and over      29.6</code></pre>
-<pre class="r"><code>ggplot(AverageSale, aes(x=AgeGroup, y=us_price, fill=AgeGroup)) + 
-  geom_col() +
-  labs(x = &quot;Age Group&quot;, y = &quot;Average Sale Price&quot;, title= &quot;Average Sale Price by Age Group&quot;) +
-  theme_grey() +
-  theme(legend.position = &quot;bottom&quot;)</code></pre>
-<p><img src="/2021/06/03/a03/index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="/2021/06/03/a03/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+## Discussion</p>
+<p>This assignment was a great opportunity to practice newly learned skills in R Studio. It tested our abilities in extracting relevant data, and grouping variables as needed to answer the above questions. There were a few challenges encountered when attempting to extract specific data to calculate the probability questions especially, but overall, the assignment was the right amount of challenging to test our skills.</p>
+<p>The analysis of the data set provides insight into the most popular lego sets, common ages of those purchasing the lego set, and how much money is spent overall on lego in the year 2018.</p>
 </div>
 
     </div>
