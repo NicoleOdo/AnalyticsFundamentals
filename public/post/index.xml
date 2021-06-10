@@ -6,7 +6,26 @@
     <description>Recent content in Posts on NicoleOdo - Fundamentals of Analytics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A04: Shiny App</title>
+      <link>/2021/06/10/a04-shiny-app/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/10/a04-shiny-app/</guid>
+      <description>  Level 1 Math Test Results Obtained in New York State This interactive visualization allows us to explore the New York State Mathematics Tests results from years 2006 to 2011. Here we are specifically interested in understanding the percent of students that obtained a Level 1 test result, and further explore the results by observing by grade level, year and category of student.
+  </description>
+    </item>
+    
+    <item>
+      <title>A04: Shiny App vs</title>
+      <link>/2021/06/10/a04-shiny-app-vs/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/10/a04-shiny-app-vs/</guid>
+      <description>  Level 1 Math Test Results Obtained in New York State  </description>
+    </item>
+    
     <item>
       <title>2021-06-06</title>
       <link>/2021/06/08/2021-06-06/</link>
@@ -14,6 +33,15 @@
       
       <guid>/2021/06/08/2021-06-06/</guid>
       <description>  Covid Speeches of UK and Scotland library(shiny) &amp;lt;iframe height=&amp;quot;800&amp;quot; width=&amp;quot;100%&amp;quot; frameborder=&amp;quot;no&amp;quot; src=&amp;quot;https://nicoleodo.shinyapps.io/AnalyticsFundamentals/&amp;quot;&amp;gt; &amp;lt;/iframe&amp;gt;  </description>
+    </item>
+    
+    <item>
+      <title>2021-06-08 Exercise 1</title>
+      <link>/2021/06/08/exercise-1/</link>
+      <pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/08/exercise-1/</guid>
+      <description># load libraries library(shiny) library(tidyverse)  ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.1.2 ✓ dplyr 1.0.6 ## ✓ tidyr 1.1.3 ✓ stringr 1.4.0 ## ✓ readr 1.4.0 ✓ forcats 0.5.1 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag() library(tidytext) library(glue)  ## ## Attaching package: &amp;#39;glue&amp;#39; ## The following object is masked from &amp;#39;package:dplyr&amp;#39;: ## ## collapse library(plotly) ## ## Attaching package: &amp;#39;plotly&amp;#39; ## The following object is masked from &amp;#39;package:ggplot2&amp;#39;: ## ## last_plot ## The following object is masked from &amp;#39;package:stats&amp;#39;: ## ## filter ## The following object is masked from &amp;#39;package:graphics&amp;#39;: ## ## layout library(shiny) #read data covid_speeches_words &amp;lt;- read_rds(&amp;quot;covid-speeches-words.</description>
     </item>
     
     <item>

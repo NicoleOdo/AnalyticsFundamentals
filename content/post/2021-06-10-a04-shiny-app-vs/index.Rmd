@@ -6,13 +6,6 @@ slug: a04-shiny-app-vs
 categories:
   - shiny
 tags: []
-runtime: shiny
-output: html_document
 ---
 
 ## Level 1 Math Test Results Obtained in New York State
-
-This interactive app allows us to explore the New York State Mathematics Tests results from years 2006 to 2011. Here we are specifically interested in understanding the percent of students that obtained a Level 1 test result, and further explore the results by observing by grade level, year and category of student.
-
-<iframesrc="https://nicoleodo.shinyapps.io/AnalyticsFundamentals/?_ga=2.152711545.1917704939.1623348323-218087375.1623160090" height="800" width="100%" frameborder="no"></iframe>
-

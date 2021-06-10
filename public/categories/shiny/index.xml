@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shiny on NicoleOdo - Fundamentals of Analytics</title>
+    <link>/categories/shiny/</link>
+    <description>Recent content in shiny on NicoleOdo - Fundamentals of Analytics</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/shiny/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A04: Shiny App</title>
+      <link>/2021/06/10/a04-shiny-app/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/10/a04-shiny-app/</guid>
+      <description>  Level 1 Math Test Results Obtained in New York State This interactive visualization allows us to explore the New York State Mathematics Tests results from years 2006 to 2011. Here we are specifically interested in understanding the percent of students that obtained a Level 1 test result, and further explore the results by observing by grade level, year and category of student.
+  </description>
+    </item>
+    
+    <item>
+      <title>A04: Shiny App vs</title>
+      <link>/2021/06/10/a04-shiny-app-vs/</link>
+      <pubDate>Thu, 10 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/10/a04-shiny-app-vs/</guid>
+      <description>  Level 1 Math Test Results Obtained in New York State  </description>
+    </item>
+    
+  </channel>
+</rss>

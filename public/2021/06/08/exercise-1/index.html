@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.83.1" />
+
+
+<title>2021-06-08 Exercise 1 - NicoleOdo - Fundamentals of Analytics</title>
+<meta property="og:title" content="2021-06-08 Exercise 1 - NicoleOdo - Fundamentals of Analytics">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/Photo.jpeg"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/nicoleodo">GitHub</a></li>
+    
+    <li><a href="https://www.linkedin.com/in/nicole-odo-a86a07123/?originalSubdomain=ca">LinkedIn</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">2021-06-08 Exercise 1</h1>
+
+    
+    <span class="article-date">2021-06-08</span>
+    
+
+    <div class="article-content">
+      
+<script src="/2021/06/08/exercise-1/index_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code># load libraries library(shiny)
+library(tidyverse) </code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.1.2     ✓ dplyr   1.0.6
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(tidytext) 
+library(glue) </code></pre>
+<pre><code>## 
+## Attaching package: &#39;glue&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     collapse</code></pre>
+<pre class="r"><code>library(plotly)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre class="r"><code>library(shiny)
+
+#read data
+covid_speeches_words &lt;- read_rds(&quot;covid-speeches-words.rds&quot;)
+
+# Transform Data
+csw &lt;- covid_speeches_words %&gt;%
+  filter(origin == &quot;Scotland&quot;) %&gt;%
+  anti_join(stop_words) %&gt;%
+  filter(word != &quot;positive&quot;) %&gt;% 
+  inner_join(get_sentiments(&quot;bing&quot;), by = &quot;word&quot;) %&gt;% 
+  count(date, sentiment) %&gt;%
+  pivot_wider(names_from = sentiment, values_from = n) %&gt;%
+  mutate(sentiment = positive - negative)</code></pre>
+<pre><code>## Joining, by = &quot;word&quot;</code></pre>
+<pre class="r"><code># Plot Sentiment Chart
+# csw %&gt;%
+  # ggplot(aes(x = date, y = sentiment)) +
+  # geom_line(color = &quot;gray&quot;) +
+  # geom_point(aes(color = sentiment &gt; 0), size = 2) +
+  # geom_hline(yintercept = 0, linetype = &quot;dashed&quot;, color = &quot;lightgray&quot;) +
+  # labs(title = glue(&quot;Daily sentiment score, Scotland COVID-19
+                    # briefings&quot;),
+       # x = &quot;Date&quot;, y = &quot;Sentiment score (positive - negative)&quot;) +
+ # theme_minimal() + 
+#  theme(legend.position = &quot;none&quot;)
+
+# ui User Interface 
+ui &lt;- fluidPage(
+sidebarLayout( sidebarPanel(), mainPanel()
+))
+
+# Server
+server &lt;- function(input, output) {
+}
+
+# Shiny App ShinyApp()
+shinyApp(ui = ui, server = server)</code></pre>
+<p><div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div></p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+

@@ -5,6 +5,7 @@ date: '2021-06-08'
 slug: exercise-1
 categories: []
 tags: []
+runtime: shiny
 ---
 
 ```{r}
@@ -13,6 +14,7 @@ library(tidyverse)
 library(tidytext) 
 library(glue) 
 library(plotly)
+library(shiny)
 
 #read data
 covid_speeches_words <- read_rds("covid-speeches-words.rds")
