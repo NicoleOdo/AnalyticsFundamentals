@@ -1,0 +1,22 @@
+---
+title: '2021-06-06'
+author: R package build
+date: '2021-06-08'
+slug: '2021-06-06'
+categories: []
+tags: []
+runtime: shiny
+output: html_document
+---
+
+## Covid Speeches of UK and Scotland
+
+```{r}
+library(shiny)
+```
+
+```
+<iframe height="800" width="100%" frameborder="no" src="https://nicoleodo.shinyapps.io/AnalyticsFundamentals/"> </iframe>
+```
+
+
