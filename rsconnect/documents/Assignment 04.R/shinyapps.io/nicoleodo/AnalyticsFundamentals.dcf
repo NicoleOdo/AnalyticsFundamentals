@@ -5,10 +5,10 @@ account: nicoleodo
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4243447
-bundleId: 4703041
+bundleId: 4705240
 url: https://nicoleodo.shinyapps.io/AnalyticsFundamentals/
-when: 1623364265.09197
-lastSyncTime: 1623364265.09201
+when: 1623415257.10185
+lastSyncTime: 1623415257.10192
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: .Rapp.history|.RData|.Rprofile|config.yaml|covid-speeches-words.rds|Examples.R|index.Rmd|layouts/shortcodes/blogdown/postref.html|MathTestResults.R|netlify.toml|R/build.R|R/build2.R|ShinyApp1.R|static/.gitkeep|Test.R
