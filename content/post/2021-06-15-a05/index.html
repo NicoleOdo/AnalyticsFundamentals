@@ -1,0 +1,94 @@
+---
+title: A05
+author: R package build
+date: '2021-06-15'
+slug: a05
+categories: []
+tags: []
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="import-libraries" class="section level2">
+<h2>Import Libraries</h2>
+</div>
+<div id="data-class-sizes" class="section level2">
+<h2>Data: Class Sizes</h2>
+<pre class="r"><code>ClassSize &lt;- read_csv(&quot;Class Size District Level Summary.csv&quot;, na = c(&quot;n/a&quot;, &quot;&quot;, &quot;NA&quot;)) %&gt;%
+   rename(
+    NumberOfStudents = &quot;NUMBER OF STUDENTS / SEATS FILLED&quot;,
+    AvgClassSize = &quot;AVERAGE CLASS SIZE&quot;
+   )
+
+ClassSize</code></pre>
+<pre><code>## # A tibble: 3,335 x 10
+##      CSD BORO  GRADE `PROGRAM TYPE` `CORE SUBJECT (MS COR… `CORE COURSE (MS COR…
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;                  &lt;chr&gt;                
+##  1     1 M     0K    GEN ED         -                      -                    
+##  2     1 M     0K    CTT            -                      -                    
+##  3     1 M     1     GEN ED         -                      -                    
+##  4     1 M     1     CTT            -                      -                    
+##  5     1 M     1     G&amp;T            -                      -                    
+##  6     1 M     2     GEN ED         -                      -                    
+##  7     1 M     2     CTT            -                      -                    
+##  8     1 M     3     GEN ED         -                      -                    
+##  9     1 M     3     CTT            -                      -                    
+## 10     1 M     4     GEN ED         -                      -                    
+## # … with 3,325 more rows, and 4 more variables:
+## #   SERVICE CATEGORY(K-9* ONLY) &lt;chr&gt;, NumberOfStudents &lt;dbl&gt;,
+## #   NUMBER OF SECTIONS &lt;dbl&gt;, AvgClassSize &lt;dbl&gt;</code></pre>
+<ul>
+<li>Number of observations: 3335</li>
+<li>Number of variables: 10</li>
+</ul>
+<hr />
+</div>
+<div id="goal-predict-average-class-size-based-on-total-number-of-students-in-school" class="section level2">
+<h2>Goal: Predict average class size based on total number of students in school</h2>
+<p><span class="math display">\[\widehat{Average Class Size}_{i} = \beta_0 + \beta_1 \times Total Students In School_{i}\]</span></p>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/students-classsize-plot-1.png" width="672" /></p>
+</div>
+<div id="fit-model-estimate-parameters" class="section level2">
+<h2>Fit model &amp; estimate parameters</h2>
+<pre class="r"><code>linear_reg() %&gt;%
+  set_engine(&quot;lm&quot;) %&gt;%
+  fit(AvgClassSize ~ NumberOfStudents, data = ClassSize) %&gt;%
+  tidy()</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   term             estimate std.error statistic  p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)      21.1     0.128         165.  0       
+## 2 NumberOfStudents  0.00146 0.0000782      18.7 4.15e-74</code></pre>
+</div>
+<div id="a-closer-look-at-model-output" class="section level2">
+<h2>A closer look at model output</h2>
+<pre><code>## # A tibble: 2 x 5
+##   term             estimate std.error statistic  p.value
+##   &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)      21.1     0.128         165.  0       
+## 2 NumberOfStudents  0.00146 0.0000782      18.7 4.15e-74</code></pre>
+<p>.large[
+<span class="math display">\[\widehat{AverageClassSize}_{i} = 21.101 + 0.00146 \times TotalStudentsInSchool_{i}\]</span>]</p>
+<hr />
+</div>
+<div id="slope-and-intercept" class="section level2">
+<h2>Slope and intercept</h2>
+<p>.large[
+<span class="math display">\[\widehat{AverageClassSize}_{i} = 21.101 + 0.00146 \times TotalStudentsInSchool_{i}\]</span>]</p>
+<p>–</p>
+<ul>
+<li><strong>Slope:</strong> For each additional student added to the total students in the school, the average class size is expected to increase by 0.00146 students.</li>
+</ul>
+<table style="width:4%;">
+<colgroup>
+<col width="4%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>- <strong>Intercept:</strong> Schools that have zero students are expected to have an average of 21.101 students in a class. This doesn’t make sense, as if there were no students in a school, there would be no students to host in a class.</td>
+</tr>
+</tbody>
+</table>
+</div>

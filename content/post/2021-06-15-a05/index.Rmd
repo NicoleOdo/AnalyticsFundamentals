@@ -1,0 +1,86 @@
+---
+title: A05
+author: R package build
+date: '2021-06-15'
+slug: a05
+categories: []
+tags: []
+---
+## Import Libraries
+```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidymodels)
+library(ggtext)
+library(knitr)
+library(kableExtra)
+set.seed(1234)
+options(dplyr.print_min = 10, dplyr.print_max = 6)
+```
+
+## Data: Class Sizes
+```{r message = FALSE}
+ClassSize <- read_csv("Class Size District Level Summary.csv", na = c("n/a", "", "NA")) %>%
+   rename(
+    NumberOfStudents = "NUMBER OF STUDENTS / SEATS FILLED",
+    AvgClassSize = "AVERAGE CLASS SIZE"
+   )
+
+ClassSize
+```
+
+
+- Number of observations: `r nrow(ClassSize)`
+- Number of variables: `r ncol(ClassSize)`
+
+---
+
+## Goal: Predict average class size based on total number of students in school
+
+$$\widehat{Average Class Size}_{i} = \beta_0 + \beta_1 \times Total Students In School_{i}$$
+
+
+```{r students-classsize-plot, echo=FALSE, warning=FALSE}
+ggplot(ClassSize, aes(x = NumberOfStudents, y = AvgClassSize)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "#8E2C90") + 
+  labs(
+    title = "Average class size versus number of students in school",
+    subtitle = "City of New York 2010-2011",
+    x = "Number of students in school",
+    y = "Average class size"
+  )
+```
+
+## Fit model & estimate parameters
+```{r fit-model}
+linear_reg() %>%
+  set_engine("lm") %>%
+  fit(AvgClassSize ~ NumberOfStudents, data = ClassSize) %>%
+  tidy()
+```
+
+## A closer look at model output
+
+```{r ref.label="fit-model", echo=FALSE}
+```
+
+.large[
+$$\widehat{AverageClassSize}_{i} = 21.101 + 0.00146 \times TotalStudentsInSchool_{i}$$
+]
+
+---
+
+## Slope and intercept
+
+.large[
+$$\widehat{AverageClassSize}_{i} = 21.101 + 0.00146 \times TotalStudentsInSchool_{i}$$
+]
+
+--
+
+- **Slope:** For each additional student added to the total students in the school, the average class size is expected to increase by 0.00146 students.
+
+--
+- **Intercept:** Schools that have zero students are expected to have an average of 21.101 students in a class. This doesn't make sense, as if there were no students in a school, there would be no students to host in a class.
+
+---
