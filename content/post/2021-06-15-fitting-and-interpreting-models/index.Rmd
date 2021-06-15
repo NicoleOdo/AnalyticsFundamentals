@@ -130,12 +130,10 @@ $$\widehat{height}_{i} = 3.62 + 0.781 \times width_{i}$$
 Remember this when interpreting model coefficients
 
 ```{r echo=FALSE, out.width="90%"}
-knitr::include_graphics("img/cell_phones.png")
+knitr::include_graphics("cell_phones.png")
 ```
 
-.footnote[
-Source: XKCD, [Cell phones](https://xkcd.com/925/)
-]
+
 
 ---
 
@@ -353,5 +351,5 @@ pp %>%
 - **German school (G)** paintings are expected, on average, to be **1.65 inches taller** than *Austrian school* paintings.
 - **Italian school (I)** paintings are expected, on average, to be **10.3 inches taller** than *Austrian school* paintings.
 - **Spanish school (S)** paintings are expected, on average, to be **30.4 inches taller** than *Austrian school* paintings.
-- Paintings whose school is **unknown (X)** are expected, on average, to be **2.87 inches taller** than *Austrian school* paintings.
+- Paintings whose school is **unknown (X)** are expected, on average, to be **2'/.87 inches taller** than *Austrian school* paintings.
 ]
