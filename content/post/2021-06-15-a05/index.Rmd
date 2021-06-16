@@ -22,7 +22,8 @@ options(dplyr.print_min = 10, dplyr.print_max = 6)
 ClassSize <- read_csv("Class Size District Level Summary.csv", na = c("n/a", "", "NA")) %>%
    rename(
     NumberOfStudents = "NUMBER OF STUDENTS / SEATS FILLED",
-    AvgClassSize = "AVERAGE CLASS SIZE"
+    AvgClassSize = "AVERAGE CLASS SIZE",
+    NumberSections = "NUMBER OF SECTIONS"
    )
 
 ClassSize
@@ -84,3 +85,236 @@ $$\widehat{AverageClassSize}_{i} = 21.101 + 0.00146 \times TotalStudentsInSchool
 - **Intercept:** Schools that have zero students are expected to have an average of 21.101 students in a class. This doesn't make sense, as if there were no students in a school, there would be no students to host in a class.
 
 ---
+
+## Least squares regression
+
+- The regression line minimizes the sum of squared residuals.
+
+--
+- If $e_i = y_i - \hat{y}_i$, then, the regression line minimizes 
+$\sum_{i = 1}^n e_i^2$.
+
+---
+
+## Visualizing residuals
+
+```{r vis-res-1, echo=FALSE, out.width="70%"}
+cs_ss_fit <- linear_reg() %>%
+  set_engine("lm") %>%
+  fit(AvgClassSize ~ NumberOfStudents, data = ClassSize)
+cs_ss_fit_tidy <- tidy(cs_ss_fit$fit) 
+cs_ss_fit_aug  <- augment(cs_ss_fit$fit) %>%
+  mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
+p <- ggplot(data = cs_ss_fit_aug, 
+            aes(x = NumberOfStudents, y = AvgClassSize)) +
+  geom_point(alpha = 0.2) + 
+  labs(
+    title = "Average class size versus number of students in school",
+    subtitle = "Just the data",
+    x = "Number of students in school",
+    y = "Average class size"
+    ) +
+  coord_cartesian(xlim = c(0, 15000), ylim = c(0, 50)) +
+  theme(plot.subtitle = element_text(colour = "#E48957", face = "bold", size = rel(1.5)))
+p
+```
+
+## Visualizing residuals (cont.)
+
+```{r vis-res-2, echo=FALSE, out.width="70%"}
+p <- p + 
+  geom_smooth(method = "lm", color = "#8E2C90", se = FALSE) +
+  geom_point(mapping = aes(y = .fitted), color = "#E48957") +
+  labs(subtitle = "Data + least squares line")
+p
+```
+
+## Visualizing residuals (cont.)
+
+```{r vis-res-3, echo = FALSE, out.width="70%"}
+p + 
+  geom_segment(mapping = aes(xend = NumberOfStudents, yend = .fitted), color = "#E48957", alpha = 0.4) +
+  labs(subtitle = "Data + least squares line + residuals")
+```
+
+## Properties of least squares regression
+
+- The regression line goes through the center of mass point, the coordinates corresponding to average $x$ and average $y$, $(\bar{x}, \bar{y})$:  
+
+$$\bar{y} = b_0 + b_1 \bar{x} ~ \rightarrow ~ b_0 = \bar{y} - b_1 \bar{x}$$
+
+--
+- The slope has the same sign as the correlation coefficient: $b_1 = r \frac{s_y}{s_x}$
+
+--
+- The sum of the residuals is zero: $\sum_{i = 1}^n e_i = 0$
+
+--
+- The residuals and $x$ values are uncorrelated
+
+---
+
+## Categorical predictor with 2 levels
+
+## Relationship between average class size and district
+
+.pull-left-narrow[
+.small[
+```{r echo=FALSE}
+ClassSize %>% 
+  select(CSD, AvgClassSize) %>%
+  print(n = 20)
+```
+
+```{r cs-ns-fit}
+linear_reg() %>%
+  set_engine("lm") %>%
+  fit(AvgClassSize ~ factor(CSD), data = ClassSize) %>%
+  tidy()
+```
+## Predictor for district 2
+
+$$\widehat{AvgClassSize} = 20.3 + 1.53~(CSD2)$$
+
+- **Slope:** Classes in district 2 are expected, on average, to have 1.53 students more than classes in the baseline district 1.
+    
+- **Intercept:** Class sizes in district 1 are expected, on average, to have 20.3 students.
+
+---
+- When the categorical explanatory variable has many levels, they're encoded to **dummy variables**
+- Each coefficient describes the expected difference between class sizes in that particular district compared to the baseline level
+
+## Categorical predictor with 3+ levels
+
+.pull-left-wide[
+```{r echo=FALSE}
+dummy_df <- ClassSize %>% 
+  select(CSD) %>% 
+  group_by(CSD) %>% 
+  sample_n(1) %>%
+  mutate(
+    '1'   = as.integer(ifelse(CSD == "1", 1L, 0)),
+    '2'    = as.integer(ifelse(CSD == "2", 1L, 0)),
+    '3'    = as.integer(ifelse(CSD == "3", 1L, 0)),
+    '4'    = as.integer(ifelse(CSD == "4", 1L, 0)),
+    '5'    = as.integer(ifelse(CSD == "5", 1L, 0)),
+    '6'    = as.integer(ifelse(CSD == "6", 1L, 0)),
+    '7'    = as.integer(ifelse(CSD == "7", 1L, 0)),
+    '8'    = as.integer(ifelse(CSD == "8", 1L, 0)),
+    '9'    = as.integer(ifelse(CSD == "9", 1L, 0)),
+    '10'    = as.integer(ifelse(CSD == "10", 1L, 0)),
+    '11'    = as.integer(ifelse(CSD == "11", 1L, 0)),
+    '12'    = as.integer(ifelse(CSD == "12", 1L, 0)),
+    '13'    = as.integer(ifelse(CSD == "13", 1L, 0)),
+    '14'    = as.integer(ifelse(CSD == "14", 1L, 0)),
+    '15'    = as.integer(ifelse(CSD == "15", 1L, 0)),
+    '16'    = as.integer(ifelse(CSD == "16", 1L, 0)),
+    '17'    = as.integer(ifelse(CSD == "17", 1L, 0)),
+    '18'    = as.integer(ifelse(CSD == "18", 1L, 0)),
+    '19'    = as.integer(ifelse(CSD == "19", 1L, 0)),
+    '20'    = as.integer(ifelse(CSD == "20", 1L, 0)),
+    '21'    = as.integer(ifelse(CSD == "21", 1L, 0)),
+    '22'    = as.integer(ifelse(CSD == "22", 1L, 0)),
+    '23'    = as.integer(ifelse(CSD == "23", 1L, 0)),
+    '24'    = as.integer(ifelse(CSD == "24", 1L, 0)),
+    '25'    = as.integer(ifelse(CSD == "25", 1L, 0)),
+    '26'    = as.integer(ifelse(CSD == "26", 1L, 0)),
+    '27'    = as.integer(ifelse(CSD == "27", 1L, 0)),
+    '28'    = as.integer(ifelse(CSD == "28", 1L, 0)),
+    '29'    = as.integer(ifelse(CSD == "29", 1L, 0)),
+    '30'    = as.integer(ifelse(CSD == "30", 1L, 0)),
+    '31'    = as.integer(ifelse(CSD == "31", 1L, 0)),
+    '32'    = as.integer(ifelse(CSD == "32", 1L, 0))
+    
+  )
+dummy_df %>%
+  kable(align = "lcccccc") %>%
+  kable_styling() %>%
+  column_spec(2, width = "10em", background = spec_color(dummy_df$'1'[1:32], end = 0.8), color = "white") %>%
+  column_spec(3, width = "10em", background = spec_color(dummy_df$'2'[1:32], end = 0.8), color = "white") %>%
+  column_spec(4, width = "10em", background = spec_color(dummy_df$'3'[1:32], end = 0.8), color = "white") %>%
+  column_spec(5, width = "10em", background = spec_color(dummy_df$'4'[1:32], end = 0.8), color = "white") %>%
+  column_spec(6, width = "10em", background = spec_color(dummy_df$'5'[1:32], end = 0.8), color = "white") %>%
+  column_spec(7, width = "10em", background = spec_color(dummy_df$'6'[1:32], end = 0.8), color = "white") %>%
+  column_spec(8, width = "10em", background = spec_color(dummy_df$'7'[1:32], end = 0.8), color = "white") %>%
+  column_spec(9, width = "10em", background = spec_color(dummy_df$'8'[1:32], end = 0.8), color = "white") %>%
+  column_spec(10, width = "10em", background = spec_color(dummy_df$'9'[1:32], end = 0.8), color = "white") %>%
+  column_spec(11, width = "10em", background = spec_color(dummy_df$'10'[1:32], end = 0.8), color = "white") %>%
+  column_spec(12, width = "10em", background = spec_color(dummy_df$'11'[1:32], end = 0.8), color = "white") %>%
+  column_spec(13, width = "10em", background = spec_color(dummy_df$'12'[1:32], end = 0.8), color = "white") %>%
+  column_spec(14, width = "10em", background = spec_color(dummy_df$'13'[1:32], end = 0.8), color = "white") %>%
+  column_spec(15, width = "10em", background = spec_color(dummy_df$'14'[1:32], end = 0.8), color = "white") %>%
+  column_spec(16, width = "10em", background = spec_color(dummy_df$'15'[1:32], end = 0.8), color = "white") %>%
+  column_spec(17, width = "10em", background = spec_color(dummy_df$'16'[1:32], end = 0.8), color = "white") %>%
+  column_spec(18, width = "10em", background = spec_color(dummy_df$'17'[1:32], end = 0.8), color = "white") %>%
+  column_spec(19, width = "10em", background = spec_color(dummy_df$'18'[1:32], end = 0.8), color = "white") %>%
+  column_spec(20, width = "10em", background = spec_color(dummy_df$'19'[1:32], end = 0.8), color = "white") %>%
+  column_spec(21, width = "10em", background = spec_color(dummy_df$'20'[1:32], end = 0.8), color = "white") %>%
+  column_spec(22, width = "10em", background = spec_color(dummy_df$'21'[1:32], end = 0.8), color = "white") %>%
+  column_spec(23, width = "10em", background = spec_color(dummy_df$'22'[1:32], end = 0.8), color = "white") %>%
+  column_spec(24, width = "10em", background = spec_color(dummy_df$'23'[1:32], end = 0.8), color = "white") %>%
+  column_spec(25, width = "10em", background = spec_color(dummy_df$'24'[1:32], end = 0.8), color = "white") %>%
+  column_spec(26, width = "10em", background = spec_color(dummy_df$'25'[1:32], end = 0.8), color = "white") %>%
+  column_spec(27, width = "10em", background = spec_color(dummy_df$'26'[1:32], end = 0.8), color = "white") %>%
+  column_spec(28, width = "10em", background = spec_color(dummy_df$'27'[1:32], end = 0.8), color = "white") %>%
+  column_spec(29, width = "10em", background = spec_color(dummy_df$'28'[1:32], end = 0.8), color = "white") %>%
+  column_spec(30, width = "10em", background = spec_color(dummy_df$'29'[1:32], end = 0.8), color = "white") %>%
+  column_spec(31, width = "10em", background = spec_color(dummy_df$'30'[1:32], end = 0.8), color = "white") %>%
+  column_spec(32, width = "10em", background = spec_color(dummy_df$'31'[1:32], end = 0.8), color = "white")
+```
+
+]
+.pull-right-narrow[
+.small[
+```{r echo=FALSE}
+ClassSize %>% 
+  select(CSD, AvgClassSize,NumberOfStudents) %>%
+  print(n = 20)
+```
+
+]
+]
+
+---
+
+## Relationship between class size and district
+
+### Rounding down for all decimal numbers as it's not possible to have partial students
+
+.small[
+```{r ref.label="cs-csd", echo=FALSE}
+```
+
+- **District 1** class sizes are expected, on average, to have **20** students.
+- **District 2** class sizes are expected, on average, to have **1 more** student than *District 1*.
+- **District 3** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 4** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 5** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 6** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 7** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 8** class sizes are expected, on average, to have **1 more** student than *District 1*.
+- **District 9** class sizes are expected, on average, to have **1 more** student than *District 1*.
+- **District 10** class sizes are expected, on average, to have **1 more** student than *District 1*.
+- **District 11** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 12** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 13** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 14** class sizes are expected, on average, to have **1 more** student than *District 1*.
+- **District 15** class sizes are expected, on average, to have **1 more** student than *District 1*.
+- **District 16** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 17** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 18** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 19** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 20** class sizes are expected, on average, to have **3 more** students than *District 1*.
+- **District 21** class sizes are expected, on average, to have **3 more** students than *District 1*.
+- **District 22** class sizes are expected, on average, to have **4 more** students than *District 1*.
+- **District 23** class sizes are expected, on average, to have **no more** students than *District 1*.
+- **District 24** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 25** class sizes are expected, on average, to have **3 more** students than *District 1*.
+- **District 26** class sizes are expected, on average, to have **4 more** students than *District 1*.
+- **District 27** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 28** class sizes are expected, on average, to have **3 more** students than *District 1*.
+- **District 29** class sizes are expected, on average, to have **4 more** students than *District 1*.
+- **District 30** class sizes are expected, on average, to have **2 more** students than *District 1*.
+- **District 31** class sizes are expected, on average, to have **3 more** students than *District 1*.
+- **District 32** class sizes are expected, on average, to have **1 more** student than *District 1*.
+]
