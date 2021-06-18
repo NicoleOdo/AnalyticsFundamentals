@@ -1,0 +1,98 @@
+---
+title: A05 v3
+author: R package build
+date: '2021-06-17'
+slug: a05-v3
+categories: []
+tags: []
+---
+```{r message=FALSE, echo=FALSE}
+library(tidyverse)
+library(dplyr)
+
+WeatherData <- read_csv("weather.csv")
+``` 
+
+## Dataset: US Weather
+
+This dataset provides information on the weather throughout the United States in the year 2017. The data includes:
+
+* Weather Station ID
+* State
+* Latitude
+* Longitude
+* Elevation
+* Date
+* Minimum, Maximum and Average Temperatures
+* Average Daily Wind Speed
+* Direction of Fastest 5-sec Wind
+* Fastest 5-sec Wind Speed
+* Snowfall
+* Snow Depth
+* Precipitation
+
+## Initial Analysis Questions
+1. Is there a single state with the most extreme weather events?
+2. What is the coldest state?
+3. Which state has the most snowfall?
+4. Which state has the most precipitation?
+5. Is there any correlation between precipitation levels and snowfall levels?
+6. Which state has the fastest 5-sec wind speed?
+
+
+## Dataset Exploration
+
+### Data Entries by State
+
+We will first examine the quantities of data collected by state to investigate whether all states have similar amounts of data to work from, or if some states won't have enough data to draw conclusions with. 
+
+```{r message=FALSE, echo=FALSE}
+StateCount <- WeatherData %>%
+  group_by(state) %>%
+  count(state)
+
+ggplot(StateCount, aes(x = state, y = n)) + geom_point()
+```
+
+
+## Data Analysis
+
+### Coldest State
+
+#### Coldest Temperature Experienced in the US
+```{r}
+ColdestTemp <- WeatherData %>%
+  drop_na() %>%
+  group_by(state) %>%
+  summarize(MinTemp = min(TMIN)) %>%
+  arrange(MinTemp) %>% 
+  head(10)
+
+ggplot(ColdestTemp, aes(y = state, x = MinTemp, fill = state)) + geom_col()
+```
+
+
+#### Coldest State on Average
+```{r}
+ColdestAvg <- WeatherData %>%
+  drop_na() %>%
+  group_by(state) %>%
+  summarize(AverageTemperature = mean(TAVG)) %>%
+  arrange((AverageTemperature)) %>%
+  head(10)
+
+ColdestState <- WeatherData %>%
+  drop_na() %>%
+  filter(state == "AK")
+
+ggplot(ColdestState, aes(x = state, y = TAVG)) + geom_boxplot()
+```
+
+
+
+
+
+
+
+
+

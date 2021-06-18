@@ -1,0 +1,165 @@
+---
+title: A05 v2
+author: R package build
+date: '2021-06-17'
+slug: a05-v2
+categories: []
+tags: []
+---
+```{r message=FALSE, echo=FALSE}
+library(tidyverse)
+library(dplyr)
+
+WorkSafeNBData <- read_csv("WorkSafeNB Construction Data.csv")
+``` 
+
+## WorkSafe New Brunswick Construction Industry Claims Data
+
+### Dataset Overview
+
+This dataset contains incident claims data submitted to WorkSafeNB from the New Brunswick Construction Industry. The data was provided from the organization as a part of an ongoing research initiative exploring the safety benefits of applying Off-Site Construction methods to construction projects. While this dataset is not publicly posted, it has been provided to the University of New Brunswick for research purposes, and permission has been given for its' use and publication of any findings and conclusions due to the anonymity of the data provided.
+
+A glimpse of the dataset can be viewed below:
+
+```{r message=FALSE, echo=FALSE}
+glimpse(WorkSafeNBData)
+```
+
+This data set allows us to explore and better understand the:
+
+* Construction sector 
+* Claim types
+* Accident dates
+* Occupations of injured workers
+* Body parts injured
+* Nature of the injury
+* Event exposure that led to the injury
+* Injury source
+* Whether or not the injury was fatal. 
+
+The dataset provides claim data for the past 10 years, and this assignment will explore possible trends that have occured historically within the Construction Industry in New Brunswick.
+
+### Dataset Quality Issues
+
+The next thing that has been noted about the data is that when an incident is categorized as No Lost time (NLT), as opposed to Lost Time (LT), the claim is not coded. This means that the level of detail collected for this incident type is not the same, and provides us with less insight into what occurred. Below, the drop_na() function has been used to remove data that is incomplete. By doing that, the only data remaining is the lost time data. 
+
+The data collected for No Lost Time incidents includes only:
+
+* Sector and description
+* NAICS code and description
+* Claim type
+* Accident date and year
+* Part of body injured
+
+This will limit the analysis that can be executed on No Lost Time data.
+
+```{r message=FALSE, echo=FALSE}
+DropNA <- WorkSafeNBData %>%
+  drop_na() 
+
+DropNA
+```
+
+## Initial Analysis Questions
+
+1. What initial trends can be observed within the claims data?
+  * Total incidents per year
+  * Lost Time versus No Lost Time incidents per year
+2. What occupation experiences the most frequent injuries?
+  * Occupation with the most incidents
+  * Most common source of injury within the occupation
+3. What is the most common source of injury?
+  * Most common source of injury for the entire industry
+
+## Discoveries & Insights
+
+### Data Trends Analysis
+
+#### Claims Per Year
+
+The first aspect to explore when it comes to determining initial trends in the data is simply the frequency of claims reported over the past 10 years from the Construction industry.
+
+```{r message=FALSE, echo=FALSE}
+ClaimsPerYear <- WorkSafeNBData %>%
+  group_by(AccYr) %>%
+  count(Sector_desc)
+  
+ggplot(ClaimsPerYear, aes(x = AccYr, y = n)) + geom_col()
+```
+
+As we can see here, the frequency of incidents each year appears to be trending down, specifically over the last three years. This is positive news for the industry, as it means preventative measures when it comes to safety are working. However, there are still over 250 incidents that occured in 2020, so the industry as a whole still requires improvement to reach zero incidents.
+
+#### Lost Time vs. No Lost Time Incident Trends
+
+The summary above includes both Lost Time (LT) and No Lost Time (NLT) incidents combined. This leads to further questions of whether there are data trends based on claim type. Are lost time incidents (the more severe type of incident) also trending downwards?
+
+```{r}
+#ggplot(LTvsNLT, aes(x = AccYr, y = n, fill=Claim_Type)) + geom_col()
+```
+This plot highlights the fact that lost time incidents are typically accounting for more of the total claims than no lost time incidents each year.
+
+
+## Most Dangerous Occupations in Construction
+
+The organizations that make up the Construction Industry in New Brunswick are vast, therefore, the industry accounts for many different occupations within it. By nature, some occupations are more dangerous than others, and we would like to explore this further.
+
+```{r message=FALSE, echo=FALSE}
+DangerousOccupations <- WorkSafeNBData %>%
+  group_by(occupation_desc) %>%
+  count(Sector_desc) %>%
+  arrange(desc(n)) %>%
+  drop_na()
+
+DangerousOccupations
+```
+From the above table, we can see that Carpentry is the most dangerous occupation, followed by labour work,  electricians and finally, pipefitters. 
+
+### Most Dangerous Occupation: Carpentry
+
+We will start by investigating the trends of the top most dangerous occupation within the construction industry: Carpentry.
+
+```{r}
+CarpenterData <- WorkSafeNBData %>%
+  filter(occupation_desc == "CARPENTER/RELATED") %>%
+  group_by(AccYr) %>%
+  count(Claim_Type)
+
+ggplot(CarpenterData, aes(x=AccYr, y = n, color=Claim_Type)) + geom_line()
+```
+
+We can see here that yearly, the majority of injuries that occur within the carpentry occupation are lost time incidents, which are more severe than no lost time incidents. We will also investigate the most common source of injury within this occupation.
+
+
+### Most Common Source of Injury: Carpentry
+
+```{r}
+CarpenterInjury <- WorkSafeNBData %>%
+  filter(occupation_desc == "CARPENTER/RELATED") %>%
+  group_by(source_of_injury_desc) %>%
+  count(Claim_Type) %>%
+  arrange(desc(n)) %>%
+  head(10)
+
+CarpenterInjury
+```
+From this table we can see that the most common source of injuries for Carpenters within the Construction Industry is "Bodily Motion or Position of Injured, Ill Worker". This implies that perhaps the ergonomics of the carpentry trade should be investigated if bodily motions and positions are the root cause of most injuries sustained.
+
+```{r}
+ggplot(CarpenterInjury, aes(y=source_of_injury_desc, x=n, size=`n`)) +
+  geom_point()
+```
+## Most Common Source of Injury for Lost Time Incidents
+
+We'd like to understand what the most common source of injury is within the Construction Industry at large, as understanding the root causes of injuries can help us to conclude what types of opportunities Off-Site Construction methods can offer to improve safety performance in projects. We know that the most common source of injury for Carpenters is Bodily Motion or Position, but what about the rest of the trades?
+
+```{r}
+InjurySource <- WorkSafeNBData %>%
+  filter(Claim_Type == "LT") %>%
+  group_by(source_of_injury_desc) %>%
+  count(Claim_Type) %>%
+  arrange(desc(n)) %>%
+  head(10)
+
+InjurySource
+```
+Interestingly enough, the most common source of injury for Carpenters appears to be the most common source of injury across the board for all trades when it comes to Lost Time incidents. As mentioned earlier, the No Lost Time incidents are not typically coded, so we don't have much insight into the most common source of injury for those types of claims.

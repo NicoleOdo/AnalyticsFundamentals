@@ -1,0 +1,212 @@
+---
+title: A05 v2
+author: R package build
+date: '2021-06-17'
+slug: a05-v2
+categories: []
+tags: []
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="worksafe-new-brunswick-construction-industry-claims-data" class="section level2">
+<h2>WorkSafe New Brunswick Construction Industry Claims Data</h2>
+<div id="dataset-overview" class="section level3">
+<h3>Dataset Overview</h3>
+<p>This dataset contains incident claims data submitted to WorkSafeNB from the New Brunswick Construction Industry. The data was provided from the organization as a part of an ongoing research initiative exploring the safety benefits of applying Off-Site Construction methods to construction projects. While this dataset is not publicly posted, it has been provided to the University of New Brunswick for research purposes, and permission has been given for its’ use and publication of any findings and conclusions due to the anonymity of the data provided.</p>
+<p>A glimpse of the dataset can be viewed below:</p>
+<pre><code>## Rows: 7,212
+## Columns: 18
+## $ Sector                &lt;dbl&gt; 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, …
+## $ Sector_desc           &lt;chr&gt; &quot;Construction&quot;, &quot;Construction&quot;, &quot;Construction&quot;, …
+## $ NAICS                 &lt;dbl&gt; 236110, 236110, 236110, 236110, 236110, 236110, …
+## $ NAICS_desc            &lt;chr&gt; &quot;Residential Building Construction&quot;, &quot;Residentia…
+## $ Claim_Type            &lt;chr&gt; &quot;LT&quot;, &quot;LT&quot;, &quot;LT&quot;, &quot;NLT&quot;, &quot;LT&quot;, &quot;NLT&quot;, &quot;NLT&quot;, &quot;LT…
+## $ accident_date         &lt;chr&gt; &quot;03-Jan-11&quot;, &quot;10-Jan-11&quot;, &quot;18-Jan-11&quot;, &quot;21-Jan-1…
+## $ AccYr                 &lt;dbl&gt; 2011, 2011, 2011, 2011, 2011, 2011, 2011, 2011, …
+## $ occupation_code       &lt;dbl&gt; 9175, 8781, 8781, NA, 8785, NA, NA, 8798, NA, 99…
+## $ occupation_desc       &lt;chr&gt; &quot;TRUCK DRIVER&quot;, &quot;CARPENTER/RELATED&quot;, &quot;CARPENTER/…
+## $ part_of_body_code     &lt;dbl&gt; 42000, 23901, 80090, 3200, 33000, 31300, 38300, …
+## $ part_of_body_desc     &lt;chr&gt; &quot;Ankle(s)&quot;, &quot;Low(er) back, unspecified location&quot;…
+## $ nature_of_injury_code &lt;dbl&gt; 1200, 2100, 1200, NA, 3400, NA, NA, 3100, NA, 21…
+## $ nature_of_injury_desc &lt;chr&gt; &quot;Fractures&quot;, &quot;Sprains, strains, tears, uns.&quot;, &quot;F…
+## $ event_exposure_code   &lt;dbl&gt; 21100, 22100, 11600, NA, 2320, NA, NA, 2900, NA,…
+## $ event_exposure_desc   &lt;chr&gt; &quot;Bending, climbing, crawling, reaching, twisting…
+## $ source_of_injury_code &lt;dbl&gt; 56200, 11400, 62300, NA, 71240, NA, NA, 35730, N…
+## $ source_of_injury_desc &lt;chr&gt; &quot;Bodily motion or position of injured, ill worke…
+## $ fatality_flag         &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;…</code></pre>
+<p>This data set allows us to explore and better understand the:</p>
+<ul>
+<li>Construction sector</li>
+<li>Claim types</li>
+<li>Accident dates</li>
+<li>Occupations of injured workers</li>
+<li>Body parts injured</li>
+<li>Nature of the injury</li>
+<li>Event exposure that led to the injury</li>
+<li>Injury source</li>
+<li>Whether or not the injury was fatal.</li>
+</ul>
+<p>The dataset provides claim data for the past 10 years, and this assignment will explore possible trends that have occured historically within the Construction Industry in New Brunswick.</p>
+</div>
+<div id="dataset-quality-issues" class="section level3">
+<h3>Dataset Quality Issues</h3>
+<p>The next thing that has been noted about the data is that when an incident is categorized as No Lost time (NLT), as opposed to Lost Time (LT), the claim is not coded. This means that the level of detail collected for this incident type is not the same, and provides us with less insight into what occurred. Below, the drop_na() function has been used to remove data that is incomplete. By doing that, the only data remaining is the lost time data.</p>
+<p>The data collected for No Lost Time incidents includes only:</p>
+<ul>
+<li>Sector and description</li>
+<li>NAICS code and description</li>
+<li>Claim type</li>
+<li>Accident date and year</li>
+<li>Part of body injured</li>
+</ul>
+<p>This will limit the analysis that can be executed on No Lost Time data.</p>
+<pre><code>## # A tibble: 4,007 x 18
+##    Sector Sector_desc   NAICS NAICS_desc          Claim_Type accident_date AccYr
+##     &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;               &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;
+##  1     23 Construction 236110 Residential Buildi… LT         03-Jan-11      2011
+##  2     23 Construction 236110 Residential Buildi… LT         10-Jan-11      2011
+##  3     23 Construction 236110 Residential Buildi… LT         18-Jan-11      2011
+##  4     23 Construction 236110 Residential Buildi… LT         31-Jan-11      2011
+##  5     23 Construction 236110 Residential Buildi… LT         16-Feb-11      2011
+##  6     23 Construction 236110 Residential Buildi… LT         21-Feb-11      2011
+##  7     23 Construction 236110 Residential Buildi… LT         24-Feb-11      2011
+##  8     23 Construction 236110 Residential Buildi… LT         25-Feb-11      2011
+##  9     23 Construction 236110 Residential Buildi… LT         10-Mar-11      2011
+## 10     23 Construction 236110 Residential Buildi… LT         24-Mar-11      2011
+## # … with 3,997 more rows, and 11 more variables: occupation_code &lt;dbl&gt;,
+## #   occupation_desc &lt;chr&gt;, part_of_body_code &lt;dbl&gt;, part_of_body_desc &lt;chr&gt;,
+## #   nature_of_injury_code &lt;dbl&gt;, nature_of_injury_desc &lt;chr&gt;,
+## #   event_exposure_code &lt;dbl&gt;, event_exposure_desc &lt;chr&gt;,
+## #   source_of_injury_code &lt;dbl&gt;, source_of_injury_desc &lt;chr&gt;,
+## #   fatality_flag &lt;chr&gt;</code></pre>
+</div>
+</div>
+<div id="initial-analysis-questions" class="section level2">
+<h2>Initial Analysis Questions</h2>
+<ol style="list-style-type: decimal">
+<li>What initial trends can be observed within the claims data?</li>
+</ol>
+<ul>
+<li>Total incidents per year</li>
+<li>Lost Time versus No Lost Time incidents per year</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>What occupation experiences the most frequent injuries?</li>
+</ol>
+<ul>
+<li>Occupation with the most incidents</li>
+<li>Most common source of injury within the occupation</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>What is the most common source of injury?</li>
+</ol>
+<ul>
+<li>Most common source of injury for the entire industry</li>
+</ul>
+</div>
+<div id="discoveries-insights" class="section level2">
+<h2>Discoveries &amp; Insights</h2>
+<div id="data-trends-analysis" class="section level3">
+<h3>Data Trends Analysis</h3>
+<div id="claims-per-year" class="section level4">
+<h4>Claims Per Year</h4>
+<p>The first aspect to explore when it comes to determining initial trends in the data is simply the frequency of claims reported over the past 10 years from the Construction industry.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>As we can see here, the frequency of incidents each year appears to be trending down, specifically over the last three years. This is positive news for the industry, as it means preventative measures when it comes to safety are working. However, there are still over 250 incidents that occured in 2020, so the industry as a whole still requires improvement to reach zero incidents.</p>
+</div>
+<div id="lost-time-vs.-no-lost-time-incident-trends" class="section level4">
+<h4>Lost Time vs. No Lost Time Incident Trends</h4>
+<p>The summary above includes both Lost Time (LT) and No Lost Time (NLT) incidents combined. This leads to further questions of whether there are data trends based on claim type. Are lost time incidents (the more severe type of incident) also trending downwards?</p>
+<pre class="r"><code>#ggplot(LTvsNLT, aes(x = AccYr, y = n, fill=Claim_Type)) + geom_col()</code></pre>
+<p>This plot highlights the fact that lost time incidents are typically accounting for more of the total claims than no lost time incidents each year.</p>
+</div>
+</div>
+</div>
+<div id="most-dangerous-occupations-in-construction" class="section level2">
+<h2>Most Dangerous Occupations in Construction</h2>
+<p>The organizations that make up the Construction Industry in New Brunswick are vast, therefore, the industry accounts for many different occupations within it. By nature, some occupations are more dangerous than others, and we would like to explore this further.</p>
+<pre><code>## # A tibble: 135 x 3
+## # Groups:   occupation_desc [135]
+##    occupation_desc            Sector_desc      n
+##    &lt;chr&gt;                      &lt;chr&gt;        &lt;int&gt;
+##  1 CARPENTER/RELATED          Construction   598
+##  2 LABOUR/OTHER ELEM WRK OTHE Construction   527
+##  3 LABOUR/OTHER ELEM WORK-NEC Construction   391
+##  4 CONS ELECTRICIAN/REPAIRMAN Construction   215
+##  5 PIPEFITTER/PLUMBER/RELATED Construction   211
+##  6 TRUCK DRIVER               Construction   166
+##  7 OCCUPATION NOT STATED      Construction   130
+##  8 ROOFER/WATERPROOFER/RELA   Construction   129
+##  9 PLASTERER/RELATED          Construction   119
+## 10 OTHER OCCUPATIONS - NEC    Construction   110
+## # … with 125 more rows</code></pre>
+<p>From the above table, we can see that Carpentry is the most dangerous occupation, followed by labour work, electricians and finally, pipefitters.</p>
+<div id="most-dangerous-occupation-carpentry" class="section level3">
+<h3>Most Dangerous Occupation: Carpentry</h3>
+<p>We will start by investigating the trends of the top most dangerous occupation within the construction industry: Carpentry.</p>
+<pre class="r"><code>CarpenterData &lt;- WorkSafeNBData %&gt;%
+  filter(occupation_desc == &quot;CARPENTER/RELATED&quot;) %&gt;%
+  group_by(AccYr) %&gt;%
+  count(Claim_Type)
+
+ggplot(CarpenterData, aes(x=AccYr, y = n, color=Claim_Type)) + geom_line()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>We can see here that yearly, the majority of injuries that occur within the carpentry occupation are lost time incidents, which are more severe than no lost time incidents. We will also investigate the most common source of injury within this occupation.</p>
+</div>
+<div id="most-common-source-of-injury-carpentry" class="section level3">
+<h3>Most Common Source of Injury: Carpentry</h3>
+<pre class="r"><code>CarpenterInjury &lt;- WorkSafeNBData %&gt;%
+  filter(occupation_desc == &quot;CARPENTER/RELATED&quot;) %&gt;%
+  group_by(source_of_injury_desc) %&gt;%
+  count(Claim_Type) %&gt;%
+  arrange(desc(n)) %&gt;%
+  head(10)
+
+CarpenterInjury</code></pre>
+<pre><code>## # A tibble: 10 x 3
+## # Groups:   source_of_injury_desc [10]
+##    source_of_injury_desc                               Claim_Type     n
+##    &lt;chr&gt;                                               &lt;chr&gt;      &lt;int&gt;
+##  1 Bodily motion or position of injured, ill worker    LT            82
+##  2 Ground                                              LT            46
+##  3 Floors, walkways, ground surfaces, uns.             LT            43
+##  4 Nails, brads, tacks                                 LT            23
+##  5 Floor of building                                   LT            22
+##  6 Unknown                                             LT            18
+##  7 Knives                                              LT            14
+##  8 Wallboard, drywall                                  LT            14
+##  9 Plywood, wood paneling; particle, chip, flake board LT            13
+## 10 Scaffolds -- staging, uns.                          LT            11</code></pre>
+<p>From this table we can see that the most common source of injuries for Carpenters within the Construction Industry is “Bodily Motion or Position of Injured, Ill Worker”. This implies that perhaps the ergonomics of the carpentry trade should be investigated if bodily motions and positions are the root cause of most injuries sustained.</p>
+<pre class="r"><code>ggplot(CarpenterInjury, aes(y=source_of_injury_desc, x=n, size=`n`)) +
+  geom_point()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+## Most Common Source of Injury for Lost Time Incidents</p>
+<p>We’d like to understand what the most common source of injury is within the Construction Industry at large, as understanding the root causes of injuries can help us to conclude what types of opportunities Off-Site Construction methods can offer to improve safety performance in projects. We know that the most common source of injury for Carpenters is Bodily Motion or Position, but what about the rest of the trades?</p>
+<pre class="r"><code>InjurySource &lt;- WorkSafeNBData %&gt;%
+  filter(Claim_Type == &quot;LT&quot;) %&gt;%
+  group_by(source_of_injury_desc) %&gt;%
+  count(Claim_Type) %&gt;%
+  arrange(desc(n)) %&gt;%
+  head(10)
+
+InjurySource</code></pre>
+<pre><code>## # A tibble: 10 x 3
+## # Groups:   source_of_injury_desc [10]
+##    source_of_injury_desc                            Claim_Type     n
+##    &lt;chr&gt;                                            &lt;chr&gt;      &lt;int&gt;
+##  1 Bodily motion or position of injured, ill worker LT           649
+##  2 Ground                                           LT           281
+##  3 Floors, walkways, ground surfaces, uns.          LT           164
+##  4 Unknown                                          LT           134
+##  5 Floor of building                                LT            95
+##  6 Other sources, n.e.c.                            LT            78
+##  7 Knives                                           LT            49
+##  8 Nails, brads, tacks                              LT            49
+##  9 Ladders, uns.                                    LT            45
+## 10 Scaffolds -- staging, uns.                       LT            44</code></pre>
+<p>Interestingly enough, the most common source of injury for Carpenters appears to be the most common source of injury across the board for all trades when it comes to Lost Time incidents. As mentioned earlier, the No Lost Time incidents are not typically coded, so we don’t have much insight into the most common source of injury for those types of claims.</p>
+</div>
+</div>

@@ -1,0 +1,84 @@
+---
+title: A05 v3
+author: R package build
+date: '2021-06-17'
+slug: a05-v3
+categories: []
+tags: []
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="dataset-us-weather" class="section level2">
+<h2>Dataset: US Weather</h2>
+<p>This dataset provides information on the weather throughout the United States in the year 2017. The data includes:</p>
+<ul>
+<li>Weather Station ID</li>
+<li>State</li>
+<li>Latitude</li>
+<li>Longitude</li>
+<li>Elevation</li>
+<li>Date</li>
+<li>Minimum, Maximum and Average Temperatures</li>
+<li>Average Daily Wind Speed</li>
+<li>Direction of Fastest 5-sec Wind</li>
+<li>Fastest 5-sec Wind Speed</li>
+<li>Snowfall</li>
+<li>Snow Depth</li>
+<li>Precipitation</li>
+</ul>
+</div>
+<div id="initial-analysis-questions" class="section level2">
+<h2>Initial Analysis Questions</h2>
+<ol style="list-style-type: decimal">
+<li>Is there a single state with the most extreme weather events?</li>
+<li>What is the coldest state?</li>
+<li>Which state has the most snowfall?</li>
+<li>Which state has the most precipitation?</li>
+<li>Is there any correlation between precipitation levels and snowfall levels?</li>
+<li>Which state has the fastest 5-sec wind speed?</li>
+</ol>
+</div>
+<div id="dataset-exploration" class="section level2">
+<h2>Dataset Exploration</h2>
+<div id="data-entries-by-state" class="section level3">
+<h3>Data Entries by State</h3>
+<p>We will first examine the quantities of data collected by state to investigate whether all states have similar amounts of data to work from, or if some states won’t have enough data to draw conclusions with.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="data-analysis" class="section level2">
+<h2>Data Analysis</h2>
+<div id="coldest-state" class="section level3">
+<h3>Coldest State</h3>
+<div id="coldest-temperature-experienced-in-the-us" class="section level4">
+<h4>Coldest Temperature Experienced in the US</h4>
+<pre class="r"><code>ColdestTemp &lt;- WeatherData %&gt;%
+  drop_na() %&gt;%
+  group_by(state) %&gt;%
+  summarize(MinTemp = min(TMIN)) %&gt;%
+  arrange(MinTemp) %&gt;% 
+  head(10)
+
+ggplot(ColdestTemp, aes(y = state, x = MinTemp, fill = state)) + geom_col()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="coldest-state-on-average" class="section level4">
+<h4>Coldest State on Average</h4>
+<pre class="r"><code>ColdestAvg &lt;- WeatherData %&gt;%
+  drop_na() %&gt;%
+  group_by(state) %&gt;%
+  summarize(AverageTemperature = mean(TAVG)) %&gt;%
+  arrange((AverageTemperature)) %&gt;%
+  head(10)
+
+ColdestState &lt;- WeatherData %&gt;%
+  drop_na() %&gt;%
+  filter(state == &quot;AK&quot;)
+
+ggplot(ColdestState, aes(x = state, y = TAVG)) + geom_boxplot()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+</div>
+</div>

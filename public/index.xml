@@ -6,14 +6,14 @@
     <description>Recent content on NicoleOdo - Fundamentals of Analytics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>A05</title>
-      <link>/2021/06/15/a05/</link>
-      <pubDate>Tue, 15 Jun 2021 00:00:00 +0000</pubDate>
+      <title>A05 v2</title>
+      <link>/2021/06/17/a05-v2/</link>
+      <pubDate>Thu, 17 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2021/06/15/a05/</guid>
-      <description>Import Libraries  Data: Class Sizes ClassSize &amp;lt;- read_csv(&amp;quot;Class Size District Level Summary.csv&amp;quot;, na = c(&amp;quot;n/a&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;NA&amp;quot;)) %&amp;gt;% rename( NumberOfStudents = &amp;quot;NUMBER OF STUDENTS / SEATS FILLED&amp;quot;, AvgClassSize = &amp;quot;AVERAGE CLASS SIZE&amp;quot;, NumberSections = &amp;quot;NUMBER OF SECTIONS&amp;quot; ) ClassSize ## # A tibble: 3,335 x 10 ## CSD BORO GRADE `PROGRAM TYPE` `CORE SUBJECT (MS COR… `CORE COURSE (MS COR… ## &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; ## 1 1 M 0K GEN ED - - ## 2 1 M 0K CTT - - ## 3 1 M 1 GEN ED - - ## 4 1 M 1 CTT - - ## 5 1 M 1 G&amp;amp;T - - ## 6 1 M 2 GEN ED - - ## 7 1 M 2 CTT - - ## 8 1 M 3 GEN ED - - ## 9 1 M 3 CTT - - ## 10 1 M 4 GEN ED - - ## # … with 3,325 more rows, and 4 more variables: ## # SERVICE CATEGORY(K-9* ONLY) &amp;lt;chr&amp;gt;, NumberOfStudents &amp;lt;dbl&amp;gt;, ## # NumberSections &amp;lt;dbl&amp;gt;, AvgClassSize &amp;lt;dbl&amp;gt;  Number of observations: 3335 Number of variables: 10   Goal: Predict average class size based on total number of students in school \[\widehat{Average Class Size}_{i} = \beta_0 + \beta_1 \times Total Students In School_{i}\]</description>
+      <guid>/2021/06/17/a05-v2/</guid>
+      <description>Dataset: WorkSafe New Brunswick Construction Industry Claims Data This dataset contains incident claims data submitted to WorkSafeNB from the New Brunswick Construction Industry. The data was provided from the organization as a part of an ongoing research initiative exploring the safety benefits of applying Off-Site Construction methods to construction projects. While this dataset is not publicly posted, it has been provided to the University of New Brunswick for research purposes, and permission has been given for its’ use and publication of any findings and conclusions due to the anonymity of the data provided.</description>
     </item>
     
     <item>
@@ -24,6 +24,15 @@
       <guid>/2021/06/15/fitting-and-interpreting-models/</guid>
       <description>Import Libraries  Data: Paris Paintings pp &amp;lt;- read_csv(&amp;quot;paris-paintings.csv&amp;quot;, na = c(&amp;quot;n/a&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;NA&amp;quot;))  Number of observations: 3393 Number of variables: 61   Goal: Predict height from width \[\widehat{height}_{i} = \beta_0 + \beta_1 \times width_{i}\]
 ## `geom_smooth()` using formula &amp;#39;y ~ x&amp;#39;  Step 1: Specify model linear_reg() ## Linear Regression Model Specification (regression)  Step 2: Set model fitting engine linear_reg() %&amp;gt;% set_engine(&amp;quot;lm&amp;quot;) # lm: linear model ## Linear Regression Model Specification (regression) ## ## Computational engine: lm  Step 3: Fit model &amp;amp; estimate parameters … using formula syntax</description>
+    </item>
+    
+    <item>
+      <title>Statistical Analysis Practice</title>
+      <link>/2021/06/15/a05/</link>
+      <pubDate>Tue, 15 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/15/a05/</guid>
+      <description>Import Libraries  Data: Class Sizes ClassSize &amp;lt;- read_csv(&amp;quot;Class Size District Level Summary.csv&amp;quot;, na = c(&amp;quot;n/a&amp;quot;, &amp;quot;&amp;quot;, &amp;quot;NA&amp;quot;)) %&amp;gt;% rename( NumberOfStudents = &amp;quot;NUMBER OF STUDENTS / SEATS FILLED&amp;quot;, AvgClassSize = &amp;quot;AVERAGE CLASS SIZE&amp;quot;, NumberSections = &amp;quot;NUMBER OF SECTIONS&amp;quot; ) ClassSize ## # A tibble: 3,335 x 10 ## CSD BORO GRADE `PROGRAM TYPE` `CORE SUBJECT (MS COR… `CORE COURSE (MS COR… ## &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; ## 1 1 M 0K GEN ED - - ## 2 1 M 0K CTT - - ## 3 1 M 1 GEN ED - - ## 4 1 M 1 CTT - - ## 5 1 M 1 G&amp;amp;T - - ## 6 1 M 2 GEN ED - - ## 7 1 M 2 CTT - - ## 8 1 M 3 GEN ED - - ## 9 1 M 3 CTT - - ## 10 1 M 4 GEN ED - - ## # … with 3,325 more rows, and 4 more variables: ## # SERVICE CATEGORY(K-9* ONLY) &amp;lt;chr&amp;gt;, NumberOfStudents &amp;lt;dbl&amp;gt;, ## # NumberSections &amp;lt;dbl&amp;gt;, AvgClassSize &amp;lt;dbl&amp;gt;  Number of observations: 3335 Number of variables: 10   Goal: Predict average class size based on total number of students in school \[\widehat{Average Class Size}_{i} = \beta_0 + \beta_1 \times Total Students In School_{i}\]</description>
     </item>
     
     <item>
