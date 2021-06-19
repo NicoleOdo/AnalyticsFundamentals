@@ -36,9 +36,13 @@ This dataset provides information on the weather throughout the United States in
 
 ## Initial Analysis Questions
 Overarching question: Is there a single state with that experienced all of the most extreme weather events? Ie. Most snowfall, most precipitation, highest wind speeds, etc.
+
 1. What is the coldest state?
+
 2. Which state has the most snowfall?
+
 3. Which state has the most precipitation?
+
 5. Are there any correlation in the weather data?
 
 
