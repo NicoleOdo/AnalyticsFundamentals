@@ -9,8 +9,11 @@ tags: []
 ```{r message=FALSE, echo=FALSE}
 library(tidyverse)
 library(dplyr)
+library(ggridges)
 
 WeatherData <- read_csv("weather.csv")
+
+WeatherData[WeatherData == 0] <- NA
 ``` 
 
 ## Dataset: US Weather
@@ -32,12 +35,13 @@ This dataset provides information on the weather throughout the United States in
 * Precipitation
 
 ## Initial Analysis Questions
-1. Is there a single state with the most extreme weather events?
-2. What is the coldest state?
-3. Which state has the most snowfall?
-4. Which state has the most precipitation?
+Overarching question: Is there a single state with that experienced all of the most extreme weather events? Ie. Most snowfall, most precipitation, highest wind speeds, etc.
+1. What is the coldest state?
+2. Which state has the most snowfall?
+3. Which state has the most precipitation?
+4. Which state has the fastest 5-sec wind speed?
 5. Is there any correlation between precipitation levels and snowfall levels?
-6. Which state has the fastest 5-sec wind speed?
+
 
 
 ## Dataset Exploration
@@ -51,8 +55,21 @@ StateCount <- WeatherData %>%
   group_by(state) %>%
   count(state)
 
-ggplot(StateCount, aes(x = state, y = n)) + geom_point()
+ggplot(StateCount, aes(x=state, y=n, fill=state)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  theme(axis.text.y = element_blank(), axis.ticks.y = element_blank())
+ 
 ```
+Based on the above graph, we can see that there are significantly different amounts of data collected for each location. 
+
+Other data quality issues include a large number of "NA" data, shown in the table below. The drop_na() function will be used throughout the analysis to remove any data that doesn't contribute to the overall calculations that are executed.
+
+```{r message=FALSE, echo=FALSE}
+WeatherData %>%
+  count("NA")
+```
+Lastly, this is less of a data quality issue but rather something that has been noted about the data. The dataset is described as weather data from the United States, and refers to the locations as "states", however, the data also appears to capture Canadian provinces and territories. For the purpose of this analysis, where possible, the variable "state" will be more correctly referred to as "location" so as not to limit the location under investigation to one country.
 
 
 ## Data Analysis
@@ -60,37 +77,182 @@ ggplot(StateCount, aes(x = state, y = n)) + geom_point()
 ### Coldest State
 
 #### Coldest Temperature Experienced in the US
-```{r}
+
+To understand whether there is a single location that experiences the all of the most extreme weather events, we will first explore the coldest logged temperature.
+```{r message=FALSE, echo=FALSE}
 ColdestTemp <- WeatherData %>%
-  drop_na() %>%
+  drop_na(TMIN) %>%
   group_by(state) %>%
   summarize(MinTemp = min(TMIN)) %>%
   arrange(MinTemp) %>% 
   head(10)
 
-ggplot(ColdestTemp, aes(y = state, x = MinTemp, fill = state)) + geom_col()
+ggplot(ColdestTemp, aes(y = state, x = MinTemp, fill = state)) + geom_col() + labs(title="Coldest Logged Temperature", x="Temperature (F)", y="Location (US State or Canadian Prov/Terr.")
 ```
+Here we see that the state that experienced the coldest temperature is Alaska. In the beginning, this temperature appeared to be a significant outlier, but perhaps this temperature is possible within this state due to it's location. 
 
 
 #### Coldest State on Average
-```{r}
+
+Taking the above analysis a step further and see if the location that experienced the coldest logged temperature is also the coldest on average. This was explored by taking the average temperature overall of each state. This demonstrated that the extreme temperatures summarized above do not necessarily indicate coldest average temperatures overall. 
+
+In the average temperature analysis below, we see that the Northwest Territories is the coldest location overall. It should be noted that only the top 10 locations that experienced the coldest temperatures are reported on the graph for clarity.
+```{r message=FALSE, echo=FALSE}
 ColdestAvg <- WeatherData %>%
-  drop_na() %>%
+  drop_na(TAVG) %>%
   group_by(state) %>%
   summarize(AverageTemperature = mean(TAVG)) %>%
   arrange((AverageTemperature)) %>%
   head(10)
 
-ColdestState <- WeatherData %>%
-  drop_na() %>%
-  filter(state == "AK")
 
-ggplot(ColdestState, aes(x = state, y = TAVG)) + geom_boxplot()
+ggplot(ColdestAvg, aes(x=state, y=AverageTemperature, fill = state)) + geom_col() + labs(title="Coldest Location on Average", x="Temperature (F)", y="Location (US State or Canadian Prov/Terr.")
+
+```
+#### A Closer Look at the Coldest Location (on average)
+
+The following visualization summarizes all the average temperatures taken throughout the year (average of the highest and lowest temperature each day) with the use of a boxplot. This allows us to observe the temperatures experienced in this location in more detail.
+```{r message=FALSE, echo=FALSE}
+ColdestState <- WeatherData %>%
+  filter(state == "NT")
+
+ggplot(ColdestState, aes(x = state, y = TAVG)) + geom_boxplot() + labs(title="Northwest Territories Temperatures", x="Northwest Territories", y="Average Temperature (F)")
 ```
 
 
+### Snowfall
+
+The next weather variable to analyze is the snowfall. This analysis will follow a similar procedure in that it will determine which location experienced the most significant snow fall, then determine which location has the most snow on average to see if they are the same. We will compare these results to the results obtained above to see if the location that experienced the coldest temperatures also experiences the most snow.
+
+#### Most Snowfall
+
+Here we see that the location that experienced the most snow is New Jersey. This differs from the location that experienced the coldest temperature, so our overaching question has already been answered. We can conclude that no, there is not a single state that experience all of the extreme weather events, but rather, each weather variable varies by location.
+```{r message=FALSE, echo=FALSE}
+MaxSnow <- WeatherData %>%
+  drop_na(SNOW) %>%
+  group_by(state) %>%
+  summarize(MaxSnowfall = max(SNOW)) %>%
+  arrange(desc(MaxSnowfall)) %>%
+  head(10)
+
+MaxSnow
+
+ggplot(MaxSnow, aes(x = state, y = MaxSnowfall, fill=state)) + geom_col() + labs(title="Most Logged Snowfall", x="State", y="Snowfall (inch)")
+
+```
+#### Most Snowfall on Average
+
+To determine whether locations experiencing peak snowfall events also have the highest snowfall on average, the average total snowfall by location has been summarized and graphed below.
+
+In this scenario, the location that experienced the highest snowfall event also experienced the highest snowfall on average for the entire year.
+```{r message=FALSE, echo=FALSE}
+MostSnowAvg <- WeatherData %>%
+  drop_na(SNOW) %>%
+  group_by(state) %>%
+  summarize(AverageSnowfall = mean(SNOW)) %>%
+  arrange(desc(AverageSnowfall)) %>%
+  head(10)
+
+MostSnowAvg
+
+ggplot(MostSnowAvg, aes(x = state, y = AverageSnowfall, fill = state)) + geom_col() + labs(title="Most Snowfall on Average", x="State", y="Snowfall (inch)")
+```
 
 
+#### A Closer Look at Highest Average Snowfall Location
+
+A line graph is used below to map out the snowfall throughout the winter months in New Jersey.
+```{r message=FALSE, echo=FALSE}
+MostSnow <- WeatherData %>%
+  drop_na(SNOW) %>%
+  filter(state == "NJ")
+ 
+MostSnow
+
+ggplot(MostSnow, aes(x = date, y = SNOW)) + geom_line() + labs(title="New Jersey Snowfall", x="Date", y="Snowfall (inch)")
+```
+### Precipitation
+
+#### Most Precipitation
+```{r message=FALSE, echo=FALSE}
+MostPrecip <- WeatherData %>%
+  drop_na(PRCP) %>%
+  group_by(state) %>%
+  summarize(MaxPrecipitation = max(PRCP)) %>%
+  arrange(desc(MaxPrecipitation)) %>%
+  head(10)
+
+MostPrecip
+
+ggplot(MostPrecip, aes(x = state, y = MaxPrecipitation)) + geom_col()
+
+TXData <- WeatherData %>%
+  drop_na(PRCP) %>%
+  filter(state == 'TX')
+
+FLData <- WeatherData %>%
+  drop_na(PRCP) %>%
+  filter(state == 'FL')
+
+AKData <- WeatherData %>%
+  drop_na(PRCP) %>%
+  filter(state == 'AK')
+
+ggplot() +
+  geom_boxplot(data = TXData, aes(y=PRCP, x=state)) + 
+  geom_boxplot(data = FLData, aes(y=PRCP, x=state)) +
+  geom_boxplot(data = AKData, aes(y=PRCP, x=state)) +
+  labs(title = "update", y="update")
+
+ggplot(TXData, aes(x=date, y=PRCP)) + geom_line()
+
+```
+
+### Wind Speeds
+```{r message=FALSE, echo=FALSE}
+HighWind <- WeatherData %>%
+  drop_na(WSF5) %>%
+  group_by(state) %>%
+  summarize(MaxWind = max(WSF5)) %>%
+  arrange(desc(MaxWind)) %>%
+  head(10)
+
+HighWind
+
+ggplot(HighWind, aes(x = state, y = MaxWind)) + geom_col()
+
+AvgWind <- WeatherData %>%
+  drop_na(AWND) %>%
+  group_by(state) %>%
+  summarize(AvgWind = mean(AWND)) %>%
+  arrange(desc(AvgWind)) %>%
+  head(10)
+
+AvgWind
+
+ggplot(AvgWind, aes(x=state, y=AvgWind)) + geom_col()
+
+MIWind <- WeatherData %>%
+  drop_na(AWND) %>%
+  filter(state == 'MI')
+
+NMWind <- WeatherData %>%
+  drop_na(AWND) %>%
+  filter(state == 'NM')
+
+ggplot() +
+  geom_boxplot(data = MIWind, aes(y=AWND, x=state)) + 
+  geom_boxplot(data = NMWind, aes(y=AWND, x=state)) +
+  labs(title = "update", y="update")
+```
+### Correlations
+```{r message=FALSE, echo=FALSE}
+ggplot(WeatherData, aes(y=SNOW, x=PRCP)) + geom_point()
+
+ggplot(WeatherData, aes(x=TAVG,y=PRCP, size=AWND, color=AWND)) + geom_point(alpha=0.5)
+
+ggplot(WeatherData, aes(x=TAVG,y=SNOW)) + geom_point()
+```
 
 
 

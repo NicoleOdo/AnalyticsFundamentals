@@ -13,7 +13,17 @@
       <pubDate>Thu, 17 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>/2021/06/17/a05-v2/</guid>
-      <description>Dataset: WorkSafe New Brunswick Construction Industry Claims Data This dataset contains incident claims data submitted to WorkSafeNB from the New Brunswick Construction Industry. The data was provided from the organization as a part of an ongoing research initiative exploring the safety benefits of applying Off-Site Construction methods to construction projects. While this dataset is not publicly posted, it has been provided to the University of New Brunswick for research purposes, and permission has been given for its’ use and publication of any findings and conclusions due to the anonymity of the data provided.</description>
+      <description>WorkSafe New Brunswick Construction Industry Claims Data Dataset Overview This dataset contains incident claims data submitted to WorkSafeNB from the New Brunswick Construction Industry. The data was provided from the organization as a part of an ongoing research initiative exploring the safety benefits of applying Off-Site Construction methods to construction projects. While this dataset is not publicly posted, it has been provided to the University of New Brunswick for research purposes, and permission has been given for its’ use and publication of any findings and conclusions due to the anonymity of the data provided.</description>
+    </item>
+    
+    <item>
+      <title>A05 v3</title>
+      <link>/2021/06/17/a05-v3/</link>
+      <pubDate>Thu, 17 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/17/a05-v3/</guid>
+      <description>Dataset: US Weather This dataset provides information on the weather throughout the United States in the year 2017. The data includes:
+ Weather Station ID State Latitude Longitude Elevation Date Minimum, Maximum and Average Temperatures Average Daily Wind Speed Direction of Fastest 5-sec Wind Fastest 5-sec Wind Speed Snowfall Snow Depth Precipitation   Initial Analysis Questions Overarching question: Is there a single state with that experienced all of the most extreme weather events?</description>
     </item>
     
     <item>
