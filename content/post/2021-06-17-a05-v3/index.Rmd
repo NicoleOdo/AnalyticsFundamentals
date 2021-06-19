@@ -144,6 +144,7 @@ MaxSnow
 ggplot(MaxSnow, aes(x = state, y = MaxSnowfall, fill=state)) + geom_col() + labs(title="Highest Logged Snowfall Event", x="State", y="Snowfall (inch)")
 
 ```
+
 #### Most Snowfall on Average
 
 To determine whether locations experiencing peak snowfall events also have the highest snowfall on average, the average total snowfall by location has been summarized and graphed below.
@@ -177,6 +178,7 @@ MostSnow
 
 ggplot(MostSnow, aes(x = date, y = SNOW)) + geom_line() + labs(title="New Jersey Snowfall", x="Date", y="Snowfall (inch)")
 ```
+
 ### Precipitation
 
 We will now analyze the precipitation data to see which location has experienced the highest rainfall event. We will then investigate this in a slightly different way, by looking at the 3 locations that experienced the highest rainfall events
@@ -194,6 +196,8 @@ MostPrecip
 
 ggplot(MostPrecip, aes(x = state, y = MaxPrecipitation, fill=state)) + geom_col() + labs(title="Highest Logged Precipitation Event", x="State", y="Precipitation (inch)")
 ```
+
+
 #### Top 3 Highest Precipitation Events
 
 Based on the above plot, we see that the locations experiencing the highest precipitation events are Texas (TX), Florida (FL), and Alaska (AK). For further analysis, a boxplot has been used to better understand the spread of data for these locations. Are these precipitation events outliers, or is it common for them to have these levels of precipitation throughout the year?
@@ -238,14 +242,16 @@ Here we seek to understand if there is any correlation between snowfall and prec
 
 Based on the below graph, we can see that there is some correlation between locations that experience high precipitation events also experiencing high snowfall events. 
 
-```{r message=FALSE, echo=FALSE}
+```{r message=FALSE, echo=FALSE, warning=FALSE}
 ggplot(WeatherData, aes(y=SNOW, x=PRCP)) + geom_point() +
   labs(title = "Correlation Between Snow vs. Precipitation Events", x="Precipitation (inch)", y="Snow (inch)") +xlim(0, 5) + ylim(0,40)
 ```
+
 #### Correlation Analysis 2: Average Temperature versus Precipitation
 
 When comparing the average temperature to precipitation events, we can see there isn't a clear linear correlation between these two variables. Interestingly enough, there also isn't a normal distribution of the data. The data most resembles a double normal distribution. Perhaps with data from additional years, a more clear correlation would appear between higher temperatures and higher precipitation events.
-```{r message=FALSE, echo=FALSE}
+
+```{r message=FALSE, echo=FALSE, warning=FALSE}
 ggplot(WeatherData, aes(x=TAVG,y=PRCP)) + geom_point(alpha=0.5) +
   labs(title = "Correlation Between Average Temperature vs. Precipitation Events", x="Average Temperature (F)", y="Precipitation (inch)")
 ```
@@ -254,7 +260,7 @@ ggplot(WeatherData, aes(x=TAVG,y=PRCP)) + geom_point(alpha=0.5) +
 
 The final correlation investigated is whether there is a relationship between the average temperature versus snow fall events. The expectation was that the locations with lower average temperatures would be linearly correlated with larger snow fall events. The below graph shows that this isn't the case. the data here is normally distributed rather than normally correlated, which is an unexpected finding.
 
-```{r message=FALSE, echo=FALSE}
+```{r message=FALSE, echo=FALSE, warning=FALSE}
 ggplot(WeatherData, aes(x=TAVG,y=SNOW)) + geom_point()
 ```
 

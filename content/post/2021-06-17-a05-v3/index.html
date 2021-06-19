@@ -97,8 +97,10 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 ##  8 CA           17.4
 ##  9 CT           15.8
 ## 10 NH           15.6</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-#### Most Snowfall on Average</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="most-snowfall-on-average" class="section level4">
+<h4>Most Snowfall on Average</h4>
 <p>To determine whether locations experiencing peak snowfall events also have the highest snowfall on average, the average total snowfall by location has been summarized and graphed below.</p>
 <p>In this scenario, the location that experienced the highest snowfall event also experienced the highest snowfall on average for the entire year.</p>
 <pre><code>## # A tibble: 10 x 2
@@ -142,10 +144,12 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 ## 17 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  20.1  37.0  27.3  7.38
 ## # … with 5 more variables: WDF5 &lt;dbl&gt;, WSF5 &lt;dbl&gt;, SNOW &lt;dbl&gt;, SNWD &lt;dbl&gt;,
 ## #   PRCP &lt;dbl&gt;</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-### Precipitation</p>
-<p>We will now analyze the precipitation data to see which location has experienced the highest rainfall event. We will then investigate this in a slightly different way, by looking at the 3 locations that experienced the highest rainfall events</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
+</div>
+<div id="precipitation" class="section level3">
+<h3>Precipitation</h3>
+<p>We will now analyze the precipitation data to see which location has experienced the highest rainfall event. We will then investigate this in a slightly different way, by looking at the 3 locations that experienced the highest rainfall events</p>
 <div id="most-precipitation" class="section level4">
 <h4>Most Precipitation</h4>
 <pre><code>## # A tibble: 10 x 2
@@ -161,8 +165,10 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 ##  8 AL                8.15
 ##  9 MN                7.84
 ## 10 MO                6.94</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
-#### Top 3 Highest Precipitation Events</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="top-3-highest-precipitation-events" class="section level4">
+<h4>Top 3 Highest Precipitation Events</h4>
 <p>Based on the above plot, we see that the locations experiencing the highest precipitation events are Texas (TX), Florida (FL), and Alaska (AK). For further analysis, a boxplot has been used to better understand the spread of data for these locations. Are these precipitation events outliers, or is it common for them to have these levels of precipitation throughout the year?</p>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>From the box plot, we see that typically, the precipitation events are only a few inches, but each of 3 locations experiences fairly frequent high precipitation events throughout the year.</p>
@@ -180,17 +186,16 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 <h4>Correlation Analysis 1: Snow versus Precipitation</h4>
 <p>Here we seek to understand if there is any correlation between snowfall and precipitation events. Do locations that experience high precipitation also experience high snowfall events?</p>
 <p>Based on the below graph, we can see that there is some correlation between locations that experience high precipitation events also experiencing high snowfall events.</p>
-<pre><code>## Warning: Removed 413212 rows containing missing values (geom_point).</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
-#### Correlation Analysis 2: Average Temperature versus Precipitation</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="correlation-analysis-2-average-temperature-versus-precipitation" class="section level4">
+<h4>Correlation Analysis 2: Average Temperature versus Precipitation</h4>
 <p>When comparing the average temperature to precipitation events, we can see there isn’t a clear linear correlation between these two variables. Interestingly enough, there also isn’t a normal distribution of the data. The data most resembles a double normal distribution. Perhaps with data from additional years, a more clear correlation would appear between higher temperatures and higher precipitation events.</p>
-<pre><code>## Warning: Removed 329861 rows containing missing values (geom_point).</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="correlation-analysis-3-average-temperature-versus-snow" class="section level4">
 <h4>Correlation Analysis 3: Average Temperature versus Snow</h4>
 <p>The final correlation investigated is whether there is a relationship between the average temperature versus snow fall events. The expectation was that the locations with lower average temperatures would be linearly correlated with larger snow fall events. The below graph shows that this isn’t the case. the data here is normally distributed rather than normally correlated, which is an unexpected finding.</p>
-<pre><code>## Warning: Removed 413514 rows containing missing values (geom_point).</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 </div>
