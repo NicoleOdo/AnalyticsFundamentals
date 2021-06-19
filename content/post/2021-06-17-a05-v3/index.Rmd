@@ -39,8 +39,7 @@ Overarching question: Is there a single state with that experienced all of the m
 1. What is the coldest state?
 2. Which state has the most snowfall?
 3. Which state has the most precipitation?
-4. Which state has the fastest 5-sec wind speed?
-5. Is there any correlation between precipitation levels and snowfall levels?
+5. Are there any correlation in the weather data?
 
 
 
@@ -63,6 +62,8 @@ ggplot(StateCount, aes(x=state, y=n, fill=state)) +
 ```
 Based on the above graph, we can see that there are significantly different amounts of data collected for each location. 
 
+### Data Quality
+
 Other data quality issues include a large number of "NA" data, shown in the table below. The drop_na() function will be used throughout the analysis to remove any data that doesn't contribute to the overall calculations that are executed.
 
 ```{r message=FALSE, echo=FALSE}
@@ -70,7 +71,6 @@ WeatherData %>%
   count("NA")
 ```
 Lastly, this is less of a data quality issue but rather something that has been noted about the data. The dataset is described as weather data from the United States, and refers to the locations as "states", however, the data also appears to capture Canadian provinces and territories. For the purpose of this analysis, where possible, the variable "state" will be more correctly referred to as "location" so as not to limit the location under investigation to one country.
-
 
 ## Data Analysis
 
@@ -87,7 +87,7 @@ ColdestTemp <- WeatherData %>%
   arrange(MinTemp) %>% 
   head(10)
 
-ggplot(ColdestTemp, aes(y = state, x = MinTemp, fill = state)) + geom_col() + labs(title="Coldest Logged Temperature", x="Temperature (F)", y="Location (US State or Canadian Prov/Terr.")
+ggplot(ColdestTemp, aes(y = state, x = MinTemp, fill = state)) + geom_col() + labs(title="Coldest Logged Temperature Event", x="Temperature (F)", y="Location (US State or Canadian Prov/Terr.")
 ```
 Here we see that the state that experienced the coldest temperature is Alaska. In the beginning, this temperature appeared to be a significant outlier, but perhaps this temperature is possible within this state due to it's location. 
 
@@ -137,7 +137,7 @@ MaxSnow <- WeatherData %>%
 
 MaxSnow
 
-ggplot(MaxSnow, aes(x = state, y = MaxSnowfall, fill=state)) + geom_col() + labs(title="Most Logged Snowfall", x="State", y="Snowfall (inch)")
+ggplot(MaxSnow, aes(x = state, y = MaxSnowfall, fill=state)) + geom_col() + labs(title="Highest Logged Snowfall Event", x="State", y="Snowfall (inch)")
 
 ```
 #### Most Snowfall on Average
@@ -161,7 +161,9 @@ ggplot(MostSnowAvg, aes(x = state, y = AverageSnowfall, fill = state)) + geom_co
 
 #### A Closer Look at Highest Average Snowfall Location
 
-A line graph is used below to map out the snowfall throughout the winter months in New Jersey.
+A line graph is used below to map out the snowfall throughout the winter months in the location that has experienced both the most extreme snowfall, as well as the most snow on average, New Jersey.
+
+From the below graph, it appears that while there aren't a significant number of snowfall events, the events that have occurred are large, which has resulted in the highest snowfall on average above.
 ```{r message=FALSE, echo=FALSE}
 MostSnow <- WeatherData %>%
   drop_na(SNOW) %>%
@@ -172,6 +174,8 @@ MostSnow
 ggplot(MostSnow, aes(x = date, y = SNOW)) + geom_line() + labs(title="New Jersey Snowfall", x="Date", y="Snowfall (inch)")
 ```
 ### Precipitation
+
+We will now analyze the precipitation data to see which location has experienced the highest rainfall event. We will then investigate this in a slightly different way, by looking at the 3 locations that experienced the highest rainfall events
 
 #### Most Precipitation
 ```{r message=FALSE, echo=FALSE}
@@ -184,8 +188,13 @@ MostPrecip <- WeatherData %>%
 
 MostPrecip
 
-ggplot(MostPrecip, aes(x = state, y = MaxPrecipitation)) + geom_col()
+ggplot(MostPrecip, aes(x = state, y = MaxPrecipitation, fill=state)) + geom_col() + labs(title="Highest Logged Precipitation Event", x="State", y="Precipitation (inch)")
+```
+#### Top 3 Highest Precipitation Events
 
+Based on the above plot, we see that the locations experiencing the highest precipitation events are Texas (TX), Florida (FL), and Alaska (AK). For further analysis, a boxplot has been used to better understand the spread of data for these locations. Are these precipitation events outliers, or is it common for them to have these levels of precipitation throughout the year?
+
+```{r message=FALSE, echo=FALSE}
 TXData <- WeatherData %>%
   drop_na(PRCP) %>%
   filter(state == 'TX')
@@ -199,61 +208,68 @@ AKData <- WeatherData %>%
   filter(state == 'AK')
 
 ggplot() +
-  geom_boxplot(data = TXData, aes(y=PRCP, x=state)) + 
-  geom_boxplot(data = FLData, aes(y=PRCP, x=state)) +
-  geom_boxplot(data = AKData, aes(y=PRCP, x=state)) +
-  labs(title = "update", y="update")
-
-ggplot(TXData, aes(x=date, y=PRCP)) + geom_line()
-
+  geom_boxplot(data = TXData, aes(y=PRCP, x=state, fill=state)) + 
+  geom_boxplot(data = FLData, aes(y=PRCP, x=state, fill=state)) +
+  geom_boxplot(data = AKData, aes(y=PRCP, x=state, fill=state)) +
+  labs(title = "Top 3 Locations with Highest Precipitation Events", x="State", y="Precipitation (inch)")
 ```
 
-### Wind Speeds
+From the box plot, we see that typically, the precipitation events are only a few inches, but each of 3 locations experiences fairly frequent high precipitation events throughout the year.
+
+#### A Closer Look at Yearly Texas Precipitation
+
+To further examine the precipitation in Texas over the year, a line plot has been used to graph all of the recorded precipitation events. We can see that precipitation is frequent throughout the year in Texas, with highs around 5 inches of precipitation, and the one outlier that has exceeded 20 inches.
 ```{r message=FALSE, echo=FALSE}
-HighWind <- WeatherData %>%
-  drop_na(WSF5) %>%
-  group_by(state) %>%
-  summarize(MaxWind = max(WSF5)) %>%
-  arrange(desc(MaxWind)) %>%
-  head(10)
-
-HighWind
-
-ggplot(HighWind, aes(x = state, y = MaxWind)) + geom_col()
-
-AvgWind <- WeatherData %>%
-  drop_na(AWND) %>%
-  group_by(state) %>%
-  summarize(AvgWind = mean(AWND)) %>%
-  arrange(desc(AvgWind)) %>%
-  head(10)
-
-AvgWind
-
-ggplot(AvgWind, aes(x=state, y=AvgWind)) + geom_col()
-
-MIWind <- WeatherData %>%
-  drop_na(AWND) %>%
-  filter(state == 'MI')
-
-NMWind <- WeatherData %>%
-  drop_na(AWND) %>%
-  filter(state == 'NM')
-
-ggplot() +
-  geom_boxplot(data = MIWind, aes(y=AWND, x=state)) + 
-  geom_boxplot(data = NMWind, aes(y=AWND, x=state)) +
-  labs(title = "update", y="update")
+ggplot(TXData, aes(x=date, y=PRCP)) + geom_line() +
+  labs(title = "Texas Precipitation Events", x="Date", y="Precipitation (inch)")
 ```
+
 ### Correlations
+
+The last aspect of the data we will analyze is whether there are any correlations between the weather variables that are recorded. 
+
+#### Correlation Analysis 1: Snow versus Precipitation
+
+Here we seek to understand if there is any correlation between snowfall and precipitation events. Do locations that experience high precipitation also experience high snowfall events?
+
+Based on the below graph, we can see that there is some correlation between locations that experience high precipitation events also experiencing high snowfall events. 
+
 ```{r message=FALSE, echo=FALSE}
-ggplot(WeatherData, aes(y=SNOW, x=PRCP)) + geom_point()
+ggplot(WeatherData, aes(y=SNOW, x=PRCP)) + geom_point() +
+  labs(title = "Correlation Between Snow vs. Precipitation Events", x="Precipitation (inch)", y="Snow (inch)") +xlim(0, 5) + ylim(0,40)
+```
+#### Correlation Analysis 2: Average Temperature versus Precipitation
 
-ggplot(WeatherData, aes(x=TAVG,y=PRCP, size=AWND, color=AWND)) + geom_point(alpha=0.5)
+When comparing the average temperature to precipitation events, we can see there isn't a clear linear correlation between these two variables. Interestingly enough, there also isn't a normal distribution of the data. The data most resembles a double normal distribution. Perhaps with data from additional years, a more clear correlation would appear between higher temperatures and higher precipitation events.
+```{r message=FALSE, echo=FALSE}
+ggplot(WeatherData, aes(x=TAVG,y=PRCP)) + geom_point(alpha=0.5) +
+  labs(title = "Correlation Between Average Temperature vs. Precipitation Events", x="Average Temperature (F)", y="Precipitation (inch)")
+```
 
+#### Correlation Analysis 3: Average Temperature versus Snow
+
+The final correlation investigated is whether there is a relationship between the average temperature versus snow fall events. The expectation was that the locations with lower average temperatures would be linearly correlated with larger snow fall events. The below graph shows that this isn't the case. the data here is normally distributed rather than normally correlated, which is an unexpected finding.
+
+```{r message=FALSE, echo=FALSE}
 ggplot(WeatherData, aes(x=TAVG,y=SNOW)) + geom_point()
 ```
 
+## Discussion
+This analysis provided insight weather experienced within the United States and Canada. The data allowed us to explore extreme weather events such as coldest temperatures, most snow fall and most precipitation and determine whether there were any correlations between the weather variables that are collected throughout the year 2017. 
+
+The overarching question was whether there was a single state that experienced all of the most extreme weather events such as coldest temperature, most snow AND most precipitation. The analysis shows that this is not the case, and that the most extreme weather results were experienced in different locations, as follows:
+
+* Coldest Temperature = Alaska
+* Largest Snowfall Event = New Jersey
+* Largest Precipitation Event = Texas
+
+The analysis then looked into whether there were any strong correlations between weather event variables. The correlations determined were as follows:
+
+* Snow versus Precipitation Events = Linear Correlation
+* Average Temperature versus Precipitation Events = Double Normal Distribution
+* Average Temperature versus Snowfall Events = Normal Distrbution
+
+While there was a significant amount of "NA" variables within the dataset, the analysis was still able to provide insight into the weather in various locations and begin analyzing correlations between variables. This analysis could benefit from additional years, or perhaps more complete data from this single year, but still offered valuable information about weather experienced in different parts of the world.
 
 
 

@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">7 min read</span>
+    <span class="article-duration">9 min read</span>
     
 
     <h1 class="article-title">A05 v3</h1>
@@ -101,8 +101,7 @@
 1. What is the coldest state?
 2. Which state has the most snowfall?
 3. Which state has the most precipitation?
-4. Which state has the fastest 5-sec wind speed?
-5. Is there any correlation between precipitation levels and snowfall levels?</p>
+5. Are there any correlation in the weather data?</p>
 </div>
 <div id="dataset-exploration" class="section level2">
 <h2>Dataset Exploration</h2>
@@ -111,6 +110,9 @@
 <p>We will first examine the quantities of data collected by state to investigate whether all states have similar amounts of data to work from, or if some states won’t have enough data to draw conclusions with.</p>
 <p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 Based on the above graph, we can see that there are significantly different amounts of data collected for each location.</p>
+</div>
+<div id="data-quality" class="section level3">
+<h3>Data Quality</h3>
 <p>Other data quality issues include a large number of “NA” data, shown in the table below. The drop_na() function will be used throughout the analysis to remove any data that doesn’t contribute to the overall calculations that are executed.</p>
 <pre><code>## # A tibble: 1 x 2
 ##   `&quot;NA&quot;`      n
@@ -180,7 +182,8 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 </div>
 <div id="a-closer-look-at-highest-average-snowfall-location" class="section level4">
 <h4>A Closer Look at Highest Average Snowfall Location</h4>
-<p>A line graph is used below to map out the snowfall throughout the winter months in New Jersey.</p>
+<p>A line graph is used below to map out the snowfall throughout the winter months in the location that has experienced both the most extreme snowfall, as well as the most snow on average, New Jersey.</p>
+<p>From the below graph, it appears that while there aren’t a significant number of snowfall events, the events that have occurred are large, which has resulted in the highest snowfall on average above.</p>
 <pre><code>## # A tibble: 17 x 15
 ##    station     state latitude longitude elevation   date  TMIN  TMAX  TAVG  AWND
 ##    &lt;chr&gt;       &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -205,6 +208,7 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 ## #   PRCP &lt;dbl&gt;</code></pre>
 <p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 ### Precipitation</p>
+<p>We will now analyze the precipitation data to see which location has experienced the highest rainfall event. We will then investigate this in a slightly different way, by looking at the 3 locations that experienced the highest rainfall events</p>
 </div>
 <div id="most-precipitation" class="section level4">
 <h4>Most Precipitation</h4>
@@ -221,47 +225,56 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 ##  8 AL                8.15
 ##  9 MN                7.84
 ## 10 MO                6.94</code></pre>
-<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-10-2.png" width="672" /><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
-</div>
-</div>
-<div id="wind-speeds" class="section level3">
-<h3>Wind Speeds</h3>
-<pre><code>## # A tibble: 10 x 2
-##    state MaxWind
-##    &lt;chr&gt;   &lt;dbl&gt;
-##  1 MI      180. 
-##  2 MO      170. 
-##  3 SD      141. 
-##  4 OR      140. 
-##  5 CA      125. 
-##  6 MA      119. 
-##  7 OH      105. 
-##  8 CT       98.0
-##  9 FL       91.0
-## 10 WY       89.9</code></pre>
+<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+#### Top 3 Highest Precipitation Events</p>
+<p>Based on the above plot, we see that the locations experiencing the highest precipitation events are Texas (TX), Florida (FL), and Alaska (AK). For further analysis, a boxplot has been used to better understand the spread of data for these locations. Are these precipitation events outliers, or is it common for them to have these levels of precipitation throughout the year?</p>
 <p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<pre><code>## # A tibble: 10 x 2
-##    state AvgWind
-##    &lt;chr&gt;   &lt;dbl&gt;
-##  1 NM      23.2 
-##  2 CO      15.1 
-##  3 MP      11.4 
-##  4 VI      10.4 
-##  5 ND      10.3 
-##  6 SD      10.2 
-##  7 KS       9.80
-##  8 OK       9.79
-##  9 IA       9.76
-## 10 NE       9.71</code></pre>
-<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-11-2.png" width="672" /><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-11-3.png" width="672" />
-### Correlations</p>
-<pre><code>## Warning: Removed 413212 rows containing missing values (geom_point).</code></pre>
-<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<pre><code>## Warning: Removed 391042 rows containing missing values (geom_point).</code></pre>
-<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
-<pre><code>## Warning: Removed 413514 rows containing missing values (geom_point).</code></pre>
-<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
+<p>From the box plot, we see that typically, the precipitation events are only a few inches, but each of 3 locations experiences fairly frequent high precipitation events throughout the year.</p>
 </div>
+<div id="a-closer-look-at-yearly-texas-precipitation" class="section level4">
+<h4>A Closer Look at Yearly Texas Precipitation</h4>
+<p>To further examine the precipitation in Texas over the year, a line plot has been used to graph all of the recorded precipitation events. We can see that precipitation is frequent throughout the year in Texas, with highs around 5 inches of precipitation, and the one outlier that has exceeded 20 inches.
+<img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+<div id="correlations" class="section level3">
+<h3>Correlations</h3>
+<p>The last aspect of the data we will analyze is whether there are any correlations between the weather variables that are recorded.</p>
+<div id="correlation-analysis-1-snow-versus-precipitation" class="section level4">
+<h4>Correlation Analysis 1: Snow versus Precipitation</h4>
+<p>Here we seek to understand if there is any correlation between snowfall and precipitation events. Do locations that experience high precipitation also experience high snowfall events?</p>
+<p>Based on the below graph, we can see that there is some correlation between locations that experience high precipitation events also experiencing high snowfall events.</p>
+<pre><code>## Warning: Removed 413212 rows containing missing values (geom_point).</code></pre>
+<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+#### Correlation Analysis 2: Average Temperature versus Precipitation</p>
+<p>When comparing the average temperature to precipitation events, we can see there isn’t a clear linear correlation between these two variables. Interestingly enough, there also isn’t a normal distribution of the data. The data most resembles a double normal distribution. Perhaps with data from additional years, a more clear correlation would appear between higher temperatures and higher precipitation events.</p>
+<pre><code>## Warning: Removed 329861 rows containing missing values (geom_point).</code></pre>
+<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="correlation-analysis-3-average-temperature-versus-snow" class="section level4">
+<h4>Correlation Analysis 3: Average Temperature versus Snow</h4>
+<p>The final correlation investigated is whether there is a relationship between the average temperature versus snow fall events. The expectation was that the locations with lower average temperatures would be linearly correlated with larger snow fall events. The below graph shows that this isn’t the case. the data here is normally distributed rather than normally correlated, which is an unexpected finding.</p>
+<pre><code>## Warning: Removed 413514 rows containing missing values (geom_point).</code></pre>
+<p><img src="/2021/06/17/a05-v3/index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>This analysis provided insight weather experienced within the United States and Canada. The data allowed us to explore extreme weather events such as coldest temperatures, most snow fall and most precipitation and determine whether there were any correlations between the weather variables that are collected throughout the year 2017.</p>
+<p>The overarching question was whether there was a single state that experienced all of the most extreme weather events such as coldest temperature, most snow AND most precipitation. The analysis shows that this is not the case, and that the most extreme weather results were experienced in different locations, as follows:</p>
+<ul>
+<li>Coldest Temperature = Alaska</li>
+<li>Largest Snowfall Event = New Jersey</li>
+<li>Largest Precipitation Event = Texas</li>
+</ul>
+<p>The analysis then looked into whether there were any strong correlations between weather event variables. The correlations determined were as follows:</p>
+<ul>
+<li>Snow versus Precipitation Events = Linear Correlation</li>
+<li>Average Temperature versus Precipitation Events = Double Normal Distribution</li>
+<li>Average Temperature versus Snowfall Events = Normal Distrbution</li>
+</ul>
+<p>While there was a significant amount of “NA” variables within the dataset, the analysis was still able to provide insight into the weather in various locations and begin analyzing correlations between variables. This analysis could benefit from additional years, or perhaps more complete data from this single year, but still offered valuable information about weather experienced in different parts of the world.</p>
 </div>
 
     </div>
