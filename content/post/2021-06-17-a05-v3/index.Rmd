@@ -113,10 +113,11 @@ ColdestAvg <- WeatherData %>%
 ggplot(ColdestAvg, aes(x=state, y=AverageTemperature, fill = state)) + geom_col() + labs(title="Coldest Location on Average", x="Temperature (F)", y="Location (US State or Canadian Prov/Terr.")
 
 ```
+
 #### A Closer Look at the Coldest Location (on average)
 
 The following visualization summarizes all the average temperatures taken throughout the year (average of the highest and lowest temperature each day) with the use of a boxplot. This allows us to observe the temperatures experienced in this location in more detail.
-```{r message=FALSE, echo=FALSE}
+```{r message=FALSE, echo=FALSE, warning=FALSE}
 ColdestState <- WeatherData %>%
   filter(state == "NT")
 
@@ -139,8 +140,6 @@ MaxSnow <- WeatherData %>%
   arrange(desc(MaxSnowfall)) %>%
   head(10)
 
-MaxSnow
-
 ggplot(MaxSnow, aes(x = state, y = MaxSnowfall, fill=state)) + geom_col() + labs(title="Highest Logged Snowfall Event", x="State", y="Snowfall (inch)")
 
 ```
@@ -158,8 +157,6 @@ MostSnowAvg <- WeatherData %>%
   arrange(desc(AverageSnowfall)) %>%
   head(10)
 
-MostSnowAvg
-
 ggplot(MostSnowAvg, aes(x = state, y = AverageSnowfall, fill = state)) + geom_col() + labs(title="Most Snowfall on Average", x="State", y="Snowfall (inch)")
 ```
 
@@ -173,8 +170,6 @@ From the below graph, it appears that while there aren't a significant number of
 MostSnow <- WeatherData %>%
   drop_na(SNOW) %>%
   filter(state == "NJ")
- 
-MostSnow
 
 ggplot(MostSnow, aes(x = date, y = SNOW)) + geom_line() + labs(title="New Jersey Snowfall", x="Date", y="Snowfall (inch)")
 ```
@@ -191,8 +186,6 @@ MostPrecip <- WeatherData %>%
   summarize(MaxPrecipitation = max(PRCP)) %>%
   arrange(desc(MaxPrecipitation)) %>%
   head(10)
-
-MostPrecip
 
 ggplot(MostPrecip, aes(x = state, y = MaxPrecipitation, fill=state)) + geom_col() + labs(title="Highest Logged Precipitation Event", x="State", y="Precipitation (inch)")
 ```

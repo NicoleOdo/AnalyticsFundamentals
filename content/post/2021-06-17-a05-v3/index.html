@@ -71,11 +71,12 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 <h4>Coldest State on Average</h4>
 <p>Taking the above analysis a step further and see if the location that experienced the coldest logged temperature is also the coldest on average. This was explored by taking the average temperature overall of each state. This demonstrated that the extreme temperatures summarized above do not necessarily indicate coldest average temperatures overall.</p>
 <p>In the average temperature analysis below, we see that the Northwest Territories is the coldest location overall. It should be noted that only the top 10 locations that experienced the coldest temperatures are reported on the graph for clarity.
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-#### A Closer Look at the Coldest Location (on average)</p>
-<p>The following visualization summarizes all the average temperatures taken throughout the year (average of the highest and lowest temperature each day) with the use of a boxplot. This allows us to observe the temperatures experienced in this location in more detail.</p>
-<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_boxplot).</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="a-closer-look-at-the-coldest-location-on-average" class="section level4">
+<h4>A Closer Look at the Coldest Location (on average)</h4>
+<p>The following visualization summarizes all the average temperatures taken throughout the year (average of the highest and lowest temperature each day) with the use of a boxplot. This allows us to observe the temperatures experienced in this location in more detail.
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 </div>
 <div id="snowfall" class="section level3">
@@ -83,68 +84,20 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 <p>The next weather variable to analyze is the snowfall. This analysis will follow a similar procedure in that it will determine which location experienced the most significant snow fall, then determine which location has the most snow on average to see if they are the same. We will compare these results to the results obtained above to see if the location that experienced the coldest temperatures also experiences the most snow.</p>
 <div id="most-snowfall" class="section level4">
 <h4>Most Snowfall</h4>
-<p>Here we see that the location that experienced the most snow is New Jersey. This differs from the location that experienced the coldest temperature, so our overaching question has already been answered. We can conclude that no, there is not a single state that experience all of the extreme weather events, but rather, each weather variable varies by location.</p>
-<pre><code>## # A tibble: 10 x 2
-##    state MaxSnowfall
-##    &lt;chr&gt;       &lt;dbl&gt;
-##  1 NJ           68.0
-##  2 NY           31.2
-##  3 QC           26.0
-##  4 PA           22.1
-##  5 NS           22.0
-##  6 ME           21.5
-##  7 VT           17.8
-##  8 CA           17.4
-##  9 CT           15.8
-## 10 NH           15.6</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Here we see that the location that experienced the most snow is New Jersey. This differs from the location that experienced the coldest temperature, so our overaching question has already been answered. We can conclude that no, there is not a single state that experience all of the extreme weather events, but rather, each weather variable varies by location.
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="most-snowfall-on-average" class="section level4">
 <h4>Most Snowfall on Average</h4>
 <p>To determine whether locations experiencing peak snowfall events also have the highest snowfall on average, the average total snowfall by location has been summarized and graphed below.</p>
-<p>In this scenario, the location that experienced the highest snowfall event also experienced the highest snowfall on average for the entire year.</p>
-<pre><code>## # A tibble: 10 x 2
-##    state AverageSnowfall
-##    &lt;chr&gt;           &lt;dbl&gt;
-##  1 NJ               6.11
-##  2 RI               4.16
-##  3 AZ               3.63
-##  4 CA               3.60
-##  5 CT               3.56
-##  6 GA               3.19
-##  7 MA               2.70
-##  8 ME               2.67
-##  9 VT               2.49
-## 10 NH               2.48</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>In this scenario, the location that experienced the highest snowfall event also experienced the highest snowfall on average for the entire year.
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="a-closer-look-at-highest-average-snowfall-location" class="section level4">
 <h4>A Closer Look at Highest Average Snowfall Location</h4>
 <p>A line graph is used below to map out the snowfall throughout the winter months in the location that has experienced both the most extreme snowfall, as well as the most snow on average, New Jersey.</p>
-<p>From the below graph, it appears that while there aren’t a significant number of snowfall events, the events that have occurred are large, which has resulted in the highest snowfall on average above.</p>
-<pre><code>## # A tibble: 17 x 15
-##    station     state latitude longitude elevation   date  TMIN  TMAX  TAVG  AWND
-##    &lt;chr&gt;       &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  28.2  34.0  31.6  5.37
-##  2 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  20.1  26.2  23.5 14.1 
-##  3 ATLANTIC C… NJ        39.4     -74.6      18.3 2.02e7  27.1  35.1  NA    8.05
-##  4 ATLANTIC C… NJ        39.4     -74.6      18.3 2.02e7  17.2  28.2  NA   13.9 
-##  5 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  25.2  34.0  30.4  8.72
-##  6 ATLANTIC C… NJ        39.4     -74.6      18.3 2.02e7  28.2  48.0  42.1 11.6 
-##  7 TETERBORO … NJ        40.8     -74.1       2.7 2.02e7  20.1  39.9  NA    8.50
-##  8 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  32    39.9  36.0  8.05
-##  9 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  24.3  48.9  41.2 16.3 
-## 10 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  19.2  43.0  34.9 20.8 
-## 11 ATLANTIC C… NJ        39.4     -74.6      18.3 2.02e7  23.2  46.9  38.7 22.6 
-## 12 ATLANTIC C… NJ        39.4     -74.6      18.3 2.02e7  27.1  41    NA    8.50
-## 13 TETERBORO … NJ        40.8     -74.1       2.7 2.02e7  26.2  34.0  NA   10.5 
-## 14 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  22.1  32    30.2 22.6 
-## 15 TETERBORO … NJ        40.8     -74.1       2.7 2.02e7  28.2  34.0  NA    3.58
-## 16 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  25.2  32    29.8  5.14
-## 17 NEWARK INT… NJ        40.7     -74.2       2.1 2.02e7  20.1  37.0  27.3  7.38
-## # … with 5 more variables: WDF5 &lt;dbl&gt;, WSF5 &lt;dbl&gt;, SNOW &lt;dbl&gt;, SNWD &lt;dbl&gt;,
-## #   PRCP &lt;dbl&gt;</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>From the below graph, it appears that while there aren’t a significant number of snowfall events, the events that have occurred are large, which has resulted in the highest snowfall on average above.
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
 <div id="precipitation" class="section level3">
@@ -152,19 +105,6 @@ Here we see that the state that experienced the coldest temperature is Alaska. I
 <p>We will now analyze the precipitation data to see which location has experienced the highest rainfall event. We will then investigate this in a slightly different way, by looking at the 3 locations that experienced the highest rainfall events</p>
 <div id="most-precipitation" class="section level4">
 <h4>Most Precipitation</h4>
-<pre><code>## # A tibble: 10 x 2
-##    state MaxPrecipitation
-##    &lt;chr&gt;            &lt;dbl&gt;
-##  1 TX               26.0 
-##  2 FL               13.1 
-##  3 AK               11.5 
-##  4 LA               10.4 
-##  5 HI                9.19
-##  6 NV                9.10
-##  7 CA                8.80
-##  8 AL                8.15
-##  9 MN                7.84
-## 10 MO                6.94</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="top-3-highest-precipitation-events" class="section level4">
