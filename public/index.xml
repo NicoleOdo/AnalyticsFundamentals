@@ -6,7 +6,17 @@
     <description>Recent content on NicoleOdo - Fundamentals of Analytics</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Project</title>
+      <link>/2021/06/21/project/</link>
+      <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/2021/06/21/project/</guid>
+      <description>Overview of Incident Rates - Construction vs. Manufacturing a &amp;lt;- WorkSafeData %&amp;gt;% count(Sector_desc, AccYr) ggplot(a, aes(x = AccYr, y=n, color=Sector_desc)) + geom_line()  Incident Insights - Lost Time versus No Lost Time Incidents x &amp;lt;- WorkSafeData %&amp;gt;% count(Sector_desc, AccYr, Claim_Type) ggplot(x, aes(x = AccYr, y=n, fill = Claim_Type, beside=TRUE)) + geom_bar(position=&amp;quot;dodge&amp;quot;, stat=&amp;quot;identity&amp;quot;) + facet_wrap(~ Sector_desc) ## Incident Insights - Fatalities
+b &amp;lt;- WorkSafeData %&amp;gt;% group_by(Sector_desc) %&amp;gt;% group_by(AccYr) %&amp;gt;% filter(fatality_flag == &amp;quot;Y&amp;quot;) %&amp;gt;% count(Sector_desc, AccYr) b ## # A tibble: 14 x 3 ## # Groups: AccYr [10] ## AccYr Sector_desc n ## &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; ## 1 2011 Construction 2 ## 2 2012 Construction 3 ## 3 2012 Manufacturing - Metal &amp;amp; Machinery 1 ## 4 2013 Construction 1 ## 5 2014 Construction 1 ## 6 2015 Construction 2 ## 7 2015 Manufacturing - Heavy 1 ## 8 2016 Construction 1 ## 9 2016 Manufacturing - Heavy 2 ## 10 2017 Construction 3 ## 11 2018 Construction 4 ## 12 2019 Construction 1 ## 13 2019 Manufacturing - Heavy 1 ## 14 2020 Manufacturing - Metal &amp;amp; Machinery 1 ggplot(b, aes(x = AccYr, y = n, fill = Sector_desc)) + geom_col() + facet_wrap(~ Sector_desc) ## Occupations with Highest Incident Rates - Construction vs.</description>
+    </item>
+    
     <item>
       <title>A05 v2</title>
       <link>/2021/06/17/a05-v2/</link>

@@ -1,0 +1,144 @@
+---
+title: Project
+author: R package build
+date: '2021-06-21'
+slug: project
+categories: []
+tags: []
+---
+```{r message=FALSE, echo=FALSE}
+library(tidyverse)
+library(dplyr)
+library(RColorBrewer)
+library(packcircles)
+library(ggplot2)
+
+myPalette <- brewer.pal(5, "Set2") 
+
+WorkSafeData <- read_csv("WorkSafeNB Data.csv")
+
+``` 
+
+## Overview of Incident Rates - Construction vs. Manufacturing
+
+```{r}
+a <- WorkSafeData %>%
+  count(Sector_desc, AccYr)
+
+ggplot(a, aes(x = AccYr, y=n, color=Sector_desc)) + geom_line()
+```
+
+## Incident Insights - Lost Time versus No Lost Time Incidents
+```{r}
+x <- WorkSafeData %>%
+ count(Sector_desc, AccYr, Claim_Type)
+
+ggplot(x, aes(x = AccYr, y=n, fill = Claim_Type, beside=TRUE)) + geom_bar(position="dodge", stat="identity") + facet_wrap(~ Sector_desc)
+```
+## Incident Insights - Fatalities
+
+```{r}
+b <- WorkSafeData %>%
+  group_by(Sector_desc) %>%
+  group_by(AccYr) %>%
+  filter(fatality_flag == "Y") %>%
+  count(Sector_desc, AccYr)
+
+b
+
+ggplot(b, aes(x = AccYr, y = n, fill = Sector_desc)) + geom_col() + facet_wrap(~ Sector_desc)
+```
+## Occupations with Highest Incident Rates - Construction vs. Manufacturing
+```{r}
+gg <- WorkSafeData %>%
+  filter(Sector_desc == "Construction") %>%
+  count(occupation_desc) %>%
+  arrange(desc(n))
+
+gg
+
+gh <- WorkSafeData %>%
+  filter(Sector == "31" | Sector == "32" | Sector == "33") %>%
+  count(occupation_desc) %>%
+  arrange(desc(n))
+
+gh
+```
+
+## Most Common Source of Injury - Construction vs. Manufacturing
+```{r}
+m <- WorkSafeData %>%
+  filter(Sector_desc == "Construction") %>%
+  count(source_of_injury_desc) %>%
+  arrange(desc(n))
+
+m
+
+n <- WorkSafeData %>%
+  filter(Sector == "31" | Sector == "32" | Sector == "33") %>%
+  count(source_of_injury_desc) %>%
+  arrange(desc(n))
+
+n
+```
+
+## Incidents by North American Industry Classification System
+```{r}
+s <- WorkSafeData %>%
+  count(Sector_desc, NAICS_desc) %>%
+  arrange(desc(n)) %>%
+  head(10)
+s
+
+ggplot(s, aes(x=NAICS_desc, y=n, fill = Sector_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1))
+
+```
+
+
+
+## Pre-Fabricated Wood Buildings
+```{r}
+c <- WorkSafeData %>%
+  filter(NAICS_desc == "Prefabricated Wood Building Manufacturing") %>%
+  count(Claim_Type)
+
+ggplot(c, aes(x = Claim_Type, y = n, fill=Claim_Type)) + geom_col()
+
+d <- WorkSafeData %>%
+  filter(NAICS_desc == "Prefabricated Wood Building Manufacturing") %>%
+  count(source_of_injury_desc) %>%
+  arrange(desc(n)) %>%
+  head(8)
+
+pie(d$n, d$source_of_injury_desc, border="white", col=myPalette)
+
+ggplot(d, aes(x = source_of_injury_desc, y = n, fill = source_of_injury_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position = "none")
+
+
+e <- WorkSafeData %>%
+  filter(NAICS_desc == "Prefabricated Wood Building Manufacturing") %>%
+  count(event_exposure_desc) %>%
+  arrange(desc(n)) %>%
+  head(8)
+
+packing <- circleProgressiveLayout(e$n, sizetype='area')
+e <- cbind(e, packing)
+dat.gg <- circleLayoutVertices(packing, npoints=50)
+
+ggplot() + geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), colour = "black", alpha = 0.6) +
+
+  geom_text(data = e, aes(x, y, size=n, label = event_exposure_desc)) +
+  scale_size_continuous(range = c(1,4)) +
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()
+```
+## Source of Injury: Cranes
+```{r}
+y <- WorkSafeData %>%
+  filter(source_of_injury_desc == "Cranes, uns." | source_of_injury_desc == "Cranes, nec.")
+  
+
+y
+```
+
