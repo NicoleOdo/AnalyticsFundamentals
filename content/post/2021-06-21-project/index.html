@@ -12,200 +12,95 @@ tags: []
 
 <div id="overview-of-incident-rates---construction-vs.-manufacturing" class="section level2">
 <h2>Overview of Incident Rates - Construction vs. Manufacturing</h2>
-<pre class="r"><code>a &lt;- WorkSafeData %&gt;%
-  count(Sector_desc, AccYr)
-
-ggplot(a, aes(x = AccYr, y=n, color=Sector_desc)) + geom_line()</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="incident-insights---lost-time-versus-no-lost-time-incidents" class="section level2">
 <h2>Incident Insights - Lost Time versus No Lost Time Incidents</h2>
-<pre class="r"><code>x &lt;- WorkSafeData %&gt;%
- count(Sector_desc, AccYr, Claim_Type)
-
-ggplot(x, aes(x = AccYr, y=n, fill = Claim_Type, beside=TRUE)) + geom_bar(position=&quot;dodge&quot;, stat=&quot;identity&quot;) + facet_wrap(~ Sector_desc)</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 ## Incident Insights - Fatalities</p>
-<pre class="r"><code>b &lt;- WorkSafeData %&gt;%
-  group_by(Sector_desc) %&gt;%
-  group_by(AccYr) %&gt;%
-  filter(fatality_flag == &quot;Y&quot;) %&gt;%
-  count(Sector_desc, AccYr)
-
-b</code></pre>
 <pre><code>## # A tibble: 14 x 3
 ## # Groups:   AccYr [10]
-##    AccYr Sector_desc                           n
-##    &lt;dbl&gt; &lt;chr&gt;                             &lt;int&gt;
-##  1  2011 Construction                          2
-##  2  2012 Construction                          3
-##  3  2012 Manufacturing - Metal &amp; Machinery     1
-##  4  2013 Construction                          1
-##  5  2014 Construction                          1
-##  6  2015 Construction                          2
-##  7  2015 Manufacturing - Heavy                 1
-##  8  2016 Construction                          1
-##  9  2016 Manufacturing - Heavy                 2
-## 10  2017 Construction                          3
-## 11  2018 Construction                          4
-## 12  2019 Construction                          1
-## 13  2019 Manufacturing - Heavy                 1
-## 14  2020 Manufacturing - Metal &amp; Machinery     1</code></pre>
-<pre class="r"><code>ggplot(b, aes(x = AccYr, y = n, fill = Sector_desc)) + geom_col() + facet_wrap(~ Sector_desc)</code></pre>
+##    AccYr Manufacturing     n
+##    &lt;int&gt; &lt;chr&gt;         &lt;int&gt;
+##  1  2011 Construction      2
+##  2  2012 Construction      3
+##  3  2012 Manufacturing     1
+##  4  2013 Construction      1
+##  5  2014 Construction      1
+##  6  2015 Construction      2
+##  7  2015 Manufacturing     1
+##  8  2016 Construction      1
+##  9  2016 Manufacturing     2
+## 10  2017 Construction      3
+## 11  2018 Construction      4
+## 12  2019 Construction      1
+## 13  2019 Manufacturing     1
+## 14  2020 Manufacturing     1</code></pre>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 ## Occupations with Highest Incident Rates - Construction vs. Manufacturing</p>
-<pre class="r"><code>gg &lt;- WorkSafeData %&gt;%
-  filter(Sector_desc == &quot;Construction&quot;) %&gt;%
-  count(occupation_desc) %&gt;%
-  arrange(desc(n))
-
-gg</code></pre>
-<pre><code>## # A tibble: 136 x 2
-##    occupation_desc                n
-##    &lt;chr&gt;                      &lt;int&gt;
-##  1 &lt;NA&gt;                        3205
-##  2 CARPENTER/RELATED            598
-##  3 LABOUR/OTHER ELEM WRK OTHE   527
-##  4 LABOUR/OTHER ELEM WORK-NEC   391
-##  5 CONS ELECTRICIAN/REPAIRMAN   215
-##  6 PIPEFITTER/PLUMBER/RELATED   211
-##  7 TRUCK DRIVER                 166
-##  8 OCCUPATION NOT STATED        130
-##  9 ROOFER/WATERPROOFER/RELA     129
-## 10 PLASTERER/RELATED            119
-## # … with 126 more rows</code></pre>
-<pre class="r"><code>gh &lt;- WorkSafeData %&gt;%
-  filter(Sector == &quot;31&quot; | Sector == &quot;32&quot; | Sector == &quot;33&quot;) %&gt;%
-  count(occupation_desc) %&gt;%
-  arrange(desc(n))
-
-gh</code></pre>
-<pre><code>## # A tibble: 250 x 2
-##    occupation_desc                n
-##    &lt;chr&gt;                      &lt;int&gt;
-##  1 &lt;NA&gt;                        6992
-##  2 LABOUR/OTHER ELEM WRK WOOD  1150
-##  3 FISH CANNING CURING/PACK    1055
-##  4 LABOUR/OTHER ELEM WORK-NEC   941
-##  5 OTHER OCCUPATIONS - NEC      518
-##  6 INDUSTR/FARM/CONSTR MACHIN   443
-##  7 WELDING/FLAME CUTTING        418
-##  8 SLAUT/MEAT CUT/CAN/CURE/PC   386
-##  9 OCCUPATION NOT STATED        370
-## 10 LAB/OTH ELEM WRK PROD FAB/   362
-## # … with 240 more rows</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   occupation_desc                n
+##   &lt;chr&gt;                      &lt;int&gt;
+## 1 CARPENTER/RELATED            598
+## 2 LABOUR/OTHER ELEM WRK OTHE   527
+## 3 LABOUR/OTHER ELEM WORK-NEC   391
+## 4 CONS ELECTRICIAN/REPAIRMAN   215
+## 5 PIPEFITTER/PLUMBER/RELATED   211</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   occupation_desc                n
+##   &lt;chr&gt;                      &lt;int&gt;
+## 1 LABOUR/OTHER ELEM WRK WOOD  1150
+## 2 FISH CANNING CURING/PACK    1055
+## 3 LABOUR/OTHER ELEM WORK-NEC   941
+## 4 OTHER OCCUPATIONS - NEC      518
+## 5 INDUSTR/FARM/CONSTR MACHIN   443</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre><code>## # A tibble: 6,628 x 4
+## # Groups:   nature_of_injury_desc, event_exposure_desc, source_of_injury_desc
+## #   [6,628]
+##    nature_of_injury_de… event_exposure_desc          source_of_injury_desc     n
+##    &lt;chr&gt;                &lt;chr&gt;                        &lt;chr&gt;                 &lt;int&gt;
+##  1 Not coded            Not coded                    Not coded             10197
+##  2 Sprains, strains, t… Bending, climbing, crawling… Bodily motion or pos…   651
+##  3 Deafness, hearing l… Exposure to noise over time  Noise                   345
+##  4 Sprains, strains, t… Bodily reaction, n.e.c.      Bodily motion or pos…   223
+##  5 Sprains, strains, t… Repetitive motion, n.e.c.    Bodily motion or pos…   165
+##  6 Cuts, lacerations    Struck by slipping handheld… Knives                  158
+##  7 Sprains, strains, t… Slip,trip,stepped on or in,… Bodily motion or pos…   148
+##  8 Carpal tunnel syndr… Repetitive motion, n.e.c.    Bodily motion or pos…   129
+##  9 Sprains, strains, t… Slipping on something - wit… Bodily motion or pos…   129
+## 10 Sprains, strains, t… Overexertion in lifting      Boxes, crates, carto…   122
+## # … with 6,618 more rows</code></pre>
 </div>
 <div id="most-common-source-of-injury---construction-vs.-manufacturing" class="section level2">
 <h2>Most Common Source of Injury - Construction vs. Manufacturing</h2>
-<pre class="r"><code>m &lt;- WorkSafeData %&gt;%
-  filter(Sector_desc == &quot;Construction&quot;) %&gt;%
-  count(source_of_injury_desc) %&gt;%
-  arrange(desc(n))
-
-m</code></pre>
-<pre><code>## # A tibble: 426 x 2
-##    source_of_injury_desc                                n
-##    &lt;chr&gt;                                            &lt;int&gt;
-##  1 Not coded                                         3205
-##  2 Bodily motion or position of injured, ill worker   690
-##  3 Ground                                             296
-##  4 Floors, walkways, ground surfaces, uns.            170
-##  5 Unknown                                            143
-##  6 Floor of building                                  102
-##  7 Other sources, n.e.c.                               83
-##  8 Knives                                              60
-##  9 Nails, brads, tacks                                 53
-## 10 Noise                                               53
-## # … with 416 more rows</code></pre>
-<pre class="r"><code>n &lt;- WorkSafeData %&gt;%
-  filter(Sector == &quot;31&quot; | Sector == &quot;32&quot; | Sector == &quot;33&quot;) %&gt;%
-  count(source_of_injury_desc) %&gt;%
-  arrange(desc(n))
-
-n</code></pre>
-<pre><code>## # A tibble: 611 x 2
-##    source_of_injury_desc                                n
-##    &lt;chr&gt;                                            &lt;int&gt;
-##  1 Not coded                                         6992
-##  2 Bodily motion or position of injured, ill worker  2264
-##  3 Boxes, crates, cartons                             347
-##  4 Noise                                              304
-##  5 Floor of building                                  294
-##  6 Wood, lumber, uns.                                 282
-##  7 Unknown                                            243
-##  8 Other sources, n.e.c.                              232
-##  9 Knives                                             214
-## 10 Skids, pallets                                     188
-## # … with 601 more rows</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 </div>
 <div id="incidents-by-north-american-industry-classification-system" class="section level2">
 <h2>Incidents by North American Industry Classification System</h2>
-<pre class="r"><code>s &lt;- WorkSafeData %&gt;%
-  count(Sector_desc, NAICS_desc) %&gt;%
-  arrange(desc(n)) %&gt;%
-  head(10)
-s</code></pre>
 <pre><code>## # A tibble: 10 x 3
-##    Sector_desc           NAICS_desc                                            n
-##    &lt;chr&gt;                 &lt;chr&gt;                                             &lt;int&gt;
-##  1 Manufacturing - Heavy Sawmills (except Shingle and Shake Mills)          2517
-##  2 Manufacturing - Light Seafood Product Preparation and Packaging          1939
-##  3 Manufacturing - Heavy Paper (except Newsprint) Mills                     1043
-##  4 Construction          Plumbing, Heating and Air-Conditioning Contracto…   950
-##  5 Manufacturing - Heavy Prefabricated Wood Building Manufacturing           890
-##  6 Construction          Residential Building Construction                   846
-##  7 Manufacturing - Light Poultry Processing                                  788
-##  8 Manufacturing - Heavy All Other Plastic Product Manufacturing             769
-##  9 Construction          Highway, Street and Bridge Construction             689
-## 10 Construction          Site Preparation Contractors                        689</code></pre>
-<pre class="r"><code>ggplot(s, aes(x=NAICS_desc, y=n, fill = Sector_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1))</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+##    Manufacturing NAICS_desc                                             n
+##    &lt;chr&gt;         &lt;chr&gt;                                              &lt;int&gt;
+##  1 Manufacturing Sawmills (except Shingle and Shake Mills)           2517
+##  2 Manufacturing Seafood Product Preparation and Packaging           1939
+##  3 Manufacturing Paper (except Newsprint) Mills                      1043
+##  4 Construction  Plumbing, Heating and Air-Conditioning Contractors   950
+##  5 Manufacturing Prefabricated Wood Building Manufacturing            890
+##  6 Construction  Residential Building Construction                    846
+##  7 Manufacturing Poultry Processing                                   788
+##  8 Manufacturing All Other Plastic Product Manufacturing              769
+##  9 Construction  Highway, Street and Bridge Construction              689
+## 10 Construction  Site Preparation Contractors                         689</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div id="pre-fabricated-wood-buildings" class="section level2">
 <h2>Pre-Fabricated Wood Buildings</h2>
-<pre class="r"><code>c &lt;- WorkSafeData %&gt;%
-  filter(NAICS_desc == &quot;Prefabricated Wood Building Manufacturing&quot;) %&gt;%
-  count(Claim_Type)
-
-ggplot(c, aes(x = Claim_Type, y = n, fill=Claim_Type)) + geom_col()</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<pre class="r"><code>d &lt;- WorkSafeData %&gt;%
-  filter(NAICS_desc == &quot;Prefabricated Wood Building Manufacturing&quot;) %&gt;%
-  count(source_of_injury_desc) %&gt;%
-  arrange(desc(n)) %&gt;%
-  head(8)
-
-pie(d$n, d$source_of_injury_desc, border=&quot;white&quot;, col=myPalette)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
-<pre class="r"><code>ggplot(d, aes(x = source_of_injury_desc, y = n, fill = source_of_injury_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position = &quot;none&quot;)</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
-<pre class="r"><code>e &lt;- WorkSafeData %&gt;%
-  filter(NAICS_desc == &quot;Prefabricated Wood Building Manufacturing&quot;) %&gt;%
-  count(event_exposure_desc) %&gt;%
-  arrange(desc(n)) %&gt;%
-  head(8)
-
-packing &lt;- circleProgressiveLayout(e$n, sizetype=&#39;area&#39;)
-e &lt;- cbind(e, packing)
-dat.gg &lt;- circleLayoutVertices(packing, npoints=50)
-
-ggplot() + geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id)), colour = &quot;black&quot;, alpha = 0.6) +
-
-  geom_text(data = e, aes(x, y, size=n, label = event_exposure_desc)) +
-  scale_size_continuous(range = c(1,4)) +
-  theme_void() + 
-  theme(legend.position=&quot;none&quot;) +
-  coord_equal()</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-4.png" width="672" />
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-4.png" width="672" />
 ## Source of Injury: Cranes</p>
-<pre class="r"><code>y &lt;- WorkSafeData %&gt;%
-  filter(source_of_injury_desc == &quot;Cranes, uns.&quot; | source_of_injury_desc == &quot;Cranes, nec.&quot;)
-  
-
-y</code></pre>
-<pre><code>## # A tibble: 11 x 18
+<pre><code>## # A tibble: 11 x 19
 ##    Sector Sector_desc      NAICS NAICS_desc       Claim_Type accident_date AccYr
-##     &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;
+##     &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;
 ##  1     23 Construction    237310 Highway, Street… LT         23-Aug-11      2011
 ##  2     23 Construction    237310 Highway, Street… LT         12-Jun-12      2012
 ##  3     23 Construction    238299 All Other Build… NLT        11-May-12      2012
@@ -217,10 +112,10 @@ y</code></pre>
 ##  9     33 Manufacturing … 331410 Non-Ferrous Met… LT         23-Aug-12      2012
 ## 10     33 Manufacturing … 333920 Material Handli… LT         02-Jun-20      2020
 ## 11     33 Manufacturing … 336212 Truck Trailer M… LT         21-Nov-13      2013
-## # … with 11 more variables: occupation_code &lt;chr&gt;, occupation_desc &lt;chr&gt;,
+## # … with 12 more variables: occupation_code &lt;chr&gt;, occupation_desc &lt;chr&gt;,
 ## #   part_of_body_code &lt;chr&gt;, part_of_body_desc &lt;chr&gt;,
 ## #   nature_of_injury_code &lt;chr&gt;, nature_of_injury_desc &lt;chr&gt;,
 ## #   event_exposure_code &lt;chr&gt;, event_exposure_desc &lt;chr&gt;,
 ## #   source_of_injury_code &lt;chr&gt;, source_of_injury_desc &lt;chr&gt;,
-## #   fatality_flag &lt;chr&gt;</code></pre>
+## #   fatality_flag &lt;chr&gt;, Manufacturing &lt;chr&gt;</code></pre>
 </div>

@@ -12,92 +12,132 @@ library(dplyr)
 library(RColorBrewer)
 library(packcircles)
 library(ggplot2)
+library(ggfittext)
 
 myPalette <- brewer.pal(5, "Set2") 
 
 WorkSafeData <- read_csv("WorkSafeNB Data.csv")
+WorkSafeData$AccYr = as.integer(WorkSafeData$AccYr)
+
+#WorkSafeData$Manufacturing <- ifelse(substring(WorkSafeData$Sector_desc, 13) == "Manufacturing", "Manufacturing", "Construction")
+
+require("car")    
+WorkSafeData$Manufacturing <- recode(WorkSafeData$Sector_desc, "c('Manufacturing - Heavy','Manufacturing - Light', 'Manufacturing - Metal & Machinery')='Manufacturing'; else='Construction'")
+
 
 ``` 
 
 ## Overview of Incident Rates - Construction vs. Manufacturing
 
-```{r}
+```{r message=FALSE, echo=FALSE}
 a <- WorkSafeData %>%
-  count(Sector_desc, AccYr)
+  count(Manufacturing, AccYr)
 
-ggplot(a, aes(x = AccYr, y=n, color=Sector_desc)) + geom_line()
+ggplot(a, aes(x = AccYr, y=n, color=Manufacturing)) + geom_line() + scale_x_continuous(breaks = scales::pretty_breaks())
 ```
 
 ## Incident Insights - Lost Time versus No Lost Time Incidents
-```{r}
+```{r message=FALSE, echo=FALSE}
 x <- WorkSafeData %>%
- count(Sector_desc, AccYr, Claim_Type)
+ count(Manufacturing, AccYr, Claim_Type)
 
-ggplot(x, aes(x = AccYr, y=n, fill = Claim_Type, beside=TRUE)) + geom_bar(position="dodge", stat="identity") + facet_wrap(~ Sector_desc)
+ggplot(x, aes(x = AccYr, y=n, fill = Claim_Type, beside=TRUE)) + geom_bar(position="dodge", stat="identity") + facet_wrap(~ Manufacturing) + scale_x_continuous(breaks = scales::pretty_breaks())
 ```
 ## Incident Insights - Fatalities
 
-```{r}
+```{r message=FALSE, echo=FALSE}
 b <- WorkSafeData %>%
-  group_by(Sector_desc) %>%
+  group_by(Manufacturing) %>%
   group_by(AccYr) %>%
   filter(fatality_flag == "Y") %>%
-  count(Sector_desc, AccYr)
+  count(Manufacturing, AccYr)
 
 b
 
-ggplot(b, aes(x = AccYr, y = n, fill = Sector_desc)) + geom_col() + facet_wrap(~ Sector_desc)
+ggplot(b, aes(x = AccYr, y = n, fill = Manufacturing)) + geom_col() + scale_x_continuous(breaks = scales::pretty_breaks())
 ```
 ## Occupations with Highest Incident Rates - Construction vs. Manufacturing
-```{r}
+```{r message=FALSE, echo=FALSE}
 gg <- WorkSafeData %>%
+  drop_na() %>%
   filter(Sector_desc == "Construction") %>%
   count(occupation_desc) %>%
-  arrange(desc(n))
+  arrange(desc(n)) %>%
+  head(5)
 
 gg
 
 gh <- WorkSafeData %>%
+  drop_na() %>%
   filter(Sector == "31" | Sector == "32" | Sector == "33") %>%
   count(occupation_desc) %>%
-  arrange(desc(n))
+  arrange(desc(n)) %>%
+  head(5)
 
 gh
+
+ggplot(gg, aes(x = reorder(occupation_desc, n), y = n)) + geom_col(fill='indianred2') + theme(axis.text.x = element_text(angle=90, hjust=1))
+
+ggplot(gh, aes(x = reorder(occupation_desc, n), y = n)) + geom_col(fill='turquoise3') + theme(axis.text.x = element_text(angle=90, hjust=1))
 ```
 
+
+
+```{r message=FALSE, echo=FALSE}
+t <- WorkSafeData %>%
+  filter(occupation_desc == 'LABOUR/OTHER ELEM WORK-NEC') %>%
+  count(Manufacturing, Claim_Type)
+
+ggplot(t, aes(Claim_Type, y=n, fill = Manufacturing)) + geom_col()
+```
+
+```{r message=FALSE, echo=FALSE}
+z <- WorkSafeData %>%
+  group_by(nature_of_injury_desc, event_exposure_desc, source_of_injury_desc) %>%
+  count() %>%
+  arrange(desc(n))
+
+z
+
+
+```
+
+
 ## Most Common Source of Injury - Construction vs. Manufacturing
-```{r}
+```{r message=FALSE, echo=FALSE}
 m <- WorkSafeData %>%
   filter(Sector_desc == "Construction") %>%
   count(source_of_injury_desc) %>%
-  arrange(desc(n))
+  arrange(desc(n)) %>%
+  head(5)
 
-m
+ggplot(m, aes(x=reorder(source_of_injury_desc, n), y=n)) + geom_col(fill='indianred1') + theme(axis.text.x = element_text(angle=90, hjust=1))
 
 n <- WorkSafeData %>%
   filter(Sector == "31" | Sector == "32" | Sector == "33") %>%
   count(source_of_injury_desc) %>%
-  arrange(desc(n))
+  arrange(desc(n)) %>%
+  head(5)
 
-n
+ggplot(n, aes(x=reorder(source_of_injury_desc, n), y=n)) + geom_col(fill='turquoise3') + theme(axis.text.x = element_text(angle=90, hjust=1))
 ```
 
 ## Incidents by North American Industry Classification System
-```{r}
+```{r message=FALSE, echo=FALSE}
 s <- WorkSafeData %>%
-  count(Sector_desc, NAICS_desc) %>%
+  count(Manufacturing, NAICS_desc) %>%
   arrange(desc(n)) %>%
   head(10)
 s
 
-ggplot(s, aes(x=NAICS_desc, y=n, fill = Sector_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1))
+ggplot(s, aes(x=reorder(NAICS_desc, n), y=n, fill = Manufacturing)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1))
 
 ```
 
 
 
 ## Pre-Fabricated Wood Buildings
-```{r}
+```{r message=FALSE, echo=FALSE}
 c <- WorkSafeData %>%
   filter(NAICS_desc == "Prefabricated Wood Building Manufacturing") %>%
   count(Claim_Type)
@@ -105,6 +145,7 @@ c <- WorkSafeData %>%
 ggplot(c, aes(x = Claim_Type, y = n, fill=Claim_Type)) + geom_col()
 
 d <- WorkSafeData %>%
+  drop_na() %>%
   filter(NAICS_desc == "Prefabricated Wood Building Manufacturing") %>%
   count(source_of_injury_desc) %>%
   arrange(desc(n)) %>%
@@ -112,7 +153,7 @@ d <- WorkSafeData %>%
 
 pie(d$n, d$source_of_injury_desc, border="white", col=myPalette)
 
-ggplot(d, aes(x = source_of_injury_desc, y = n, fill = source_of_injury_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position = "none")
+ggplot(d, aes(x = reorder(source_of_injury_desc, n), y = n, fill = source_of_injury_desc)) + geom_col() + theme(axis.text.x = element_text(angle=90, hjust=1), legend.position = "none")
 
 
 e <- WorkSafeData %>%
@@ -134,7 +175,7 @@ ggplot() + geom_polygon(data = dat.gg, aes(x, y, group = id, fill=as.factor(id))
   coord_equal()
 ```
 ## Source of Injury: Cranes
-```{r}
+```{r message=FALSE, echo=FALSE}
 y <- WorkSafeData %>%
   filter(source_of_injury_desc == "Cranes, uns." | source_of_injury_desc == "Cranes, nec.")
   
