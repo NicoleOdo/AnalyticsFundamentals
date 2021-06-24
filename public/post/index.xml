@@ -13,7 +13,8 @@
       <pubDate>Mon, 21 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>/2021/06/21/project/</guid>
-      <description>Overview of Incident Rates - Construction vs. Manufacturing a &amp;lt;- WorkSafeData %&amp;gt;% count(Manufacturing, AccYr) ggplot(a, aes(x = AccYr, y=n, color=Manufacturing)) + geom_line() + scale_x_continuous(breaks = scales::pretty_breaks())  Incident Insights - Lost Time versus No Lost Time Incidents x &amp;lt;- WorkSafeData %&amp;gt;% count(Manufacturing, AccYr, Claim_Type) ggplot(x, aes(x = AccYr, y=n, fill = Claim_Type, beside=TRUE)) + geom_bar(position=&amp;quot;dodge&amp;quot;, stat=&amp;quot;identity&amp;quot;) + facet_wrap(~ Manufacturing) + scale_x_continuous(breaks = scales::pretty_breaks()) ## Incident Insights - Fatalities</description>
+      <description>Introduction This analysis utilizes safety incident claim data from the province of New Brunswick, which has been provided to the University of New Brunswick for a safety analysis research initiative. The research aims to understand whether off-site construction practices are safer than traditional on site construction methods.
+The term off-site construction refers to the process of manufacturing construction components in a facility, transporting completed components to the project site, and simply assembling them upon arrival.</description>
     </item>
     
     <item>

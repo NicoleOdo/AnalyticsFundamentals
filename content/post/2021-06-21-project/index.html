@@ -10,55 +10,59 @@ tags: []
 <script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
 
 
-<div id="overview-of-incident-rates---construction-vs.-manufacturing" class="section level2">
-<h2>Overview of Incident Rates - Construction vs. Manufacturing</h2>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This analysis utilizes safety incident claim data from the province of New Brunswick, which has been provided to the University of New Brunswick for a safety analysis research initiative. The research aims to understand whether off-site construction practices are safer than traditional on site construction methods.</p>
+<p>The term off-site construction refers to the process of manufacturing construction components in a facility, transporting completed components to the project site, and simply assembling them upon arrival. This is in contrast to traditional methods where all trades work on the project site to complete their respective components or aspects of the new construction.</p>
+<p>While we may know intuitively that off-site construction methods are safer as we transfer work to a controlled environment, this remains to be proven with data. This preliminary analysis will utilize the data provided by WorkSafe New Brunswick to investigate and identify current trends in the data, and any interesting findings.</p>
+<p>In this study, Manufacturing data is used to represent off-site construction, as the off-site construction companies are classified as manufacturers. The construction industry represents the traditional on-site construction methods we seek to compare to off-site methods.</p>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="overview-of-incident-rates---construction-vs.-manufacturing" class="section level3">
+<h3>Overview of Incident Rates - Construction vs. Manufacturing</h3>
+<p>The first aspect to investigate is how the construction sector compares to the manufacturing sector in terms of incident frequency. Based on the below graph, we can see that manufacturing experiences more incident claims year over year. Something that was noted about this initial analysis is there are a significantly larger amount of manufacturing industries within the sector, which results in more companies than the construction sector.</p>
+<p>In addition to the variation in amount of companies, it should also be noted that for the purpose of the analysis of opportunities in off-site construction, not all manufacturing data is relevant in this data. Manufacturing refers to a very broad industry, and companies can range from agricultural to food to machinery manufacturing. An objective approach to extracting relevant data for off-site construction is a future research project deliverable.</p>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
-<div id="incident-insights---lost-time-versus-no-lost-time-incidents" class="section level2">
-<h2>Incident Insights - Lost Time versus No Lost Time Incidents</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
-## Incident Insights - Fatalities</p>
-<pre><code>## # A tibble: 14 x 3
-## # Groups:   AccYr [10]
-##    AccYr Manufacturing     n
-##    &lt;int&gt; &lt;chr&gt;         &lt;int&gt;
-##  1  2011 Construction      2
-##  2  2012 Construction      3
-##  3  2012 Manufacturing     1
-##  4  2013 Construction      1
-##  5  2014 Construction      1
-##  6  2015 Construction      2
-##  7  2015 Manufacturing     1
-##  8  2016 Construction      1
-##  9  2016 Manufacturing     2
-## 10  2017 Construction      3
-## 11  2018 Construction      4
-## 12  2019 Construction      1
-## 13  2019 Manufacturing     1
-## 14  2020 Manufacturing     1</code></pre>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-## Occupations with Highest Incident Rates - Construction vs. Manufacturing</p>
-<pre><code>## # A tibble: 5 x 2
-##   occupation_desc                n
-##   &lt;chr&gt;                      &lt;int&gt;
-## 1 CARPENTER/RELATED            598
-## 2 LABOUR/OTHER ELEM WRK OTHE   527
-## 3 LABOUR/OTHER ELEM WORK-NEC   391
-## 4 CONS ELECTRICIAN/REPAIRMAN   215
-## 5 PIPEFITTER/PLUMBER/RELATED   211</code></pre>
-<pre><code>## # A tibble: 5 x 2
-##   occupation_desc                n
-##   &lt;chr&gt;                      &lt;int&gt;
-## 1 LABOUR/OTHER ELEM WRK WOOD  1150
-## 2 FISH CANNING CURING/PACK    1055
-## 3 LABOUR/OTHER ELEM WORK-NEC   941
-## 4 OTHER OCCUPATIONS - NEC      518
-## 5 INDUSTR/FARM/CONSTR MACHIN   443</code></pre>
+<div id="incident-insights---lost-time-versus-no-lost-time-incidents" class="section level3">
+<h3>Incident Insights - Lost Time versus No Lost Time Incidents</h3>
+<p>The total incident frequency analysis is followed by a further investigation into the amount of Lost Time (LT) versus No Lost Time (NLT) incidents in each of the sectors. In the below graph, we see that the manufacturing industry still consistently experiences more incidents per year, including more lost time incidents, which can be considered a more severe injury.</p>
+<p>With the data set provided, it should be noted that No Lost Time incidents are not coded. This means that details on things such as the event exposure, nature of injury and source of injury are not collected. This means that detailed analysis on No Lost Time incidents won’t be possible, but further investigation into the Lost Time incidents can be executed.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="incident-insights---fatalities" class="section level3">
+<h3>Incident Insights - Fatalities</h3>
+<p>While the Manufacturing sector has the highest incident rates and more lost time incidents, the next aspect to analyze was the number of fatalities in each sector. Construction is well known for being a dangerous sector to work in, but based on the above graphs, one may conclude that the manufacturing industry appears worse due to the high frequency of claims.</p>
+<p>In the below graph, we see that the construction sector has experienced many more fatalities within the last 10 years in comparison to the manufacturing sector.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="occupations-with-highest-incident-rates---construction-vs.-manufacturing" class="section level3">
+<h3>Occupations with Highest Incident Rates - Construction vs. Manufacturing</h3>
+<p>The below graphs summarize which occupations within the two sectors experience the highest incident rates, with the goal being to determine whether there is an overlapping occupation within the two sectors to further analyze the incident frequencies. For this summary, only the top 5 occupations with the highest incidents were shown on the graph as the total number of occupations in each sector is extensive.</p>
+<p>We can see that the construction and manufacturing sectors have an overlapping occupation of Labourers, which has fallen into the top 5 occupations with the highest incidents in both sectors. We will investigate this further to try and determine whether it’s more dangerous to be a Labourer in construction or manufacturing.</p>
+<p>With respect to the off-site versus on-site construction comparison, the Labourer occupation is an important one. This occupation is present in both construction methods, so understanding the trends with this title is valuable.</p>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+</div>
+<div id="labourer-construction-versus-manufacturing" class="section level3">
+<h3>Labourer: Construction versus Manufacturing</h3>
+<p>Here we see that the construction sector surpases the manufacturing sector in incident rates when it comes to the role of Labourer. Also to be noted is that there are significantly more Lost Time incidents in this role than there are No Lost Time incidents.</p>
+<p>This is one aspect that can be analyzed further throughout the research. What opportunities do off-site construction methods offer labourers with respect to safety?</p>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<pre><code>## # A tibble: 6,628 x 4
+</div>
+<div id="highest-occuring-combinations-of-nature-of-injuryevent-exposuresource-of-injury" class="section level3">
+<h3>Highest Occuring Combinations of Nature of Injury/Event Exposure/Source of Injury</h3>
+<p>There are three details collected for each lost time incident:</p>
+<ul>
+<li><p>Nature of Injury: describes the injury and can provide some insight into how severe such as sprain, fracture, laceration, etc</p></li>
+<li><p>Event Exposure: describes what the worker was exposed to when the event occurred such as overexertion when lifting, bending or climbing, fall to floor, etc</p></li>
+<li><p>Source of Injury: describes what the source of the injury was such as bodily motion, table saws, boxes/crates/cartons, etc.</p></li>
+</ul>
+<p>In the table below, we can see that the most common combination of variables (excluding the not coded category which is all the no lost time incidents) is sprains, strains or tears from bending, climbing, crawling, reaching or twisting, which resulted in an injury from bodily motion or position of injured/ill worker.</p>
+<p>Future research objectives will investigate further into whether this combination of variables is minimized in an applciation of off-site construction methods. It’s possible that the construction methods being executed in a controlled environment will have less requirements for workers to bend, climb, crawl, reach or twist, which could result in fewer incidents overall.</p>
+<pre><code>## # A tibble: 20 x 4
 ## # Groups:   nature_of_injury_desc, event_exposure_desc, source_of_injury_desc
-## #   [6,628]
+## #   [20]
 ##    nature_of_injury_de… event_exposure_desc          source_of_injury_desc     n
 ##    &lt;chr&gt;                &lt;chr&gt;                        &lt;chr&gt;                 &lt;int&gt;
 ##  1 Not coded            Not coded                    Not coded             10197
@@ -71,51 +75,88 @@ tags: []
 ##  8 Carpal tunnel syndr… Repetitive motion, n.e.c.    Bodily motion or pos…   129
 ##  9 Sprains, strains, t… Slipping on something - wit… Bodily motion or pos…   129
 ## 10 Sprains, strains, t… Overexertion in lifting      Boxes, crates, carto…   122
-## # … with 6,618 more rows</code></pre>
+## # … with 10 more rows</code></pre>
 </div>
-<div id="most-common-source-of-injury---construction-vs.-manufacturing" class="section level2">
-<h2>Most Common Source of Injury - Construction vs. Manufacturing</h2>
+<div id="most-common-source-of-injury---construction-vs.-manufacturing" class="section level3">
+<h3>Most Common Source of Injury - Construction vs. Manufacturing</h3>
+<p>To further investigate the most common sources of injury, these were analyzed for both sectors. Here we see that the most common source of injury (excluding “not coded”), is the same for both sectors, and the same source of injury mentioned above.</p>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 </div>
-<div id="incidents-by-north-american-industry-classification-system" class="section level2">
-<h2>Incidents by North American Industry Classification System</h2>
-<pre><code>## # A tibble: 10 x 3
-##    Manufacturing NAICS_desc                                             n
-##    &lt;chr&gt;         &lt;chr&gt;                                              &lt;int&gt;
-##  1 Manufacturing Sawmills (except Shingle and Shake Mills)           2517
-##  2 Manufacturing Seafood Product Preparation and Packaging           1939
-##  3 Manufacturing Paper (except Newsprint) Mills                      1043
-##  4 Construction  Plumbing, Heating and Air-Conditioning Contractors   950
-##  5 Manufacturing Prefabricated Wood Building Manufacturing            890
-##  6 Construction  Residential Building Construction                    846
-##  7 Manufacturing Poultry Processing                                   788
-##  8 Manufacturing All Other Plastic Product Manufacturing              769
-##  9 Construction  Highway, Street and Bridge Construction              689
-## 10 Construction  Site Preparation Contractors                         689</code></pre>
+<div id="incidents-by-north-american-industry-classification-system" class="section level3">
+<h3>Incidents by North American Industry Classification System</h3>
+<p>Within each sector, there are many industries and companies that make up those industries. The below graph summarizes the industries that experience the highest frequency of incidents. Of the top 10 most dangerous industries, manufacturing accounts for 6 of them.</p>
+<p>One thing that is interesting about this analysis is that Prefabricated Wood Buildings is the fifth highest when it comes to total incidents experienced. Prefabricated Wood Buildings fall into the category of off-site construction, so this analysis will be taken a step further for this industry to understand the incidents experienced.</p>
 <p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
-<div id="pre-fabricated-wood-buildings" class="section level2">
-<h2>Pre-Fabricated Wood Buildings</h2>
-<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-4.png" width="672" />
-## Source of Injury: Cranes</p>
-<pre><code>## # A tibble: 11 x 19
-##    Sector Sector_desc      NAICS NAICS_desc       Claim_Type accident_date AccYr
-##     &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;         &lt;int&gt;
-##  1     23 Construction    237310 Highway, Street… LT         23-Aug-11      2011
-##  2     23 Construction    237310 Highway, Street… LT         12-Jun-12      2012
-##  3     23 Construction    238299 All Other Build… NLT        11-May-12      2012
-##  4     23 Construction    238990 All Other Speci… LT         03-Aug-11      2011
-##  5     32 Manufacturing … 321111 Sawmills (excep… LT         12-May-11      2011
-##  6     32 Manufacturing … 327320 Ready-Mix Concr… LT         06-Mar-17      2017
-##  7     33 Manufacturing … 331410 Non-Ferrous Met… NLT        02-Aug-11      2011
-##  8     33 Manufacturing … 331410 Non-Ferrous Met… NLT        24-Mar-12      2012
-##  9     33 Manufacturing … 331410 Non-Ferrous Met… LT         23-Aug-12      2012
-## 10     33 Manufacturing … 333920 Material Handli… LT         02-Jun-20      2020
-## 11     33 Manufacturing … 336212 Truck Trailer M… LT         21-Nov-13      2013
-## # … with 12 more variables: occupation_code &lt;chr&gt;, occupation_desc &lt;chr&gt;,
-## #   part_of_body_code &lt;chr&gt;, part_of_body_desc &lt;chr&gt;,
-## #   nature_of_injury_code &lt;chr&gt;, nature_of_injury_desc &lt;chr&gt;,
-## #   event_exposure_code &lt;chr&gt;, event_exposure_desc &lt;chr&gt;,
-## #   source_of_injury_code &lt;chr&gt;, source_of_injury_desc &lt;chr&gt;,
-## #   fatality_flag &lt;chr&gt;, Manufacturing &lt;chr&gt;</code></pre>
+</div>
+<div id="off-site-construction" class="section level2">
+<h2>Off-Site Construction</h2>
+<div id="pre-fabricated-wood-buildings-nlt-versus-lt-incidents" class="section level3">
+<h3>Pre-Fabricated Wood Buildings: NLT versus LT Incidents</h3>
+<p>Within this industry, there are more No Lost Time incidents than Lost Time incidents. This is a positive outcome, as it points to the fact that the injuries sustained in this industry are less severe. That being said, the total number of injuries sustained is still one of the highest, so future research initiatives will explore this further to see if off-site construction does offer opportunities for an improved safety performance.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="pre-fabricated-wood-buildings-common-sources-of-injury" class="section level3">
+<h3>Pre-Fabricated Wood Buildings: Common Sources of Injury</h3>
+<p>The below pie chart summarizes the most common sources of injury in this industry. We see that the most common is the same as what is observed within the construction and manufacturing sectors at large, bodily motion or position of injured, ill worker. To better analyze this data, a bar chart has also been created to understand the quantity of injuries within each common source of injury.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="pre-fabricated-wood-buildings-common-event-exposures" class="section level3">
+<h3>Pre-Fabricated Wood Buildings: Common Event Exposures</h3>
+<p>The final aspect analyzed for pre-fabricated wood buildings is the most common event exposures. While the majority are not coded, the top 8 have been summarized here.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="source-of-injury-cranes" class="section level3">
+<h3>Source of Injury: Cranes</h3>
+<p>One additional aspect this analysis included is injuries reported related to cranes. When it comes to off-site construction methods, cranes are typically involved to move and assemble the finalized components on site. Future research objectives will include understanding the level of risk that utilizing a crane and moving oversized components introduces, but this graph provides an overview of the number of incidents that have been experienced over the last 10 years. All of these incidents are classified as lost time incidents.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
+<div id="linear-modelling" class="section level2">
+<h2>Linear Modelling</h2>
+<div id="goal-predict-lt-incidents-from-nlt-incidents-in-construction" class="section level3">
+<h3>Goal: Predict LT Incidents from NLT Incidents in Construction</h3>
+<p>In the following analysis, we aim to predict the number of lost time incidents that will occur in a given year based on the amount of no lost time incidents in the construction sector, as summarized by the following equation.</p>
+<p><span class="math display">\[\widehat{LTIncident}_{i} = \beta_0 + \beta_1 \times NLTIncident_{i}\]</span>
+<img src="{{< blogdown/postref >}}index_files/figure-html/LT-NLT-plot-1.png" width="672" /></p>
+<pre><code>## # A tibble: 2 x 5
+##   term        estimate std.error statistic p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)  212.       48.1        4.41 0.00226
+## 2 NLT            0.423     0.128      3.30 0.0108</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   term        estimate std.error statistic p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 (Intercept)  212.       48.1        4.41 0.00226
+## 2 NLT            0.423     0.128      3.30 0.0108</code></pre>
+<p><span class="math display">\[\widehat{LTIncident}_{i} = 212.15 + 0.423 \times NLTIncident_{i}\]</span></p>
+<p><strong>Slope:</strong> For each additional no lost time incident in the construction industry, the lost time incidents are expected to be higher, on average, by a factor of 0.423.</p>
+<p><strong>Intercept:</strong> If there were no lost time incidents in a given year, it’s expected that there would still be 212 lost time incidents within the construction industry.</p>
+</div>
+<div id="visualizing-residuals" class="section level3">
+<h3>Visualizing Residuals</h3>
+<p>The data is plotted with a least squares line below, and the data that falls on or closest to this line is highlighted in orange.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/vis-res-1-1.png" width="70%" /></p>
+</div>
+<div id="visualizing-residuals-cont." class="section level3">
+<h3>Visualizing residuals (cont.)</h3>
+<p>Finally, the below plot highlights the residuals within the data, showing the distance between points and the least squares line.</p>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/vis-res-3-1.png" width="70%" /></p>
+</div>
+</div>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
+<p>The analysis of this data set provided interesting insights into the trends in the construction and manufacturing sectors. There is additional work to be done to extract relevant manufacturing data that relates for closely to off-site construction, but this brief overview allowed us to understand:</p>
+<ul>
+<li><p>Yearly incident rates</p></li>
+<li><p>LT versus NLT incidents per year</p></li>
+<li><p>Fatalities per year</p></li>
+<li><p>Most dangerous occupations</p></li>
+<li><p>Most common combination of injury nature/event exposure/source of injury</p></li>
+<li><p>Most dangerous industries within the sectors</p></li>
+<li><p>Trends within the Prefabricated Wood Buildings industry</p></li>
+<li><p>Linear trends/correlations between LT and NLT incidents</p></li>
+</ul>
+<p>The analysis for the linear trends and correlations could benefit from a summary of significantly more sectors to determine whether there is a strong relationship between the amount of LT incidents and NLT incidents.</p>
 </div>
