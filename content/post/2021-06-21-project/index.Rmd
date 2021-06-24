@@ -147,7 +147,7 @@ z <- WorkSafeData %>%
   group_by(nature_of_injury_desc, event_exposure_desc, source_of_injury_desc) %>%
   count() %>%
   arrange(desc(n)) %>%
-  head(20)
+  head(10)
 
 z
 ```
